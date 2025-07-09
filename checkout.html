@@ -1086,8 +1086,8 @@ function calculateTotalPrice() {
         }
     }, 0)
 
-    const shippingFeeZAR = 50
-    let shippingFeeToApply = totalPriceZAR > 500 ? 0 : shippingFeeZAR
+    const shippingFeeZAR = 100
+    let shippingFeeToApply = totalPriceZAR > 100 ? 0 : shippingFeeZAR
     
     // Calculate discount based on subtotal (without shipping)
     let discounted = false
