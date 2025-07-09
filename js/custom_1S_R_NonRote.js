@@ -635,7 +635,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
             await set(ref(database, 'sharedImages/' + imageId), {
                 url: imageUrl,
                 shareableLink: shareableLink,
-                rotation1: rotationState.container1.angle // Store current rotation
+          
             });
 
             // Add to user's cart
