@@ -984,7 +984,7 @@ async function generateAndStoreLogoData() {
 
 // Function to create shareable link
 function createShareableLink(designId) {
-    return `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${imageId}`;
+    return `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${designId}`;
 }
 
 // Share Button Click Handler
