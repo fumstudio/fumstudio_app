@@ -570,7 +570,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
                 price: productPrice,
                 quantity: 1,
                 selectedSize: selectedSize,
-                title: "Custom Necklace",
+             
 
                 shareableLink: shareableLink,
                 addedAtISO: now.toISOString(),
@@ -640,7 +640,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
 
             // Add to user's cart
             const userId = user.uid;
-            const cartRef = ref(database, `carts/${userId}/carts`);
+            const cartRef = ref(database, `carts/${userId}/cartItems`);
             const snapshot = await get(cartRef);
             let cartItems = snapshot.exists() ? snapshot.val() : [];
 
@@ -719,7 +719,7 @@ shareBtn.addEventListener('click', async () => {
 
         });
 
-        const whatsappNumber = "0659860276";
+        const whatsappNumber = "0728662309";
         const message = `Check out this item: ${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_self");
