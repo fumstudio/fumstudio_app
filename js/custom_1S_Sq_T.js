@@ -986,8 +986,8 @@ async function generateAndStoreLogoData() {
 function createShareableLink(designId) {
     return `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${designId}`;
 }
-
-// Share Button Click Handler
+  
+// Improved WhatsApp Share Button Click Handler
 shareBtn.addEventListener('click', async () => {
     try {
         showProcessingOverlay();
@@ -997,24 +997,47 @@ shareBtn.addEventListener('click', async () => {
         const { designId } = await generateAndStoreLogoData();
         updateProgress(60);
 
-        // Generate shareable URL
+        // Generate complete shareable URL
         const shareableLink = createShareableLink(designId);
         updateProgress(80);
       
-   showCartAlert('<i class="fas fa-check-circle"></i> Design shared on WhatsApp!');
-      
-        // Open WhatsApp with the shareable link
-        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Check out my design: ' + shareableLink)}`;
-        window.open(whatsappUrl, '_blank');
+        // Create WhatsApp message
+        const message = `Check out my design: ${shareableLink}`;
+        const encodedMessage = encodeURIComponent(message);
+        
+        // Improved WhatsApp URL with international number format
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+        
+        // More reliable window opening method
+        const newWindow = window.open('', '_blank');
+        if (newWindow) {
+            newWindow.location.href = whatsappUrl;
+            setTimeout(() => {
+                if (newWindow.closed || newWindow.location.href === 'about:blank') {
+                    // Fallback if window was blocked
+                    window.location.href = whatsappUrl;
+                }
+            }, 500);
+        } else {
+            // Direct fallback
+            window.location.href = whatsappUrl;
+        }
+        
         updateProgress(100);
-
-     
-
+        showCartAlert('<i class="fas fa-check-circle"></i> Design shared on WhatsApp!');
+        
     } catch (error) {
         console.error('Share error:', error);
-        showCartAlert(`Error: ${error.message}`, 'fas fa-exclamation-circle');
+        // More user-friendly error messages
+        let errorMessage = 'Error sharing design';
+        if (error.message.includes("user is not authenticated")) {
+            errorMessage = 'Please log in to share designs';
+        } else if (error.message.includes("upload and crop")) {
+            errorMessage = 'Please complete your design first';
+        }
+        showCartAlert(`<i class="fas fa-exclamation-circle"></i> ${errorMessage}`);
     } finally {
-        hideProcessingOverlay();
+        setTimeout(hideProcessingOverlay, 1000); // Give time for user to see completion
     }
 });
 
