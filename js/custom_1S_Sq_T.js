@@ -984,7 +984,7 @@ async function generateAndStoreLogoData() {
 
 // Function to create shareable link
 function createShareableLink(designId) {
-    return `/glass_music.html?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
+    return `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${imageId}`;
 }
 
 // Share Button Click Handler
