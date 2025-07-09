@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Photo Calendar with Firebase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two-column grid layout */
+    gap: 20px; /* Increase gap between items for a more spacious, elegant look */
+
+    width: 100%; /* Full width */
+    max-width: 800px; /* Optional: Limit the width for a cleaner layout */
+    background-color: #fafafa; /* Light, elegant background */
+    border-radius: 12px; /* Rounded corners for a softer, refined appearance */
+    padding: 20px; /* Padding around the calendar for spaciousness */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.05); /* Soft, luxurious shadow for depth */
+    overflow: hidden; /* Ensures clean edges, especially when content overflows */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for hover effect */
+}
+
+#calendar:hover {
+    transform: translateY(-5px); /* Subtle lift effect on hover for elegance */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow for a more luxurious feel on hover */
+}
+
+.month {
+    border: 2px solid #FFFFFF; /* Gold border for a premium, luxurious look */
+    padding: 20px; /* More padding for a spacious and refined feel */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: hidden;
+    background-color: #fff; /* Crisp white background for contrast and clarity */
+    border-radius: 12px; /* Rounded corners for a softer, high-end appearance */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.05); /* Soft shadow for added depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for hover effects */
+}
+
+.month:hover {
+    transform: translateY(-5px); /* Subtle lift effect for interactive luxury */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover for more depth */
+}
+
+        .month img {
+            max-width: 150px;
+            max-height: 150px;
+            margin: 2px;
+            display: block;
+                border-radius: 8px;
+        }
+.delete-button {
+    position: absolute; 
+    bottom: 5px; 
+    right: 5px; 
+    background: #000000D9;  /* Red background */
+    border: none; 
+    cursor: pointer; 
+    color: #FF0000D9; 
+    font-size: 14px;      
+    padding: 10px;         /* Optional padding for better clickability */
+    border-radius: 8px;    /* Optional rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+}
+
+        
+        .delete-btn{
+                 position: absolute; 
+            bottom: 40px; 
+            right: 5px; 
+    background: #000000D9;  /* Red background */
+    border: none; 
+    cursor: pointer; 
+    color: #FF0000D9; 
+    font-size: 14px;      
+    padding: 10px;         /* Optional padding for better clickability */
+    border-radius: 8px;    /* Optional rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */   
+          
+        }
+          .upload-button, .choose-date-button {
+            background-color: #2E2F33;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+
+        }
+      #deleteAllButton{
+            background-color: #FF0932;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+                  width: 98%; /* Ensure the image covers the entire container */
+    height: auto; /* Maintain aspect ratio */
+        }
+         .Addtocart {
+            background-color: #2E2F33;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+                  width: 98%; /* Ensure the image covers the entire container */
+    height: auto; /* Maintain aspect ratio */
+        }       
+        .upload-button i, .choose-date-button i {
+            margin-right: 5px;
+        }
+        #progressContainer {
+            margin-top: 10px;
+            display: none;
+        }
+
+        #progressFill {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 0;
+            transition: width 0.2s;
+        }
+        #errorAlert, #limitAlert, #confirmDeleteAlert ,#confirmDeleteAlerting, #confirmDeleteAlerter, #confirmDeleteAlertshow,#confirmDelete, #cartAlert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            z-index: 200; 
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 100; 
+        }
+        .ok-button, .yes-button, .no-button {
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .ok-button {
+            background-color: black; 
+            color: white; 
+        }
+        .yes-button {
+            background-color: red; 
+            color: white; 
+        }
+        .no-button {
+            background-color: green; 
+            color: white; 
+        }
+        .date-selector {
+            margin-top: 5px;
+            display: none;
+        }
+        #topPhotos {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        #topPhotosContainer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+
+        }
+        .image-container {
+            position: relative; 
+            display: inline-block; 
+            margin: 5px; 
+        }
+        #topPhotos img, .month img {
+            max-width: 150px;
+            max-height: 150px;
+            margin: 5px;
+            display: block;
+                border-radius: 8px;
+        }
+        .confirm-button-container {
+            display: flex;
+            justify-content: center; 
+            gap: 10px; 
+        }
+        .month-label {
+            font-weight: bold;
+            margin-bottom: 5px; 
+            color: #333; 
+            text-align: center; 
+        }
+
+
+
+#uploadingAlert {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  text-align: center;
+              z-index: 100; 
+}
+
+        #progress {
+            height: 100%;
+            background-color: #000000;
+            width: 0; 
+transition: width 0.4s;
+
+
+        }
+
+
+#progressBar {
+    position: fixed; /* Keeps it in a fixed position */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offsets it by half its width and height */
+    width: 80%; /* Full width */
+    height: 20px; /* Height of the progress bar */
+    background-color: #f3f3f3; /* Background color */
+    border-radius: 5px; /* Rounded corners */
+    overflow: hidden; /* Hide overflow */
+    display: none; /* Initially hidden */
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+        #progressText {
+            position: absolute; 
+            width: 100%;
+            text-align: center;
+            line-height: 20px; 
+            color: white;
+            font-weight: bold;
+            top: 0; 
+        }
+        #topPhotos, #backgroundPhoto {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+.photo-container {
+    border: 2px solid #42445A  ;           background-color: #2E2F33; /* Rich gold border for luxury feel */
+    padding: 20px; /* More padding for a softer, more spacious look */
+    margin-top: 30px; /* Increase margin for better separation */
+    width: 100%; /* Full width */
+    max-width: 280px; /* Optional: Limit max width with a slightly larger container */
+    background-color: #fff; /* Elegant white background */
+    border-radius: 12px; /* Rounded corners for a softer, premium look */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    overflow: hidden; /* Clean edges in case of images */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions on hover */
+}
+
+.photo-container:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
+}
+
+
+#backgroundPhotoDisplay img {
+    width: 100%; /* Ensure the image covers the entire container */
+    height: auto; /* Maintain aspect ratio */
+        border-radius: 8px;
+}
+
+textarea {
+    width: 90%; /* Ensure the textarea takes up nearly the full container width */
+    height: auto; /* Allow height to adjust automatically */
+    padding: 15px; /* Add padding for a more comfortable, spacious feel */
+    background-color: #f9f9f9; /* Soft, light background color for a premium appearance */
+    border: 2px solid #42445A;            /* Elegant gold border to elevate the design */
+    border-radius: 8px; /* Slightly rounded corners for a smoother, more refined look */
+    font-size: 16px; /* Set a readable, upscale font size */
+    font-family: 'Georgia', serif; /* Use a luxurious serif font for sophistication */
+    color: #333; /* Dark text color for contrast and legibility */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for hover effect */
+    resize: vertical; /* Allow vertical resizing only */
+    outline: none; /* Remove default outline for a cleaner look */
+}
+
+textarea:focus {
+    border-color: #c6891d; /* Darker gold border color when focused for a more intense luxury feel */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Stronger shadow on focus for added depth */
+}
+
+/* Dark screen background */
+.custom-alert {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Dark background */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Alert box */
+.alert-content {
+  background-color: white; /* White background for text */
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* OK Button */
+.ok-button {
+  background-color: black; /* Black button */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.ok-button:hover {
+  background-color: #333; /* Slightly darker on hover */
+}
+/* Modal styles */
+#customAlertModal {
+  position: fixed;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);  /* Dark screen */
+  display: none;  /* Hidden by default */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;  /* Make sure it overlays everything */
+}
+
+/* Modal content */
+.modal-content {
+    margin-top:70%;
+  margin-left: 10px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#okButton {
+  background-color: #000000;  /* Green color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#okButton:hover {
+  background-color: #45a049;
+}
+
+/* Basic styling for the custom alert */
+.custom-alert {
+    display: none; /* Hidden by default */
+    position: fixed;
+ top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    padding: 15px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    z-index: 9999; /* Ensure the alert is on top of other content */
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Close button styling */
+#closeAlertButton {
+    background-color: #f5c6cb;
+    color: #721c24;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 3px;
+}
+/* Close button styling */
+
+}
+
+/* Hover effect for the close button */
+#closeAlertButton:hover {
+    background-color: #721c24;
+    color: #fff;
+}
+
+/* Overlay background */
+#loadingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Dark transparent background */
+  display: none; /* Hidden by default */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it's on top */
+}
+
+/* Center the spinner content */
+.loading-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers the text */
+  color: white;
+  font-size: 2em;
+  text-align: center;
+}
+.green-icon {
+  color: green;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  text-align: center; /* Ensures text inside is centered */
+  font-size: 34px;
+  
+
+}
+
+
+nav{
+  
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);  
+}
+        body {
+
+            color: black;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }.
+
+    h1 {
+      text-align: center;
+    }
+
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #FFFFFF;
+            z-index: 1;
+            padding: 5px 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+html, body {
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+     
+
+    </style>
+    
+
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+  <link rel="stylesheet" href="dashboard.css
+    ">
+</head>
+<body>
+    <div class="mainContent">
+        <nav>
+            <h1 class="content"> <i class="fa fa-chevron-left back-button" aria-hidden="true" onclick="goBack()"></i>
+Customize Calendar 
+            </h1>
+            <div class="sideBarre__cercle"></div> 
+        </nav>
+    </div>
+ <br>        <br>        <br>  <br> 
+         <!-- Design Selector Button -->
+
+
+
+    <div id="confirmDeleteAlert">
+        <p>Are you sure you want to delete this photo?</p>
+        <div class="confirm-button-container">
+            <button id="confirmYes" class="yes-button">Yes</button>
+            <button id="confirmNo" class="no-button">No</button>
+        </div>
+    </div>
+
+    <div id="confirmDelete">
+        <p>Are you sure you want to delete this photo?</p>
+        <div class="confirm-button-container">
+            <button id="confirmbutton" class="yes-button">Yes</button>
+            <button id="confirmNotwo" class="no-button">No</button>
+        </div>
+    </div>
+        <div id="confirmDeleteAlertshow">
+        <p>Are you sure you want to delete all the photos?</p>
+        <div class="confirm-button-container">
+            <button id="confirmYesbtn" class="yes-button">Yes</button>
+            <button id="confirmNobtn" class="no-button">No</button>
+        </div>
+    </div>
+        <div id="confirmDeleteAlerting">
+        <p>Are you sure you want to delete this photo?</p>
+        <div class="confirm-button-container">
+            <button id="confirming" class="yes-button">Yes</button>
+            <button id="confirmNoone" class="no-button">No</button>
+        </div>
+    </div>
+    <div id="cartAlert">
+        <i class="fa fa-check-circle green-icon"></i><p>Item&nbsp;added&nbsp;to&nbsp;cart</p>
+
+    </div>
+
+
+
+    <div id="topPhotos" class="photo-container">
+        <h2>Top Photos</h2>
+        <button id="uploadTopPhotos" class="upload-button"><i class="fas fa-upload"></i> Upload Photos</button>
+        <div id="topPhotosContainer"></div>
+    </div>
+    </div>
+
+    <div>
+
+    </div>
+
+
+    <div id="errorAlert">
+        <p>Please upload background photo</p>
+        <button id="errorOkButton" class="ok-button">OK</button>
+    </div>
+
+    <div id="limitAlert">
+        <p>You can only upload a maximum of 4 photos for this month.</p>
+        <button id="limitOkButton" class="ok-button">OK</button>
+    </div>
+
+<!-- Custom Modal -->
+<div id="customAlertModal" style="display:none;">
+  <div id="alertContent" class="modal-content">
+    <p id="alertMessage"></p>
+    <button id="okButton">OK</button>
+  </div>
+</div>
+
+
+
+
+
+    <input type="file" id="photos" multiple accept="image/*" style="display: none;" required>
+    <div id="progressBar">
+        <div id="progress"></div>
+        <div id="progressText">0%</div>
+    </div>
+     <div id="uploadingAlert">
+
+    </div> 
+    </div> 
+    </div> 
+    <textarea id="note1" placeholder="Enter your surname on the calendar"></textarea>
+
+
+    <h3>Monthly Photo Calendar</h3>
+    <div id="calendar"></div>
+   <br>
+   
+       <div id="backgroundPhoto" class="photo-container">
+        <h2>Background Photo</h2>
+        <div class="upload-container">
+            <button id="uploadBackgroundPhoto" class="upload-button"><i class="fas fa-upload"></i> Upload Photo</button>
+            <div id="backgroundPhotoDisplay"></div>
+        </div>
+    </div>
+
+              <button id="deleteAllButton">Delete All Photos</button>
+              
+
+        <div class="overlay" id="overlay"></div>
+  
+  <!-- Custom Alert Modal -->
+<div id="customAlert" class="custom-alert">
+    <span id="customAlertMessage"></span>
+    <button id="closeAlertButton" onclick="closeCustomAlert()">Close</button>
+</div>
+
+          
+              <br>
+    <button id="addToCartButton" class="Addtocart">Add to Cart</button>
+<br><br><br>
+<!-- Overlay and Loading Spinner -->
+<div id="loadingOverlay" style="display: none;">
+  <div id="loadingSpinner" class="loading-content">
+<i class="fa fa-spinner fa-spin" style="font-size: 50px;"></i>
+  </div>
+</div>
+    
+<script type="module">
+// Firebase imports
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
+import { getDatabase, ref as databaseRef, set, get, remove } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyBDrzrgLslaJvnXbo1e90irCEtdcm9ZsCU",
+        authDomain: "logins-13661.firebaseapp.com",
+        databaseURL: "https://logins-13661-default-rtdb.firebaseio.com",
+        projectId: "logins-13661",
+        storageBucket: "logins-13661.appspot.com",
+        messagingSenderId: "451535349483",
+        appId: "1:451535349483:web:d3c9867fd2bffbbdca40ae",
+        measurementId: "G-EWZC4FFTTG"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    // DOM Elements
+    const overlay = document.getElementById('overlay');
+    const confirmDeleteAlert = document.getElementById('confirmDeleteAlert');
+
+  const confirmDeleteAlertshow = document.getElementById('confirmDeleteAlertshow');
+      const confirmDeleteAlerting = document.getElementById('confirmDeleteAlerting');  
+    const confirmDeleteAlerter = document.getElementById('confirmDeleteAlerter');    
+    const uploadTopPhotosButton = document.getElementById('uploadTopPhotos');
+    const uploadBackgroundPhotoButton = document.getElementById('uploadBackgroundPhoto');
+    const backgroundPhotoDisplay = document.getElementById('backgroundPhotoDisplay');
+    
+
+    const progressBar = document.getElementById('progressBar');
+    const progressFill = document.getElementById('progress');
+    const progressText = document.getElementById('progressText');
+    const topPhotosContainer = document.getElementById('topPhotosContainer');
+    const addToCartButton = document.getElementById('addToCartButton');
+    const deleteAllButton = document.getElementById('deleteAllButton');
+
+let userId = null;
+let topPhotos = [];
+let backgroundPhotoUrl = '';
+let backgroundPhotoFileName = '';
+let photoToDeleteIndex = null;
+
+
+const deleteAllPhotos = async () => {
+  try {
+    // Step 1: Check if there are any photos to delete
+    const { topPhotosFromDb, backgroundPhotoUrlFromDb } = await fetchPhotosFromFirebase();
+
+    // Check if there are top photos, background photos, or calendar photos
+    let photosToDelete = false;
+
+    // Check if there are top photos
+    if (topPhotosFromDb && topPhotosFromDb.length > 0) {
+      photosToDelete = true;
+    }
+
+    // Check if there is a background photo
+    if (backgroundPhotoUrlFromDb !== '') {
+      photosToDelete = true;
+    }
+
+    // Check if there are calendar photos for any month
+    for (let index = 0; index < monthNames.length; index++) {
+      const dateString = `2024-${String(index + 1).padStart(2, '0')}`;
+      const photosRef = databaseRef(database, `photos2/${userId}/${dateString}`);
+
+      const snapshot = await get(photosRef);
+      if (snapshot.exists()) {
+        photosToDelete = true;
+        break;
+      }
+    }
+
+
+    // Step 2: Proceed with the deletion of all photos if photos exist
+    // Proceed with the deletion of all top photos, background photo, and calendar photos
+    const topPhotosRef = databaseRef(database, `topPhotos/${userId}/topPhotos`);
+    await set(topPhotosRef, []); // Set top photos to an empty array
+    console.log("All top photos deleted from Firebase Realtime Database.");
+
+    const backgroundPhotoRef = databaseRef(database, `backgroundPhotos/${userId}`);
+    await set(backgroundPhotoRef, null); // Remove the background photo
+    console.log("Background photo deleted from Firebase Realtime Database.");
+
+    // Delete all calendar photos metadata
+    const deleteCalendarPhotosPromises = monthNames.map(async (_, index) => {
+      const dateString = `2024-${String(index + 1).padStart(2, '0')}`;
+      const calendarPhotosRef = databaseRef(database, `photos2/${userId}/${dateString}`);
+      await remove(calendarPhotosRef); // Remove the photos metadata for this month
+      console.log(`All photos metadata for ${monthNames[index]} deleted from Firebase Realtime Database.`);
+    });
+
+    // Wait for all calendar photo metadata deletions to complete
+    await Promise.all(deleteCalendarPhotosPromises);
+    console.log("All calendar photos metadata deleted from Firebase Realtime Database.");
+
+    // Refresh the UI to reflect the changes
+    topPhotos = [];
+    backgroundPhotoUrl = '';
+    displayTopPhotos();
+    backgroundPhotoDisplay.innerHTML = ''; // Clear background photo display
+    calendarElement.innerHTML = ''; // Clear calendar display
+    generateCalendar(); // Rebuild the calendar after deletion
+
+    // Show the upload button after deletion
+    uploadBackgroundPhotoButton.style.display = 'block';
+
+  } catch (error) {
+    console.error("Error deleting all photos from Firebase Realtime Database:", error);
+  }
+};
+
+// Function to get the current user ID dynamically from Firebase Authentication
+const getUserId = () => {
+  const user = auth.currentUser; // Use the initialized auth instance
+  return user ? user.uid : null; // Return user ID if user is logged in, else return null
+};
+
+
+// Event listener for "Delete All Photos" button
+document.getElementById('deleteAllButton').onclick = async () => {
+  const userId = getUserId(); // Dynamically get the userId
+
+  if (!userId) {
+    alert("You must be logged in to delete photos.");
+    return; // Exit if the user is not logged in
+  }
+
+  // Show the loading spinner and dark overlay while fetching data
+  document.getElementById('loadingOverlay').style.display = 'flex';
+
+  // Fetch photos from Firebase (this will trigger the loading spinner)
+  const { topPhotosFromDb, backgroundPhotoUrlFromDb, calendarPhotos } = await fetchPhotosFromFirebase(userId);
+
+  // Hide the loading spinner and overlay after the data is fetched
+  document.getElementById('loadingOverlay').style.display = 'none';
+
+  // Debugging: Log the fetched data before checking
+  console.log("Fetched Data on Button Click:", { topPhotosFromDb, backgroundPhotoUrlFromDb, calendarPhotos });
+
+  // Check if there are any photos to delete
+  let photosToDelete = false;
+  if (
+    (topPhotosFromDb && topPhotosFromDb.length > 0) ||
+    (backgroundPhotoUrlFromDb && backgroundPhotoUrlFromDb !== '') ||
+    (calendarPhotos && calendarPhotos.length > 0)
+  ) {
+    photosToDelete = true;
+  }
+
+  // If there are photos to delete, show the confirmation alert
+  if (photosToDelete) {
+    // Show the custom confirmation alert modal
+    confirmDeleteAlertshow.style.display = 'block';
+    overlay.style.display = 'block';
+  } else {
+    // No photos to delete, show the custom alert modal instead of a default alert
+    document.getElementById('alertMessage').innerText = 'No photos available to delete.';
+    document.getElementById('customAlertModal').style.display = 'block';
+
+    // Add event listener for the "OK" button to close the modal
+    document.getElementById('okButton').addEventListener('click', function() {
+      document.getElementById('customAlertModal').style.display = 'none';
+    });
+  }
+};
+
+// Event listener for confirming deletion
+document.getElementById('confirmYesbtn').onclick = async () => {
+  const userId = getUserId(); // Dynamically get the userId
+
+  // Show loading spinner while deleting
+  document.getElementById('loadingOverlay').style.display = 'flex';
+
+  // Proceed with deleting all photos
+  await deleteAllPhotos(userId);
+
+  // Hide the confirmation alert and overlay
+  confirmDeleteAlertshow.style.display = 'none';
+  overlay.style.display = 'none';
+
+  // Hide loading spinner after deletion
+  document.getElementById('loadingOverlay').style.display = 'none';
+};
+let photosCache = null; // Cache to store photos data
+
+const fetchPhotosFromFirebase = async (userId) => {
+  const topPhotosRef = databaseRef(database, `topPhotos/${userId}/topPhotos`);
+  const topPhotosSnapshot = await get(topPhotosRef);
+  let topPhotosFromDb = [];
+  if (topPhotosSnapshot.exists()) {
+    topPhotosFromDb = topPhotosSnapshot.val(); // Get top photo URLs
+  }
+
+  const backgroundPhotoRef = databaseRef(database, `backgroundPhotos/${userId}`);
+  const backgroundPhotoSnapshot = await get(backgroundPhotoRef);
+  let backgroundPhotoUrlFromDb = '';
+  if (backgroundPhotoSnapshot.exists()) {
+    backgroundPhotoUrlFromDb = backgroundPhotoSnapshot.val().url; // Get background photo URL
+  }
+
+  const calendarPhotos = [];
+  for (let index = 0; index < monthNames.length; index++) {
+    const dateString = `2024-${String(index + 1).padStart(2, '0')}`;
+    const photosRef = databaseRef(database, `photos2/${userId}/${dateString}`);
+    const snapshot = await get(photosRef);
+    if (snapshot.exists()) {
+      calendarPhotos.push({ month: monthNames[index], photos: snapshot.val() });
+    }
+  }
+
+  return { topPhotosFromDb, backgroundPhotoUrlFromDb, calendarPhotos };
+};
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    userId = user.uid; // Store the user ID
+    console.log("User authenticated: ", userId);
+
+    // Load the user's photos
+    loadUserPhotos(userId);
+  } else {
+    console.log("User is not authenticated.");
+    // Optionally, handle when the user is not authenticated
+  }
+});
+const loadUserPhotos = async (userId) => {
+  if (!userId) {
+    console.error("User ID is not available.");
+    return;
+  }
+
+try {
+    // Reference to the top photos of the user in Firebase
+    const topPhotosRef = databaseRef(database, `topPhotos/${userId}/topPhotos`);
+    const backgroundPhotoRef = databaseRef(database, `users/${userId}/backgroundPhotos`);
+
+    // Get the top photos from the database
+const topPhotosSnapshot = await get(topPhotosRef);
+if (topPhotosSnapshot.exists()) {
+  topPhotos = topPhotosSnapshot.val(); // Update topPhotos with the data from Firebase
+} else {
+  console.log("No top photos found for this user.");
+  topPhotos = []; // Initialize as an empty array if no data exists
+}
+
+displayTopPhotos(); // Refresh the UI to show the updated top photos
+
+    // Get the background photo URL from the database (if needed)
+    const backgroundPhotoSnapshot = await get(backgroundPhotoRef);
+    if (backgroundPhotoSnapshot.exists()) {
+      backgroundPhotoUrl = backgroundPhotoSnapshot.val().url;
+      displayBackgroundPhoto(backgroundPhotoUrl); // Display the background photo if it exists
+    } else {
+      console.log("No background photo found for this user.");
+    }
+
+  } catch (error) {
+    console.error("Error loading user photos:", error);
+  }
+};
+
+  
+uploadTopPhotosButton.onclick = () => {
+  if (!userId) {
+window.location.href = 'login.html'; // This will take the user to login.html
+  }
+
+  const photosInput = document.createElement('input');
+  photosInput.type = 'file';
+  photosInput.multiple = true;
+  photosInput.accept = 'image/*';
+
+  photosInput.onchange = async (event) => {
+    const files = event.target.files;
+    const topPhotosRef = databaseRef(database, `topPhotos/${userId}/topPhotos`);
+
+    // Check if any files are videos (optional check, as per your logic)
+    for (const file of files) {
+      if (file.type.startsWith('video/')) {
+document.getElementById('alertMessage').innerText = 'Videos are not supported , please select photos. ';
+document.getElementById('customAlertModal').style.display = 'block';
+
+// Add event listener for the "OK" button to close the modal
+document.getElementById('okButton').addEventListener('click', function() {
+    document.getElementById('customAlertModal').style.display = 'none';
+});
+
+return;
+
+      }
+    }
+
+    // Retrieve the current top photos from Firebase
+    const snapshot = await get(topPhotosRef);
+    let userTopPhotos = snapshot.exists() ? snapshot.val() : [];
+
+    // Ensure userTopPhotos is always an array
+    if (!Array.isArray(userTopPhotos)) {
+      userTopPhotos = Object.values(userTopPhotos); // Convert to array if it's not
+    }
+
+    // Check if the user has reached the maximum limit of 15 photos
+    if (userTopPhotos.length + files.length > 15) {
+         document.getElementById('alertMessage').innerText = "You cannot have more than 15 photos. Please delete some photos before uploading new ones.";
+        document.getElementById('customAlertModal').style.display = 'block';
+
+        // Add event listener for the "OK" button to close the modal
+        document.getElementById('okButton').addEventListener('click', function() {
+            document.getElementById('customAlertModal').style.display = 'none';
+        });
+
+        return; // Stop if the total is less than 5
+    
+    }
+
+    // Upload new photos to Firebase
+    for (const file of files) {
+      const photoRef = storageRef(storage, `topPhotos/${userId}/topPhotos/${encodeURIComponent(file.name)}`);
+      const uploadTask = uploadBytesResumable(photoRef, file);
+
+      // Show the progress bar during upload
+      progressBar.style.display = 'block';
+      overlay.style.display = 'block';
+
+      uploadTask.on('state_changed', (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        progressFill.style.width = `${progress}%`;
+        progressText.textContent = `${Math.round(progress)}%`;
+      }, (error) => {
+        console.error("Upload failed:", error);
+        overlay.style.display = 'none';
+        showCustomAlert("Upload failed: " + error.message);
+      }, async () => {
+        try {
+          // Get the download URL of the uploaded file
+          const ref = uploadTask.snapshot.ref;
+          const url = await getDownloadURL(ref);
+
+          // Add the new URL to the top photos list
+          userTopPhotos.push(url);
+
+          // Update Firebase with the new top photos list
+          await set(topPhotosRef, userTopPhotos);
+
+          // After successful upload, reload and display top photos
+          loadUserPhotos(userId);
+
+        } catch (error) {
+          console.error("Error getting download URL:", error);
+          showCustomAlert("Error getting download URL: " + error.message);
+        }
+
+        // Reset the progress bar UI
+        progressBar.style.display = 'none';
+        overlay.style.display = 'none';
+        progressFill.style.width = '0%';
+        progressText.textContent = '0%';
+      });
+    }
+  };
+
+  photosInput.click(); // Trigger file selection dialog
+};
+function displayTopPhotos() {
+    console.log("Displaying top photos:", topPhotos); // Log to check the array
+  
+    topPhotosContainer.innerHTML = ''; // Clear the container before adding new photos
+  
+    // Loop through topPhotos directly without checking if it's an array or has content
+    topPhotos.forEach((url, index) => {
+      // Create the image element for the photo
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = "Top Photo " + (index + 1);
+  
+      // Create a delete button for each photo
+      const deleteButton = document.createElement('button');
+      deleteButton.className = 'delete-button';
+      deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+      deleteButton.onclick = () => {
+        confirmDeleteAlert.style.display = 'block';
+        overlay.style.display = 'block';
+        photoToDeleteIndex = index; // Set the index of the photo to delete
+      };
+  
+      // Create a container for the photo and the delete button
+      const container = document.createElement('div');
+      container.className = 'image-container';
+      container.appendChild(img);
+      container.appendChild(deleteButton);
+  
+      // Append the container to the top photos container
+      topPhotosContainer.appendChild(container);
+    });
+  }
+document.getElementById('confirmYes').onclick = async () => {
+  if (!userId) return;
+
+  try {
+    // Get the URL of the photo to delete from the local topPhotos array
+    const topPhotoUrl = topPhotos[photoToDeleteIndex];
+
+    if (!topPhotoUrl) {
+      console.error("Invalid photo URL at index:", photoToDeleteIndex);
+      return;
+    }
+
+    // Reference to the user's topPhotos in the Realtime Database
+    const topPhotosDbRef = databaseRef(database, `topPhotos/${userId}/topPhotos`);
+
+    // Remove the URL from the local `topPhotos` array
+    topPhotos.splice(photoToDeleteIndex, 1); // Remove the photo from the array
+
+    // Update the Realtime Database with the new array (without the deleted photo URL)
+    await set(topPhotosDbRef, topPhotos);
+    console.log("Updated topPhotos in the database:", topPhotos);
+
+    // After deleting, refresh the top photos display
+    displayTopPhotos(); // Update the UI to reflect the changes
+
+  } catch (error) {
+    console.error("Error deleting top photo:", error);
+    showCustomAlert("Error deleting top photo: " + error.message);
+  }
+
+  // Hide the confirmation modal
+  confirmDeleteAlert.style.display = 'none';
+  overlay.style.display = 'none';
+};
+
+// Firebase authentication state listener
+onAuthStateChanged(auth, user => {
+  if (user) {
+    console.log("User is logged in:", user.uid);
+    userId = user.uid; // Store the user ID when logged in
+    fetchBackgroundPhoto(); // Fetch background photo after login
+  } else {
+    console.log("No user is logged in.");
+    userId = null;
+  }
+});
+
+
+
+let backgroundPhotoToDelete = null; // To store the background photo URL to be deleted
+uploadBackgroundPhotoButton.onclick = () => {
+  if (!userId) {
+    console.log("User is not authenticated. Cannot upload photo.");
+window.location.href = 'login.html'; // This will take the user to login.html
+    return; // Exit the function if userId is not available
+  }
+
+  const backgroundPhotoInput = document.createElement('input');
+  backgroundPhotoInput.type = 'file';
+  backgroundPhotoInput.accept = 'image/*'; // Only allow image files
+  backgroundPhotoInput.onchange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Check if the uploaded file is an image
+      if (!file.type.startsWith('image/')) {
+document.getElementById('alertMessage').innerText = 'Videos are not supported , please select photos. ';
+document.getElementById('customAlertModal').style.display = 'block';
+
+// Add event listener for the "OK" button to close the modal
+document.getElementById('okButton').addEventListener('click', function() {
+    document.getElementById('customAlertModal').style.display = 'none';
+});
+
+return;
+
+      }
+
+      const fileName = `backgroundPhotos/${userId}/${file.name}`;
+      const backgroundRef = storageRef(storage, fileName);
+      const uploadTask = uploadBytesResumable(backgroundRef, file);
+
+      progressBar.style.display = 'block';
+      overlay.style.display = 'block';
+
+      uploadTask.on('state_changed', (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        progressFill.style.width = progress + '%';
+        progressText.textContent = Math.round(progress) + '%';
+      }, (error) => {
+        console.error(error);
+        overlay.style.display = 'none';
+      }, async () => {
+        try {
+          // Get the download URL after successful upload
+          const backgroundPhotoUrl = await getDownloadURL(uploadTask.snapshot.ref);
+
+          // Save the background photo URL to Firebase Realtime Database
+          const backgroundPhotoRef = databaseRef(database, `backgroundPhotos/${userId}`);
+
+          await set(backgroundPhotoRef, { url: backgroundPhotoUrl });
+
+          console.log("Background photo uploaded and URL saved to Firebase!");
+
+          // Hide the upload button after upload
+          hideUploadButton();
+
+          // Display the uploaded background photo
+          displayBackgroundPhoto(backgroundPhotoUrl);
+        } catch (error) {
+          console.error("Error getting download URL:", error);
+        }
+
+        // Hide the progress bar
+        progressBar.style.display = 'none';
+        overlay.style.display = 'none';
+        progressFill.style.width = '0%';
+        progressText.textContent = '0%';
+      });
+    }
+  };
+  backgroundPhotoInput.click();
+};
+
+// Function to hide the upload button
+function hideUploadButton() {
+    console.log("Hiding upload button..."); // Debugging line
+    uploadBackgroundPhotoButton.style.display = 'none';  // Hide the upload button
+}
+
+const fetchBackgroundPhoto = async () => {
+  console.log("Fetching background photo from Firebase...");
+
+  if (!userId) {
+    console.log("No user ID available, cannot fetch background photo.");
+    return;
+  }
+
+  const backgroundPhotoRef = databaseRef(database, `backgroundPhotos/${userId}`);
+
+  try {
+    const snapshot = await get(backgroundPhotoRef);
+
+    // Log the snapshot contents to see if it has data
+    console.log("Snapshot data:", snapshot.val());
+
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      if (data && data.url) {
+        console.log("Background photo found:", data.url);
+        displayBackgroundPhoto(data.url); // Display the photo if found
+        hideUploadButton(); // Hide the upload button if a photo exists
+      } else {
+        console.log('No background photo URL found in the database.');
+        showUploadButton(); // Show the upload button if no photo exists
+      }
+    } else {
+      console.log('No background photo found in the database.');
+      showUploadButton(); // Show the upload button if no photo exists
+    }
+  } catch (error) {
+    console.error('Error fetching background photo:', error);
+  }
+};
+// Function to display the background photo on the page
+function displayBackgroundPhoto(url) {
+    backgroundPhotoDisplay.innerHTML = '';  // Clear any existing content
+    const img = document.createElement('img');
+    img.src = url;
+
+    const deleteButton = document.createElement('button');
+    deleteButton.className = 'delete-button';
+    deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+    deleteButton.onclick = () => {
+        // Set the URL to be deleted when the delete button is clicked
+        backgroundPhotoToDelete = url;
+        // Show the confirmation alert to confirm deletion
+        confirmDelete.style.display = 'block';
+        overlay.style.display = 'block';
+    };
+
+    const container = document.createElement('div');
+    container.className = 'image-container';
+    container.appendChild(img);
+    container.appendChild(deleteButton);
+
+    backgroundPhotoDisplay.appendChild(container);
+}
+
+// Function to show the upload button
+function showUploadButton() {
+    console.log("Showing upload button..."); // Debugging line
+    uploadBackgroundPhotoButton.style.display = 'block';  // Show the upload button
+
+}
+
+
+// Handle deletion confirmation when "Yes" is clicked
+document.getElementById('confirmbutton').onclick = async () => {
+  if (backgroundPhotoToDelete !== null) {
+    try {
+      const backgroundPhotoRef = databaseRef(database, `backgroundPhotos/${userId}`);
+
+
+      // Delete the background photo URL from Firebase Realtime Database
+      await set(backgroundPhotoRef, null); // Set the background photo reference to null
+
+      console.log("Background photo URL deleted from Firebase Realtime Database.");
+
+      // Refresh the UI after deletion
+      backgroundPhotoDisplay.innerHTML = ''; // Clear the display area for background photo
+      showUploadButton(); // Show the upload button again after deletion
+
+    } catch (error) {
+      console.error("Error deleting background photo URL:", error);
+    }
+  }
+
+  // Hide the confirmation alert and overlay
+  confirmDelete.style.display = 'none';
+  overlay.style.display = 'none';
+  backgroundPhotoToDelete = null; // Reset the backgroundPhotoToDelete URL
+};
+
+// Hide the confirmation alert if the user clicks "No"
+document.getElementById('confirmNo').onclick = () => {
+    confirmDeleteAlerter.style.display = 'none';
+    overlay.style.display = 'none';
+    backgroundPhotoToDelete = null;  // Reset the backgroundPhotoToDelete URL
+};
+// Hide the confirmation alert if the user clicks "No"
+// Hide the confirmation alert if the user clicks "No"
+
+// call fetchbackgroun
+
+
+window.onload = () => {
+  if (userId) {
+    fetchBackgroundPhoto(); // Fetch and display the background photo when the page loads
+  } else {
+    console.log("User not authenticated yet.");
+  }
+};
+
+    document.getElementById('confirmNo').onclick = () => {
+        confirmDeleteAlert.style.display = 'none';
+        overlay.style.display = 'none';
+    };
+    document.getElementById('confirmNoone').onclick = () => {
+        confirmDeleteAlerting.style.display = 'none';
+        overlay.style.display = 'none';
+    };
+    document.getElementById('confirmNotwo').onclick = () => {
+        confirmDelete.style.display = 'none';
+        overlay.style.display = 'none';
+    };
+    document.getElementById('confirmNobtn').onclick = () => {
+        confirmDeleteAlertshow.style.display = 'none';
+        overlay.style.display = 'none';
+    };
+function updateAddToCartButtonState() {
+    addToCartButton.disabled = false; // Always enabled
+}
+
+
+
+
+
+
+const calendarElement = document.getElementById('calendar');
+const monthNames = ["January", "February", "March", "April", "May", "June", 
+                    "July", "August", "September", "October", "November", "December"];
+let selectedFiles = [];
+let selectedFileToDelete = null;
+
+// Auth state change
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        userId = user.uid;
+        generateCalendar();  // Generate calendar once the user is authenticated
+    } else {
+        console.log("User not authenticated");
+    }
+});
+
+
+    function setDefaultDate(monthElement, date) {
+        const dateInput = monthElement.querySelector('.date-selector');
+        if (dateInput) {
+            dateInput.value = `${date}-01`;
+            dateInput.placeholder = '';
+        }
+    }
+
+
+// Function to upload photos and change filename
+async function uploadPhotos(files, selectedDate, monthElement) {
+    if (!selectedDate || files.length === 0) {
+        document.getElementById('errorAlert').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+        return;
+    }
+
+    const existingPhotos = await fetchPhotos(selectedDate);
+    if (existingPhotos.length >= 4) {
+        document.getElementById('limitAlert').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+        return;
+    }
+
+    const videoFiles = files.filter(file => file.type.startsWith('video/'));
+    if (videoFiles.length > 0) {
+        document.getElementById('alertMessage').innerText = 'Videos are not supported, please select photos.';
+        document.getElementById('customAlertModal').style.display = 'block';
+        document.getElementById('okButton').addEventListener('click', function() {
+            document.getElementById('customAlertModal').style.display = 'none';
+        });
+        return;
+    }
+
+    const promises = files.slice(0, 4 - existingPhotos.length).map(file => {
+        // Generate a unique filename
+        const timestamp = Date.now();
+        const extension = file.name.split('.').pop();
+        const uniqueFilename = `${timestamp}.${extension}`;
+
+        // Optional: sanitize filename (remove special characters)
+        const sanitizedFilename = uniqueFilename.replace(/[.#$[\]]/g, "_");
+
+        // Create the reference for Firebase Storage
+        const fileRef = storageRef(storage, `photos2/${userId}/${selectedDate}/${sanitizedFilename}`);
+
+        // Show upload progress
+        document.getElementById('uploadingAlert').style.display = 'block';
+        document.getElementById('progressBar').style.display = 'flex';
+        const progressFill = document.getElementById('progress');
+        const progressText = document.getElementById('progressText');
+
+        // Upload task
+        const uploadTask = uploadBytesResumable(fileRef, file);
+
+        return new Promise((resolve) => {
+            uploadTask.on('state_changed', (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                progressFill.style.width = `${progress}%`;
+                progressText.innerText = `${Math.round(progress)}%`;  // Update text
+            }, (error) => {
+                console.error("Upload failed:", error);
+                resolve();
+            }, () => {
+                getDownloadURL(uploadTask.snapshot.ref).then(url => {
+                    savePhotoToDatabase(selectedDate, url, sanitizedFilename);
+                    setDefaultDate(monthElement, selectedDate);
+                    resolve();
+                });
+            });
+        });
+    });
+
+    Promise.all(promises).then(() => {
+        generateCalendar();  // Regenerate the calendar after upload
+        document.getElementById('uploadingAlert').style.display = 'none'; // Hide uploading alert
+        document.getElementById('progressBar').style.display = 'none'; // Hide progress bar
+        // Clear the file input after uploading
+        document.getElementById('photos').value = '';  // Reset file input
+
+        // Reset progress bar
+        const progressFill = document.getElementById('progress');
+        const progressText = document.getElementById('progressText');
+        progressFill.style.width = '0';
+        progressText.innerText = '0%';  // Reset progress text
+        selectedFiles = [];
+    });
+}
+
+// Save photo metadata to Firebase Realtime Database
+function savePhotoToDatabase(date, url, fileName) {
+    const photoData = {
+        url,
+        fileName,
+        date
+    };
+    set(databaseRef(database, `photos2/${userId}/${date}/${fileName}`), photoData);
+}
+
+// Fetch photos from Firebase Realtime Database
+async function fetchPhotos(date) {
+    try {
+        const snapshot = await get(databaseRef(database, `photos2/${userId}/${date}`));
+        if (snapshot.exists()) {
+            return Object.values(snapshot.val()).map(item => ({
+                ...item,
+                fileName: item.fileName
+            }));
+        } else {
+            console.log(`No photos found for date: ${date}`);
+            return [];
+        }
+    } catch (error) {
+        console.error("Error fetching photos:", error);
+        throw error;
+    }
+}
+
+// Function to generate the calendar
+async function generateCalendar() {
+    calendarElement.innerHTML = '';  // Clear existing calendar
+
+    // Loop through the months
+    monthNames.forEach((month, index) => {
+        const monthElement = document.createElement('div');
+        monthElement.className = 'month';
+        monthElement.innerHTML = `<h3>${month}</h3>`;
+
+        const dateString = `2024-${String(index + 1).padStart(2, '0')}`;
+
+        fetchPhotos(dateString).then(photos => {
+            photos.forEach(photo => {
+                const imgContainer = document.createElement('div');
+                imgContainer.style.position = 'relative';
+                imgContainer.style.display = 'flex';
+                imgContainer.style.flexDirection = 'column';
+                imgContainer.style.alignItems = 'center';
+
+                const monthLabel = document.createElement('div');
+                monthLabel.className = 'month-label';
+                monthLabel.innerText = monthNames[new Date(photo.date).getMonth()].substring(0, 3);
+                imgContainer.appendChild(monthLabel);
+
+                const img = document.createElement('img');
+                img.src = photo.url;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+                deleteButton.className = 'delete-btn';
+                deleteButton.onclick = (e) => {
+                    e.stopPropagation();
+                    selectedFileToDelete = { date: dateString, fileName: photo.fileName };
+                    document.getElementById('overlay').style.display = 'block';
+                    document.getElementById('confirmDeleteAlerting').style.display = 'block';
+                };
+
+                const dateSelector = document.createElement('input');
+                dateSelector.type = 'date';
+                dateSelector.className = 'date-selector';
+                dateSelector.value = photo.date;
+
+                const chooseDateButton = document.createElement('button');
+                chooseDateButton.className = 'choose-date-button';
+                chooseDateButton.innerHTML = '<i class="fas fa-calendar-alt"></i> Mark Date';
+                chooseDateButton.onclick = () => {
+                    dateSelector.style.display = 'block';
+                    chooseDateButton.style.display = 'none';
+                };
+
+                imgContainer.appendChild(img);
+                imgContainer.appendChild(deleteButton);
+                imgContainer.appendChild(dateSelector);
+                imgContainer.appendChild(chooseDateButton);
+                monthElement.appendChild(imgContainer);
+            });
+
+            const uploadButton = document.createElement('button');
+            uploadButton.className = 'upload-button';
+            uploadButton.innerHTML = '<i class="fas fa-upload"></i> Upload Photo';
+            uploadButton.onclick = () => {
+                document.getElementById('photos').click();
+                document.getElementById('photos').onchange = (event) => {
+                    selectedFiles = Array.from(event.target.files);
+                    uploadPhotos(selectedFiles, dateString, monthElement);
+                };
+            };
+
+            monthElement.appendChild(uploadButton);
+        }).catch(error => {
+            console.error("Error fetching photos:", error);
+        });
+
+        calendarElement.appendChild(monthElement);
+    });
+}
+// Delete photo from Firebase and regenerate calendar
+function deletePhoto(date, fileName) {
+    const dbRef = databaseRef(database, `photos2/${userId}/${date}/${fileName}`);
+    remove(dbRef).then(() => {
+        generateCalendar();
+    }).catch((error) => {
+        console.error("Delete from database failed:", error);
+    });
+}
+
+
+async function addToCart() {
+    // Initialize necessary elements
+    const user = auth.currentUser;
+    if (!user) {
+        window.location.href = "login.html"; // Redirect if not logged in
+        return;
+    }
+
+    const userId = user.uid; // Initialize userId after confirming the user is logged in
+
+    const note1Element = document.getElementById('note1');
+    const notes = [note1Element ? note1Element.value : ''];
+
+    // Check if the limit alert is showing (for more than 15 photos)
+    const limitAlert = document.getElementById('limitAlert');
+    if (limitAlert && limitAlert.style.display === 'block') {
+        return; // Don't add to cart if the limit alert is showing
+    }
+
+    // Check if the error alert is showing (for fewer than 5 top photos)
+    const errorAlert = document.getElementById('errorAlert');
+    if (errorAlert && errorAlert.style.display === 'block') {
+        return; // Don't add to cart if the error alert is showing
+    }
+
+    // Collect calendar images
+    const calendarImages = [];
+    const months = document.querySelectorAll('.month');
+
+    months.forEach(month => {
+        const imgElements = month.getElementsByTagName('img');
+        const dateSelector = month.querySelector('.date-selector');
+        const monthLabel = month.querySelector('.month-label');
+
+        const selectedDate = dateSelector && dateSelector.value ? dateSelector.value : null;
+
+        for (let img of imgElements) {
+            calendarImages.push({
+                date: selectedDate,
+                month: monthLabel ? monthLabel.innerText : '',
+                imageUrl: img.src,
+                text: notes[0] || "Text: none"
+            });
+        }
+    });
+
+    // Fetch top photos from Firebase if not already loaded
+    const topPhotosRef = databaseRef(database, `topPhotos/${userId}/topPhotos`);
+    const topPhotosSnapshot = await get(topPhotosRef);
+    let topPhotosFromDb = [];
+    if (topPhotosSnapshot.exists()) {
+        topPhotosFromDb = topPhotosSnapshot.val(); // Get top photo URLs
+    }
+
+    // Fetch background photo URL from Firebase if not already loaded
+    const backgroundPhotoRef = databaseRef(database, `backgroundPhotos/${userId}`);
+    const backgroundPhotoSnapshot = await get(backgroundPhotoRef);
+    let backgroundPhotoUrlFromDb = '';
+    if (backgroundPhotoSnapshot.exists()) {
+        backgroundPhotoUrlFromDb = backgroundPhotoSnapshot.val().url; // Get background photo URL
+    }
+
+    // Check if background photo is missing
+    if (!backgroundPhotoUrlFromDb) {
+        // Show the custom background photo error alert
+        document.getElementById('errorAlert').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+        return; // Prevent adding to cart if background photo is missing
+    }
+
+    // Calculate the total number of photos
+    const totalPhotos = calendarImages.length + topPhotosFromDb.length + (backgroundPhotoUrlFromDb ? 1 : 0);
+
+    // Check if total photos is within the allowed range (5 to 15)
+    if (totalPhotos > 15) {
+        // Show custom modal if more than 15 photos
+        document.getElementById('alertMessage').innerText = "You cannot add more than 15 photos to the cart.";
+        document.getElementById('customAlertModal').style.display = 'block';
+
+        // Add event listener for the "OK" button to close the modal
+        document.getElementById('okButton').addEventListener('click', function() {
+            document.getElementById('customAlertModal').style.display = 'none';
+        });
+
+        return; // Stop if the total exceeds 15
+    } else if (totalPhotos < 5) {
+        // Show custom modal if less than 5 photos
+        document.getElementById('alertMessage').innerText = "You must upload at least 5 photos to the calendar.";
+        document.getElementById('customAlertModal').style.display = 'block';
+
+        // Add event listener for the "OK" button to close the modal
+        document.getElementById('okButton').addEventListener('click', function() {
+            document.getElementById('customAlertModal').style.display = 'none';
+        });
+
+        return; // Stop if the total is less than 5
+    }
+
+    // Create the new cart item
+    // Function to generate a unique ID for each item
+function generateItemId() {
+    return 'item-' + Math.random().toString(36).substr(2, 9); // Example of generating a random ID
+}
+
+// Function to generate a unique ID for each item
+function generateItemId() {
+  return 'item-' + Math.random().toString(36).substr(2, 9); // Example of generating a random ID
+}
+
+// Create the new cart item with detailed information
+const newItem = {
+  id: generateItemId(), // Generate unique item ID
+  designLink: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Xxxtentacion_%28cropped%29.jpg/220px-Xxxtentacion_%28cropped%29.jpg",
+  topPhotos: topPhotosFromDb.map(photoUrl => ({ imageUrl: photoUrl })), // Map database photos to the correct format
+  backgroundPhoto: backgroundPhotoUrlFromDb, // Set the background photo URL
+  calendarImages: calendarImages, // Add the calendar images
+  note: notes[0] || "No text provided", // Add the note if available
+};
+
+// Show loading spinner only during Firebase call and cart addition
+document.getElementById('loadingOverlay').style.display = 'flex'; // Show spinner only before delay
+
+// Add the new item to the Firebase database under the items node
+const itemRef = databaseRef(database, `items/${newItem.id}`); // Create a reference to the new item ID
+await set(itemRef, newItem); // Push the item to Firebase with all the properties
+
+// Optionally, add the item to the user's cart
+const cartRef = databaseRef(database, `carts/${userId}`);
+const snapshot = await get(cartRef);
+const cartItems = snapshot.exists() ? snapshot.val().cart : [];
+cartItems.push({
+  title: "Custom Calendar",
+  cost: 210, // Adjust price as necessary
+  shareableLink: `customizedcalendar.html?itemId=${newItem.id}`, // Link to the item details page with the itemId
+              designs: [
+                {
+                    itemImage: "https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2F4.jpg?alt=media&token=e3077bfe-2f15-4d14-9199-8ac4daad050d",
+                }
+            ]
+});
+
+// Save the updated cart to Firebase
+await set(cartRef, { cart: cartItems });
+        window.location.href = "cart_page.html";
+        
+// Hide loading overlay after Firebase call finishes
+document.getElementById('loadingOverlay').style.display = 'none'; // Hide spinner
+
+// Show the cart alert after successful addition
+showCartAlert();
+}
+        document.getElementById('cartAlert').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    
+
+    function showCartAlert() {
+        const cartAlert = document.getElementById('cartAlert');
+        const overlay = document.getElementById('overlay');
+
+        cartAlert.style.display = 'block';
+        overlay.style.display = 'block';
+
+        setTimeout(() => {
+            cartAlert.style.display = 'none';
+            overlay.style.display = 'none';
+        }, 2000);
+    }
+
+    const note1Element = document.getElementById('note1');
+
+    document.getElementById('addToCartButton').onclick = addToCart;
+
+    document.getElementById('errorOkButton').addEventListener('click', () => {
+        document.getElementById('errorAlert').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    });
+
+    document.getElementById('limitOkButton').addEventListener('click', () => {
+        document.getElementById('limitAlert').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    });
+
+    document.getElementById('confirming').addEventListener('click', () => {
+  if (selectedFileToDelete) {
+    deletePhoto(selectedFileToDelete.date, selectedFileToDelete.fileName);
+    selectedFileToDelete = null; // Clear the selected file to delete
+    document.getElementById('overlay').style.display = 'none'; // Hide the overlay
+    document.getElementById('confirmDeleteAlerting').style.display = 'none'; // Hide alert
+  }
+});
+
+    document.getElementById('confirmNobtn').addEventListener('click', () => {
+        document.getElementById('confirmDeleteAlertshow').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    });
+
+    generateCalendar();
+</script>
+</body>
+</html>

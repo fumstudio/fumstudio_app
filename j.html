@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Reset | Fumstudio</title>
+    <style>
+        :root {
+            --primary-color: #6C5CE7;
+            --secondary-color: #A29BFE;
+            --text-color: #2D3436;
+            --light-gray: #DFE6E9;
+            --white: #FFFFFF;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .fumstudio-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .fumstudio-logo {
+            color: var(--primary-color);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .fumstudio-tagline {
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        h1 {
+            color: var(--text-color);
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        
+        .description {
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+        
+        .reset-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .reset-btn:hover {
+            background-color: #5649D6;
+        }
+        
+        .back-to-login {
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 14px;
+        }
+        
+        .back-to-login a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .modal-message {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .modal-close {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 480px) {
+            .fumstudio-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fumstudio-card">
+        <div class="fumstudio-logo">FUMSTUDIO</div>
+        <div class="fumstudio-tagline">Creative solutions for the digital world</div>
+        
+        <h1>Reset Your Password</h1>
+        <p class="description">
+            Enter the email address associated with your Fumstudio account, and we'll send you a link to reset your password.
+        </p>
+        
+        <div class="input-group">
+            <label for="reset-email">Email Address</label>
+            <input type="email" id="reset-email" placeholder="your@email.com" required>
+        </div>
+        
+        <button class="reset-btn" id="reset-password-btn">Send Reset Link</button>
+        
+        <p class="back-to-login">
+            Remember your password? <a href="login.html">Sign in</a>
+        </p>
+    </div>
+
+    <div class="modal" id="alert-modal">
+        <div class="modal-content">
+            <p class="modal-message" id="alert-message"></p>
+            <button class="modal-close" id="close-alert">OK</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
+        import { getAuth, sendPasswordResetEmail, fetchSignInMethodsForEmail } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+
+const firebaseConfig = {
+      apiKey: "AIzaSyBDrzrgLslaJvnXbo1e90irCEtdcm9ZsCU",
+      authDomain: "logins-13661.firebaseapp.com",
+      databaseURL: "https://logins-13661-default-rtdb.firebaseio.com",
+      projectId: "logins-13661",
+      storageBucket: "logins-13661.appspot.com",
+      messagingSenderId: "451535349483",
+      appId: "1:451535349483:web:d3c9867fd2bffbbdca40ae",
+      measurementId: "G-DWP16WX2H7"
+    };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // DOM elements
+        const resetBtn = document.getElementById('reset-password-btn');
+        const emailInput = document.getElementById('reset-email');
+        const alertModal = document.getElementById('alert-modal');
+        const alertMessage = document.getElementById('alert-message');
+        const closeAlert = document.getElementById('close-alert');
+
+        // Show modal with message
+        function showAlert(message) {
+            alertMessage.textContent = message;
+            alertModal.style.display = 'flex';
+        }
+
+        // Close modal
+        closeAlert.addEventListener('click', () => {
+            alertModal.style.display = 'none';
+        });
+
+        // Send password reset email
+        resetBtn.addEventListener('click', async () => {
+            const email = emailInput.value.trim();
+            
+            if (!email) {
+                showAlert("Please enter your Fumstudio account email address.");
+                return;
+            }
+
+            try {
+                // Check if email exists
+                const methods = await fetchSignInMethodsForEmail(auth, email);
+                if (methods.length === 0) {
+                    throw new Error('auth/user-not-found');
+                }
+
+                // Custom email template settings
+                const actionCodeSettings = {
+                    url: 'https://yourdomain.com/reset-password?mode=action&oobCode=code',
+                    handleCodeInApp: false
+                };
+
+                await sendPasswordResetEmail(auth, email, actionCodeSettings);
+                
+                showAlert(`Password reset email sent from Fumstudio! Please check ${email} for instructions.`);
+                emailInput.value = '';
+            } catch (error) {
+                console.error('Error:', error);
+                
+                if (error.message === 'auth/user-not-found') {
+                    showAlert("No Fumstudio account found with this email address.");
+                } else if (error.code === 'auth/invalid-email') {
+                    showAlert("Please enter a valid Fumstudio account email address.");
+                } else if (error.code === 'auth/too-many-requests') {
+                    showAlert("Too many attempts. Please try again later or contact Fumstudio support.");
+                } else {
+                    showAlert("An error occurred. Please try again or contact Fumstudio support.");
+                }
+            }
+        });
+
+        // Handle Enter key press
+        emailInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                resetBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>

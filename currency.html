@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Currency Selection</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #48c9b0;
+            --dark-gold: #48c9b0;
+            --charcoal: #48c9b0;
+            --ivory: #48c9b0;
+            --soft-gray: #48c9b0;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+
+            position: relative;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(212,175,55,0.05) 0%, rgba(212,175,55,0.01) 100%);
+            z-index: -1;
+        }
+        
+        /* Back Button Styles */
+        .back-button {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            font-size: 1.2rem;
+            color: var(--gold);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 100;
+            background: #FFFFFF;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid rgba(212,175,55,0.2);
+        }
+        
+        .back-button:hover {
+
+            transform: translateX(-3px);
+
+        }
+        
+        /* Centered Container */
+        .center-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+        }
+        
+        .selection-container {
+            background-color: white;
+            padding: clamp(1.5rem, 3vw, 2.5rem);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(212,175,55,0.2);
+            transition: var(--transition);
+            margin: auto;
+            transform: translateY(0);
+        }
+        
+        .selection-container:hover {
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+        
+        .selection-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--gold), var(--dark-gold));
+        }
+        
+        /* Typography */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            position: relative;
+            padding-bottom: 0.8rem;
+            text-align: center;
+        }
+        
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        
+        /* Form Elements */
+        select {
+            padding: 0.9rem 1.3rem;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 280px;
+            margin: 1rem 0;
+            border: 1px solid var(--soft-gray);
+            border-radius: 6px;
+            background-color: white;
+            color: var(--charcoal);
+            font-family: 'Montserrat', sans-serif;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23D4AF37'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1rem;
+            transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(212,175,55,0.2);
+        }
+        
+        #goToCart {
+            background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+            color: white;
+            border: none;
+            padding: 0.9rem 1.8rem;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 1.2rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(212,175,55,0.25);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 280px;
+        }
+        
+        #goToCart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(212,175,55,0.35);
+        }
+        
+        #goToCart::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        #goToCart:hover::before {
+            left: 100%;
+        }
+        
+        /* Decorative Elements */
+        .currency-icon {
+            position: absolute;
+            opacity: 0.05;
+            z-index: -1;
+            font-size: clamp(5rem, 15vw, 8rem);
+            pointer-events: none;
+        }
+        
+        .currency-icon:nth-child(1) {
+            top: 10%;
+            left: 5%;
+        }
+        
+        .currency-icon:nth-child(2) {
+            bottom: 10%;
+            right: 5%;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .back-button {
+                top: 15px;
+                left: 15px;
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+            
+            .selection-container {
+                padding: 1.5rem;
+            }
+            
+            select, #goToCart {
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 1.2rem;
+            }
+            
+            .selection-container {
+                padding: 1.2rem;
+                border-radius: 10px;
+            }
+            
+            select {
+                padding: 0.8rem 1.1rem;
+                font-size: 0.95rem;
+            }
+            
+            #goToCart {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .currency-icon {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <i class="fas fa-chevron-left back-button" aria-hidden="true" onclick="goBack()"></i>
+    
+    <div class="center-wrapper">
+        <div class="selection-container">
+            <h1>Select Your Currency</h1>
+            <select id="currencySelect">
+                <option value="USD">USD - US Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="ZAR" selected>ZAR - South African Rand</option>
+            </select>
+            <button id="goToCart">Proceed to Cart</button>
+        </div>
+    </div>
+    
+    <div class="currency-icon">$</div>
+    <div class="currency-icon">€</div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        
+        // Prevent zooming on mobile devices
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+        
+        // Prevent double-tap zoom
+        let lastTap = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTap <= 300) {
+                event.preventDefault();
+            }
+            lastTap = now;
+        }, { passive: false });
+    </script>
+
+    <script type="module">
+        // Your existing Firebase code remains unchanged
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getDatabase, ref, update, get } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyARESVdkH9dVHLoPBo-P0DPq131H8dDre4",
+  authDomain: "login-6556f.firebaseapp.com",
+  databaseURL: "https://login-6556f-default-rtdb.firebaseio.com",
+  projectId: "login-6556f",
+  storageBucket: "login-6556f.appspot.com",
+  messagingSenderId: "515699848523",
+  appId: "1:515699848523:web:dda81ed68642f51f39e4ce",
+  measurementId: "G-DFWFZJ5BP2"
+};
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+
+        const currencySelect = document.getElementById('currencySelect');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const userId = user.uid;
+                const userRef = ref(db, `users/${userId}/selectedCurrency`);
+
+                get(userRef).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const storedCurrency = snapshot.val();
+                        currencySelect.value = storedCurrency;
+                    } else {
+                        currencySelect.value = "ZAR";
+                    }
+                }).catch((error) => {
+                    console.error("Error fetching currency from Firebase:", error);
+                });
+            } else {
+                console.log("No user is signed in.");
+            }
+        });
+
+        currencySelect.addEventListener('change', function() {
+            const selectedCurrency = currencySelect.value;
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    const userId = user.uid;
+                    const userRef = ref(db, `users/${userId}`);
+
+                    update(userRef, {
+                        selectedCurrency: selectedCurrency
+                    }).then(() => {
+                        console.log("Currency saved to Firebase!");
+                    }).catch((error) => {
+                        console.error("Error saving currency to Firebase:", error);
+                    });
+                } else {
+                    console.log("No user is signed in.");
+                }
+            });
+        });
+
+        document.getElementById('goToCart').addEventListener('click', function() {
+            window.location.href = 'cart_page.html';
+        });
+    </script>
+    <script type="module" src="js/currency-converter.js"></script>
+</body>
+</html>

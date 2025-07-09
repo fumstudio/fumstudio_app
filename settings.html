@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fumstudio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f4;
+    }
+
+    .clickable-icon {
+      cursor: pointer;
+      padding: 15px;
+      text-align: center;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .clickable-icon:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .clickable-icon i {
+      font-size: 24px;
+      color: #1a2639;
+      margin-bottom: 8px;
+    }
+
+    .clickable-icon span {
+      display: block;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .menu-table {
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      border-collapse: separate;
+      border-spacing: 15px;
+    }
+
+    .menu-layer {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .menu-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow: auto;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .cart-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .cart-icon {
+      font-size: 24px;
+      color: #1a2639;
+    }
+
+    .item-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: #e53935;
+      color: #FFFFFF;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .menu-table {
+        border-spacing: 10px;
+      }
+      
+      .menu-table td {
+        width: 50%;
+      }
+      
+      .clickable-icon {
+        padding: 10px;
+      }
+      
+      .clickable-icon i {
+        font-size: 20px;
+      }
+      
+      .clickable-icon span {
+        font-size: 12px;
+      }
+    }
+
+    .page-header {
+      text-align: center;
+      padding: 20px;
+      background: #1a2639;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .page-header i {
+      margin-right: 10px;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background-color: #1a2639;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      padding: 0 15px;
+      box-sizing: border-box;
+    }
+    
+    .nav-left {
+      display: flex;
+      align-items: center;
+    }
+    
+    .back-button {
+      cursor: pointer;
+      margin-right: 15px;
+      font-size: 18px;
+    }
+    
+    .cart-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .cart-icon {
+      font-size: 18px;
+    }
+    
+    .cart-text {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    
+    body {
+      padding-top: 50px;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .auth-container {
+      text-align: center;
+      margin-top: 30px;
+      padding: 20px;
+    }
+
+    .user-email {
+      color: #42445A;
+      padding: 8px 12px;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+
+    .auth-button {
+      padding: 10px 20px;
+      background: #1a2639;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .auth-button i {
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-left">
+            <div class="back-button" id="backButton">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+        </div>
+        
+        <div class="cart-container">
+            <i class="fas fa-shopping-cart cart-icon"></i>
+            <span class="cart-text">Settings</span>
+        </div>
+    </div>
+
+  <table class="menu-table">
+    <tr>
+      <td>
+        <div class="clickable-icon" onclick="showMenu('home')">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </div>
+      </td>
+      <td>
+        <div class="clickable-icon" onclick="showMenu('address')">
+          <i class="fas fa-address-book"></i>
+          <span>Address Book</span>
+        </div>
+      </td>
+      <td>
+        <div class="clickable-icon" onclick="showMenu('orders')">
+          <i class="fas fa-receipt"></i>
+          <span>Order History</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="clickable-icon" onclick="showMenu('currency')">
+          <i class="fas fa-coins"></i>
+          <span>Currency</span>
+        </div>
+      </td>
+      <td>
+        <div class="clickable-icon" onclick="showMenu('help')">
+          <i class="fas fa-info-circle"></i>
+          <span>Help Center</span>
+        </div>
+      </td>
+      <td>
+        <div class="clickable-icon" onclick="showMenu('about')">
+          <i class="fas fa-user-tie"></i>
+          <span>About</span>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Auth container will be updated by JavaScript -->
+  <div class="auth-container" id="authContainer">
+    <!-- Content will be added dynamically -->
+  </div>
+
+  <!-- Menu Layers -->
+  <div id="homeMenu" class="menu-layer">
+    <div class="menu-content">
+      <h2><i class="fas fa-home"></i> Home</h2>
+      <p>Welcome to Fumstudio! This is the home section.</p>
+      <button onclick="window.location.href='catalog.html'">Go to Catalog</button>
+    </div>
+    <div class="close-btn" onclick="hideMenu('home')">&times;</div>
+  </div>
+
+  <div id="addressMenu" class="menu-layer">
+    <div class="menu-content">
+      <h2><i class="fas fa-address-book"></i> Address Book</h2>
+      <p>Manage your shipping addresses here.</p>
+      <button onclick="window.location.href='Address_book.html'">Manage Addresses</button>
+    </div>
+    <div class="close-btn" onclick="hideMenu('address')">&times;</div>
+  </div>
+
+  <div id="ordersMenu" class="menu-layer">
+    <div class="menu-content">
+      <h2><i class="fas fa-receipt"></i> Order History</h2>
+      <p>View your past orders and tracking information.</p>
+      <button onclick="window.location.href='Order-histort.html'">View Orders</button>
+    </div>
+    <div class="close-btn" onclick="hideMenu('orders')">&times;</div>
+  </div>
+
+  <div id="currencyMenu" class="menu-layer">
+    <div class="menu-content">
+      <h2><i class="fas fa-coins"></i> Currency</h2>
+      <p>Select your preferred currency.</p>
+      <button onclick="window.location.href='currency.html'">Change Currency</button>
+    </div>
+    <div class="close-btn" onclick="hideMenu('currency')">&times;</div>
+  </div>
+
+  <div id="helpMenu" class="menu-layer">
+    <div class="menu-content">
+      <h2><i class="fas fa-info-circle"></i> Help Center</h2>
+      <p>Get help with your account or orders.</p>
+      <button onclick="window.location.href='Help_center.html'">Get Help</button>
+    </div>
+    <div class="close-btn" onclick="hideMenu('help')">&times;</div>
+  </div>
+
+  <div id="aboutMenu" class="menu-layer">
+    <div class="menu-content">
+      <h2><i class="fas fa-user-tie"></i> About</h2>
+      <p>Learn more about Fumstudio.</p>
+      <button onclick="window.location.href='About.html'">About Us</button>
+    </div>
+    <div class="close-btn" onclick="hideMenu('about')">&times;</div>
+  </div>
+
+  <div id="cartMenu" class="menu-layer">
+    <div class="menu-content">
+      <h2><i class="fas fa-shopping-cart"></i> Cart</h2>
+      <p>View and manage your shopping cart.</p>
+      <button onclick="window.location.href='cart_page.html'">View Cart</button>
+    </div>
+    <div class="close-btn" onclick="hideMenu('cart')">&times;</div>
+  </div>
+
+  <script>
+    function showMenu(menuId) {
+      document.getElementById(menuId + 'Menu').style.display = 'flex';
+    }
+
+    function hideMenu(menuId) {
+      document.getElementById(menuId + 'Menu').style.display = 'none';
+    }
+
+    // Close menu when clicking outside content
+    window.addEventListener('click', function(event) {
+      const menus = document.querySelectorAll('.menu-layer');
+      menus.forEach(menu => {
+        if (event.target === menu) {
+          menu.style.display = 'none';
+        }
+      });
+    });
+
+    document.getElementById('backButton').addEventListener('click', function() {
+      window.history.back();
+    });
+  </script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getDatabase } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBDrzrgLslaJvnXbo1e90irCEtdcm9ZsCU",
+      authDomain: "logins-13661.firebaseapp.com",
+      databaseURL: "https://logins-13661-default-rtdb.firebaseio.com",
+      projectId: "logins-13661",
+      storageBucket: "logins-13661.appspot.com",
+      messagingSenderId: "451535349483",
+      appId: "1:451535349483:web:d3c9867fd2bffbbdca40ae",
+      measurementId: "G-DWP16WX2H7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const authContainer = document.getElementById('authContainer');
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in
+        authContainer.innerHTML = `
+          <div class="user-email">
+            <i class="fas fa-user"></i> ${user.email}
+          </div>
+          <button class="auth-button" id="logoutButton">
+            <i class="fas fa-sign-out-alt"></i> Log Out
+          </button>
+        `;
+
+        document.getElementById('logoutButton').addEventListener('click', async (e) => {
+          e.preventDefault();
+          try {
+            await signOut(auth);
+            window.location.href = "login.html";
+          } catch (error) {
+            console.error("Logout error:", error);
+            window.location.href = "login.html";
+          }
+        });
+      } else {
+        // No user is signed in
+        authContainer.innerHTML = `
+          <button class="auth-button" id="loginButton">
+            <i class="fas fa-sign-in-alt"></i> Log In
+          </button>
+        `;
+
+        document.getElementById('loginButton').addEventListener('click', (e) => {
+          e.preventDefault();
+          window.location.href = "login.html";
+        });
+      }
+    });
+  </script>
+</body>
+</html>

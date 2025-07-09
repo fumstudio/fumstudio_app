@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Details</title>
+    <style>
+/* General container styling */
+.item-details {
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Styling for the note */
+.item-details p {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.item-details p strong {
+    color: #555;
+    position: relative; /* Required for the pseudo-element */
+    display: inline-block; /* Ensures the line only spans the text width */
+}
+
+
+/* Styling for image sections */
+.item-images {
+    margin-top: 20px;
+}
+
+.item-images strong {
+    font-size: 18px;
+    color: #444;
+    position: relative; /* Required for the pseudo-element */
+    display: inline-block; /* Ensures the line only spans the text width */
+}
+
+
+/* Styling for top photos */
+.item-images div[style*="flex-wrap: wrap"] {
+    gap: 10px;
+}
+
+.item-images img {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item-images img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for calendar images */
+.item-images div[style*="flex-direction: column"] {
+    gap: 15px;
+}
+
+.item-images div[style*="flex-direction: column"] img {
+    max-width: 100px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    background-color: #fff;
+}
+
+.item-images div[style*="flex-direction: column"] p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Styling for buttons */
+.view-design-button, .catalog-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.view-design-button:hover, .catalog-button:hover {
+    background-color: #0056b3;
+}
+
+.catalog-button {
+    background-color: #28a745;
+}
+
+.catalog-button:hover {
+    background-color: #218838;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .item-details {
+        padding: 15px;
+    }
+
+    .item-images img {
+        max-width: 100%;
+    }
+
+    .view-design-button, .catalog-button {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+/* Styling for calendar images grid */
+.item-images .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 15px; /* Space between items */
+    margin-top: 10px;
+}
+
+.item-images .calendar-grid div {
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.item-images .calendar-grid img {
+    max-width: 100px;
+    border-radius: 4px;
+}
+
+.item-images .calendar-grid p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+@media (max-width: 600px) {
+    .item-images .calendar-grid {
+        grid-template-columns: 2fr; /* Switch to 1 column on small screens */
+    }
+}
+
+/* Styling for top photos container */
+.item-images .top-photos-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between images */
+    margin-bottom: 20px;
+    max-width: 100%; /* Ensure the container doesn't overflow */
+    overflow: hidden; /* Hide any overflow */
+}
+
+.item-images .top-photos-container div {
+    flex: 1 1 200px; /* Flexible width with a base of 200px */
+    max-width: 200px; /* Maximum width for each image container */
+    text-align: center;
+    box-sizing: border-box; /* Include padding and border in the width */
+}
+
+.item-images .top-photos-container img {
+    width: 100%; /* Ensure images fill their container */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item-images .top-photos-container img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments for top photos */
+@media (max-width: 768px) {
+    .item-images .top-photos-container div {
+        flex: 1 1 150px; /* Smaller base width for medium screens */
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .item-images .top-photos-container div {
+        flex: 1 1 100%; /* Full width for very small screens */
+        max-width: 100%;
+    }
+}
+.Background{
+    border-radius: 10px;
+background-color: #E7E7E7;
+padding: 10px 10px;
+}
+nav{
+  
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);  
+}
+   </style>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+     <link rel="stylesheet" href="css/catalog.css">
+      <link rel="stylesheet" href="css/Product.css
+    ">
+          <link rel="stylesheet" href="css/Itempage.css">   
+</head>
+<body>
+<div class="background">
+<div class="container2">
+
+
+    <!-- Nav -->
+    
+<nav class="main-nav">
+  <!-- Navigation content -->
+
+
+<i class="fa fa-chevron-left back-button" aria-hidden="true" onclick="goBack()"></i>
+<script>
+
+function goBack() {
+    window.history.back();
+}
+
+</script>
+ <h1 class="item-name">Customized Calendar </h1>
+</nav>
+ <br>        <br>        <br>  <br> 
+         <!-- Design Selector Button -->
+
+
+<div id="loading">Loading calendar</div>
+<div id="itemContainer"></div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getDatabase, ref as dbRef, get } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBDrzrgLslaJvnXbo1e90irCEtdcm9ZsCU",
+        authDomain: "logins-13661.firebaseapp.com",
+        databaseURL: "https://logins-13661-default-rtdb.firebaseio.com",
+        projectId: "logins-13661",
+        storageBucket: "logins-13661.appspot.com",
+        messagingSenderId: "451535349483",
+        appId: "1:451535349483:web:d3c9867fd2bffbbdca40ae",
+        measurementId: "G-DWP16WX2H7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const itemId = urlParams.get('itemId');  // Extract itemId from the URL
+        
+        if (itemId) {
+            // Load item details from Firebase
+            const itemRef = dbRef(db, 'items/' + itemId);
+            const snapshot = await get(itemRef);
+            const item = snapshot.exists() ? snapshot.val() : null;
+
+            if (item) {
+                displayItemDetails(item);
+            } else {
+                document.getElementById('itemContainer').innerHTML = '<p>Item not found.</p>';
+            }
+        } else {
+            document.getElementById('itemContainer').innerHTML = '<p>Invalid item ID.</p>';
+        }
+    });
+
+    function displayItemDetails(item) {
+    document.getElementById('loading').style.display = 'none'; // Hide loading message
+
+    const itemContainer = document.getElementById('itemContainer');
+    itemContainer.innerHTML = ''; // Clear any previous content
+
+    // Display the item details
+    itemContainer.innerHTML = `
+        <div class="item-details">
+            <p><strong class="Background">Text:</strong> ${item.note || 'No note provided'}</p>
+            
+            <div class="item-images">
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <strong class="Background">Top Photos</strong>
+                </div>
+                <div class="top-photos-container">
+                    ${item.topPhotos && item.topPhotos.length ? item.topPhotos.map(photo => `
+                        <div>
+                            <img src="${photo.imageUrl}" alt="Top Image">
+                        </div>
+                    `).join('') : '<p>No Top Photos Available</p>'}
+                </div>
+
+                <div style="text-align: center; margin-top: 10px;">
+                    <strong class="Background">Background Photo</strong>
+    <br>    <br>           
+                    
+                </div>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    ${item.backgroundPhoto ? `
+                        <img src="${item.backgroundPhoto}" alt="Background Photo" style="max-width: 200px;">
+                    ` : '<p>No Background Photo Available</p>'}
+                </div>
+
+                <div style="text-align: center; margin-top: 10px;">
+                    <strong class="Background">Calendar Images</strong>
+                </div>
+                <div class="calendar-grid">
+                    ${item.calendarImages && item.calendarImages.length ? item.calendarImages.map(image => `
+                        <div>
+                            <img src="${image.imageUrl}" alt="Design Image">
+                            <p>Date: ${image.date ? new Date(image.date).toLocaleDateString() : 'No Date Selected'}</p>
+                            <p>Month: ${image.month || 'Unknown Month'}</p>
+                        </div>
+                    `).join('') : '<p>No Calendar Images Available</p>'}
+                </div>
+            </div>
+
+          
+        </div>
+    `;
+}
+</script>
+
+</body>
+</html>

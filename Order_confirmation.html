@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        
+
+  <link rel="stylesheet" href="style.css
+    ">
+   
+      <link rel="stylesheet" href="css/catalog.css
+    ">    
+    
+   <link rel= "Shortcut icon" type="x-icon" href= "https://i.postimg.cc/XqrhcVpD/20240702-095704.png "> 
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJSDSSVMM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9RJSDSSVMM');
+</script>
+  
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MNW5B4W9');</script>
+<!-- End Google Tag Manager -->
+ 
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        $(function(){
+            $("#navbar").load("navbar.html");
+        });
+    </script>
+            <script>
+        $(function(){
+            $("#Whatsapp_button").load("whatsApp_button.html");
+        });
+    </script>
+        <script>
+        $(function(){
+            $("#footer").load("footer.html");
+        });
+    </script>        
+        
+    <title>Conferming</title>
+    
+    
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+/* Luxury Cart Item Styling with Slide Animation */
+.cart-container {
+  overflow: hidden;
+  padding: 2rem;
+  background-color: #f8f4ed; /* Soft cream background */
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+  border-left: 4px solid #D4AF37; /* Gold accent */
+  transform: translateX(-100%);
+  opacity: 0;
+  animation: slideIn 0.6s forwards;
+  animation-delay: calc(var(--animation-order) * 0.1s);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cart-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0) 100%);
+  z-index: 0;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.cart-item:hover {
+  transform: translateX(10px) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.image-link-button2 {
+  display: flex;
+  flex-grow: 1;
+  text-decoration: none;
+  color: #333;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.image-link-button2 h2 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  color: #3a3a3a;
+  margin: 0;
+  min-width: 200px;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+.cart-images {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.cart-item-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.cart-item-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.item-quantity {
+  background-color: #D4AF37;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-weight: 500;
+  font-family: 'Playfair Display', serif;
+  min-width: 50px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Price Display - Add this if you want to show price */
+.item-price {
+  font-family: 'Playfair Display', serif;
+  color: #5a4a3a;
+  font-weight: 500;
+  margin-left: 1rem;
+  font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+  
+  .image-link-button2 {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .item-quantity {
+    margin: 1rem 0 0 0;
+    align-self: flex-end;
+  }
+  
+  .cart-item-image {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+        #totalPriceContainer {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #clearCartButton, #payNowButton {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color:  #2E2F33;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+        #clearCartButton {
+display: none;
+        }
+
+        #cartAlert {
+            display: none;
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border-radius: 5px;
+        }
+       .original-price {
+    text-decoration: line-through;
+    color: gray;
+    margin-right: 10px;
+}
+
+.pay-price {
+    color: green;
+    font-weight: bold;
+}
+/* General styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Bottom Navbar container display: flex;*/
+.bottomNavbar {
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f5f5f5;
+  padding: 15px 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  max-height: 1000%; /* Set a max height for the navbar */
+  overflow-y: auto;  /* Enable vertical scrolling if content overflows */
+  scroll-behavior: smooth; /* Optional: smooth scrolling */
+ 
+}
+/* Total Price section */
+.totalPrice {
+  font-size: 16px;
+  color: #333;
+}
+
+.price {
+  font-weight: bold;
+  color: #2d8b1d;  /* Green for price */
+}
+.item-price {
+  font-weight: bold;
+
+}
+
+.discount {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #e74c3c;  /* Red for discount */
+  font-style: italic;
+}
+
+/* Shipping fee section */
+.shipping-fee {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+  margin-bottom:5%;
+}
+
+/* Total Amount section */
+.totalAmountToPay {
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+}
+
+/* PayPal button container */
+#paypal-button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+
+/* Responsive design for small screens */
+@media screen and (max-width: 768px) {
+  .bottomNavbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .totalPrice {
+    margin-bottom: 10px;
+  }
+
+  .totalAmountToPay {
+    margin-top: 10px;
+  }
+
+  #paypal-button-container {
+    margin-top: 10px;
+    width: 100%;
+  }
+}
+
+
+
+
+    </style>
+<style>
+        /* Container for the hidden content */
+     .confirm {
+
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f4f4f4;
+ 
+            width :40%;
+            margin-bottom: 100px;
+            border: 1px solid #ccc;
+        }
+     .delivery {
+
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+
+            width :100%;
+
+
+        }
+
+@media screen and (max-width: 
+488px) {
+          .confirm {
+
+            width :100%;
+  }
+
+
+} 
+
+
+
+        /* Style for the toggle button */
+        .toggle-btn {
+          margin-top: 10px;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-left :68% ;
+margin-top: -400%;
+        }
+.modal.hidden {
+  display: none;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+      font-weight: bold;
+}
+
+.green-btn {
+  background-color: green;
+  color: white;
+  border: none;
+    padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.red-btn {
+  background-color: red;
+  color: white;
+  border: none;
+    padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.gray-link {
+            color: gray;
+            text-decoration: none; /* Removes underline */
+            font-weight: bold; /* Makes text bold */
+            text-align: right; /* Aligns text to the right */
+            display: block; /* Ensures the link is treated as a block element, enabling right alignment */
+
+        }
+ .logo {
+   
+   margin-bottom : 14px;
+ }  
+ .empty-cart {
+    display: flex;
+    justify-content: center;   /* Centers the text horizontally */
+    align-items: center;       /* Centers the text vertically */
+    height: 100vh;             /* Makes the container take full viewport height */
+    font-size: 20px;
+    
+  margin-left: 100%;
+    /* Adjust font size as needed */
+
+}
+/* Styling for the dark overlay and centered spinner */
+        #loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  display: none;
+  
+        }
+
+        #loading-spinner {
+            font-size: 3rem; /* Make the spinner large */
+            color: white; /* White spinner color */
+        }
+        
+        
+
+
+        #customAlertModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);  /* Dark screen */
+            display: none;  /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;  /* Make sure it overlays everything */
+        }
+
+        /* Modal content */
+        .modal-payment {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            margin: auto;
+        }
+
+        #okButton {
+            background-color: #000000;  /* Black color */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+
+
+/* Media Query for Extra Small Screens (Mobile devices) */
+@media (max-width: 480px) {
+  .modal-payment {
+margin-top: 80%; /* Take up more width on very small screens */
+
+  }
+}
+
+/* Media Query for Small to Medium Screens (Tablets) */
+@media (min-width: 481px) and (max-width: 1024px) {
+  .modal-payment {
+margin-top: 12%; /* Take up more width on very small screens */
+
+  }
+}
+
+
+
+    </style>
+</head>
+
+<div class="container2">
+ <div class="menu-btn">
+    <i class="fas fa-bars fa-2x"></i>
+  </div>
+
+    <!-- Nav -->
+ <nav class="main-nav">
+          <h1 alt="Microsoft" class="logo">
+<i class="fas fa-arrow-left back-button" onclick="goBack()"></i>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+ Order confirmation</h1>
+
+       <div id="navbar"></div>
+</div>
+
+</nav>
+<script src="https://www.paypal.com/sdk/js?client-id=AVdMF1TEsNUQfjkw9ws2tP40ad63FoxcLbN9hT11WnvBPXRU4fCWruU7AGFDcSuqY-MUnWtVLjhkY90W&currency=USD"></script>
+<body>
+
+<br><br><br>
+<div class="cart-container">
+  <!-- Cart items will be dynamically inserted here -->
+  <div id="cartContainer">
+
+  </div>
+  
+</div>
+         <div class="delivery">
+           <p>Your orders will be delivered within 4-9 business days. Due to a temporary shortage of shipping resources, your items may arrive in separate packages on different days. You will be updated with tracking information as your orders are processed. We appreciate your understanding and patience.</p>
+</div>
+
+           <div class="delivery">
+  <div id="addresses">
+    <h4>My address:<h4>
+    <!-- Addresses will be populated here -->
+
+
+
+    <!--Tab to edit-->
+  </href>  
+  </div>
+ </div>
+         <div class="confirm">
+           
+
+    <div class="totalPrice">
+        <div id="totalItemCount">(Items0)</div>   <span class="price" data-price="0">ZAR 0</span>
+        <p class="discount"></p>    
+  <!-- This is where the discount text will appear -->
+       <!-- Hidden content -->
+  
+           
+
+   <div class="shipping-fee"></div>     
+
+ 
+    <div id="paypal-button-container"></div>     </div><!-- PayPal button will be added here -->
+</div>  </div>  
+<button id="clearCartButton" class="clear-cart-button"><i class="fas fa-trash"></i></button>
+<div id="cartAlert">Item has been added to your cart!</div>
+
+   <div class="bottomNavbar">
+<div class="totalAmountToPay"></div>        
+    <div class="hidden-content"></div>
+</div>
+
+
+
+
+
+<div id="clearCartModal" class="modal hidden">
+  <div class="modal-content">
+    <p>Do you really want to clear the cart? </p>
+    <button id="confirmClearCart" class="confirm-btn green-btn">Yes</button>
+    <button id="cancelClearCart" class="cancel-btn red-btn">No</button>
+  </div>
+</div>
+<div id="confirmationModal" class="modal hidden">
+  <div class="modal-content">
+    <p>Do you really want to delete this item? </p>
+    <button id="confirmDelete" class="confirm-btn green-btn">Yes</button>
+    <button id="cancelDelete" class="cancel-btn red-btn">No</button>
+  </div>
+</div>
+
+<!-- Add this inside your HTML where you want the spinner to appear -->
+<div id="loading-overlay">
+        <i id="loading-spinner" class="fas fa-spinner fa-spin"></i><div class"Processing">Processing your payment...</div> 
+    </div>
+<!-- Custom Modal -->
+<div id="customAlertModal" style="display:none;">
+  <div id="alertContent" class="modal-payment">
+    <p id="alertMessage"></p>
+    <button id="okButton">OK</button>
+  </div>
+</div>
+
+
+<script src="https://www.paypal.com/sdk/js?client-id=AVdMF1TEsNUQfjkw9ws2tP40ad63FoxcLbN9hT11WnvBPXRU4fCWruU7AGFDcSuqY-MUnWtVLjhkY90W&currency=USD"></script>
+
+  <div id="Whatsapp_button"></div>
+
+
+</div>  
+
+ 
+ <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNW5B4W9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+<script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
+    import { getAuth } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+    import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBDrzrgLslaJvnXbo1e90irCEtdcm9ZsCU",
+      authDomain: "logins-13661.firebaseapp.com",
+      databaseURL: "https://logins-13661-default-rtdb.firebaseio.com",
+      projectId: "logins-13661",
+      storageBucket: "logins-13661.appspot.com",
+      messagingSenderId: "451535349483",
+      appId: "1:451535349483:web:d3c9867fd2bffbbdca40ae",
+      measurementId: "G-DWP16WX2H7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        alert("You must be logged in to access your profile.");
+        window.location.href = 'login.html'; // Redirect to login page
+      } else {
+        fetchProfile(user.uid);
+        document.getElementById("email"); // Display user email
+      }
+    });
+
+    function fetchProfile(userId) {
+      const profileRef = ref(database, 'profiles/' + userId);
+      onValue(profileRef, (snapshot) => {
+        const profile = snapshot.val();
+        if (profile) {
+          const addressesContainer = document.getElementById("addresses");
+          addressesContainer.innerHTML = ''; // Clear previous addresses
+
+          if (!profile.addresses || Object.keys(profile.addresses).length === 0) {
+            addressesContainer.innerHTML = '<p>No addresses found.</p>';
+            return; // Exit the function if there are no addresses
+          }
+
+          for (const key in profile.addresses) {
+            const address = profile.addresses[key];
+            addressesContainer.innerHTML += 
+              `<h4>Shipping Address:</h4>
+              <p>${address.street}, ${address.complex}, ${address.city}, ${address.suburb}, ${address.postalCode}, ${address.province}, ${address.country}</p>
+              <p>Phone: ${address.phone}</p>
+
+              
+<a href="https://www.example.com" class="gray-link">Edit </a>              
+              
+              `;
+          }
+        } else {
+          // Redirect to Address_Book.html if no profile is found
+          window.location.href = 'Address_Book.html';
+        }
+      });
+    }
+
+  </script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getDatabase, ref as dbRef, get, set, update } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyBDrzrgLslaJvnXbo1e90irCEtdcm9ZsCU",
+        authDomain: "logins-13661.firebaseapp.com",
+        databaseURL: "https://logins-13661-default-rtdb.firebaseio.com",
+        projectId: "logins-13661",
+        storageBucket: "logins-13661.appspot.com",
+        messagingSenderId: "451535349483",
+        appId: "1:451535349483:web:d3c9867fd2bffbbdca40ae",
+        measurementId: "G-DWP16WX2H7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Conversion rates from ZAR to other currencies
+    const conversionRates = {
+        'ZAR': 1, // South African Rand (base currency)
+        'USD': 0.053, // Example rate: 1 ZAR = 0.053 USD
+        'EUR': 0.048 // Example rate: 1 ZAR = 0.048 EUR
+    };
+
+    // Store the user's selected currency (for demo purposes, let's assume it's stored in a variable)
+let storedCurrency = 'ZAR'; // Default currency
+
+// Function to retrieve user's currency preference from Firebase
+async function getCurrencyFromFirebase() {
+    const userId = auth.currentUser ? auth.currentUser.uid : null;
+
+    if (userId) {
+        const userRef = dbRef(db, `users/${userId}/selectedCurrency`);
+        
+        try {
+            const snapshot = await get(userRef);
+            if (snapshot.exists()) {
+                storedCurrency = snapshot.val() || 'ZAR';  // Default to 'ZAR' if no currency is set
+                console.log(`User's currency preference: ${storedCurrency}`);
+                
+                // Store the currency in localStorage to use globally
+                localStorage.setItem('selectedCurrency', storedCurrency);
+            } else {
+                console.log('No currency preference found for the user.');
+            }
+        } catch (error) {
+            console.error('Error fetching currency preference:', error);
+            storedCurrency = 'ZAR';  // Fallback to ZAR if there's an error
+        }
+    }
+}
+
+// Call the function to get the currency from Firebase before using it
+getCurrencyFromFirebase().then(() => {
+    // Now you can use the 'storedCurrency' variable in your app after fetching it from Firebase
+    console.log(`Currency after fetching from Firebase: ${storedCurrency}`);
+});
+    document.addEventListener('DOMContentLoaded', () => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loadCart(user.uid);
+            } else {
+                document.getElementById('cartContainer').innerHTML = '<div class="empty-cart">Please log in to view your cart.</div>';
+
+            }
+            
+            
+        });
+
+
+
+
+
+
+// Function to check the cart and hide the clear button if empty
+async function checkCart() {
+    const user = auth.currentUser;
+    if (user) {
+        try {
+            const userId = user.uid;
+            const cartRef = dbRef(db, 'carts/' + userId);
+
+            // Get the current cart data from the database
+            const snapshot = await get(cartRef);
+            if (snapshot.exists()) {
+                const cart = snapshot.val().cart;
+
+                // If the cart is empty, hide the "Clear Cart" button
+                if (cart && cart.length === 0) {
+                    document.getElementById('clearCartButton').style.display = 'none';
+                } else {
+                    document.getElementById('clearCartButton').style.display = 'inline-block';
+                }
+            }
+        } catch (error) {
+            console.error("Error checking cart:", error);
+        }
+    }
+}
+
+document.getElementById('clearCartButton').addEventListener('click', () => {
+    // Show the confirmation modal
+    document.getElementById('clearCartModal').classList.remove('hidden');
+});
+
+document.getElementById('confirmClearCart').addEventListener('click', async () => {
+    const user = auth.currentUser;
+    if (user) {
+        try {
+            const userId = user.uid;
+            // Clear the user's cart in the database
+            await set(dbRef(db, 'carts/' + userId), { cart: [] });
+            
+            // Update the UI to show that the cart is empty
+            document.getElementById('cartContainer').innerHTML = '<div class="empty-cart">Your cart is empty.</div>';
+        } catch (error) {
+            console.error("Error clearing cart:", error);
+        }
+    }
+
+    // Hide the modal after confirmation
+    document.getElementById('clearCartModal').classList.add('hidden');
+});
+
+document.getElementById('cancelClearCart').addEventListener('click', () => {
+    // Just hide the modal without clearing the cart
+    document.getElementById('clearCartModal').classList.add('hidden');
+});
+
+
+
+
+
+
+        ;
+    });
+const clearCartButton = document.getElementById('clearCartButton');
+const clearCartModal = document.getElementById('clearCartModal');
+const confirmClearCartButton = document.getElementById('confirmClearCart');
+const cancelClearCartButton = document.getElementById('cancelClearCart');
+
+    // Load cart from Firebase
+    async function loadCart(userId) {
+        const cartRef = dbRef(db, 'carts/' + userId);
+        
+       await getCurrencyFromFirebase();  // Make sure to fetch the currency before proceeding 
+                    
+        const snapshot = await get(cartRef);
+
+        if (snapshot.exists() && snapshot.val().cart) {
+            const cartItems = snapshot.val().cart;
+            cartItems.forEach(item => {
+                if (!item.quantity) {
+                    item.quantity = 1;  // Set default quantity if not defined
+                }
+            });
+            displayCart(cartItems);
+        } else {
+            document.getElementById('cartContainer').innerHTML = '<div class="empty-cart">Your cart is empty <i class="fas fa-shopping-cart"></i></div>';
+        }
+    }
+
+function displayCart(cartItems) {
+    const cartContainer = document.getElementById('cartContainer');
+    cartContainer.innerHTML = '';
+
+    if (cartItems.length === 0) {
+        cartContainer.innerHTML = '<div class="empty-cart">You cart is empty</div>';
+        return;
+    }
+
+
+// Define a function to get the total item count from the cart
+function getTotalItemCount(cartItems) {
+    return cartItems.reduce((total, item) => {
+        return total + (item.quantity || 1); // Add the quantity of each item, defaulting to 1 if not defined
+    }, 0);
+}
+
+// Update the total item count in the UI
+function updateTotalItemCount(cartItems) {
+    const totalItemCount = getTotalItemCount(cartItems);
+    const itemCountElement = document.getElementById('totalItemCount');
+    if (itemCountElement) {
+        itemCountElement.innerText = `Item(s): ${totalItemCount}`;
+    }
+}
+
+    cartItems.forEach((item, itemIndex) => {
+        if (typeof item.quantity === 'undefined') {
+            item.quantity = 1;  // Default quantity if not set
+        }
+
+        const designs = Array.isArray(item.designs) ? item.designs : [];
+        const priceInSelectedCurrency = convertPrice(item.cost, storedCurrency);
+let cartContainer = document.querySelector('.cart-container');
+
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('cart-item');
+itemDiv.style.setProperty('--animation-order', itemIndex); // Add this line
+
+        itemDiv.innerHTML = 
+            `<a href="${item.catalogUrl}" target="_blank" class="image-link-button2">
+  
+
+            
+                <h2>${item.title}</h2>
+
+
+
+                <div class="cart-images">
+                    ${designs.map(design => 
+                        `<img src="${design.itemImage}" alt="Design Image" class="cart-item-image">`).join('')}
+                </div>
+            </a>
+        <span class="item-quantity" data-index="${itemIndex}">X${item.quantity}</span>
+
+`;
+
+
+
+
+        cartContainer.appendChild(itemDiv);
+    });
+
+updateTotalPrice(cartItems);
+    updateTotalItemCount(cartItems); // Update the total item count
+}
+
+    async function updateQuantity(itemIndex, change) {
+        const user = auth.currentUser;
+        if (user) {
+            const userId = user.uid;
+            const cartRef = dbRef(db, 'carts/' + userId);
+
+            const snapshot = await get(cartRef);
+            if (snapshot.exists()) {
+                const cartItems = snapshot.val().cart || [];
+                const item = cartItems[itemIndex];
+
+                if (item) {
+                    let currentQuantity = item.quantity || 1;
+                    currentQuantity += change;
+
+                    if (currentQuantity < 1) {
+                        currentQuantity = 1; // Prevent quantity from being less than 1
+                    }
+
+                    item.quantity = currentQuantity;
+
+                    await set(cartRef, { cart: cartItems });
+
+                    displayCart(cartItems);  // Re-render the cart with updated items
+                }
+            }
+        }
+    }
+
+
+
+    // Show alert when item is deleted
+    function showCartAlert() {
+        const alert = document.getElementById('cartAlert');
+        alert.style.display = 'block';
+        setTimeout(() => {
+            alert.style.display = 'none';
+        }, 2000);
+    }
+
+
+    function generateCartId() {
+        return 'cart_' + Math.random().toString(36).substr(2, 9); // Generates a random string like "cart_x8jdy3p94"
+    }
+
+    // Generate timestamp (date and time)
+    function generateTimestamp() {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+
+        return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+    }
+
+
+// Conversion function
+function convertPrice(price, currency) {
+    if (currency === 'USD') {
+        return (price / conversionRates['ZAR'] * conversionRates['USD']).toFixed(2); // Convert ZAR to USD
+    } else if (currency === 'EUR') {
+        return (price / conversionRates['ZAR'] * conversionRates['EUR']).toFixed(2); // Convert ZAR to EUR
+    } else {
+        return price.toFixed(2); // Return price as is for ZAR
+    }
+}
+
+// Function to update the total price (including discounts and shipping fees)
+// Function to update total price, apply discounts, and update the cart
+async function updateTotalPrice(cartItems) {
+    // Step 1: Calculate the total price from cart items (without shipping)
+    const totalPriceZAR = cartItems.reduce((total, item) => {
+        return total + (item.cost * item.quantity); // Sum up item costs with quantities
+    }, 0);
+
+    const shippingFeeZAR = 0; // Default shipping fee
+    let shippingFeeToApply = shippingFeeZAR; // Default shipping fee to apply
+    let totalWithShippingZAR = totalPriceZAR; // Start with total including shipping fee
+    let discounted = false;
+    let discountAmountZAR = 0;
+    let discountPriceZAR = totalWithShippingZAR; // Initialize discountPriceZAR with the total price (including shipping)
+
+    // Step 2: Check if the total price qualifies for free shipping (ZAR > 500)
+    if (totalPriceZAR > 500) {
+        shippingFeeToApply = 0; // Remove shipping fee if total > ZAR 500
+    }
+
+    // Step 3: Apply discounts based on total price (including shipping if applicable)
+    const totalWithPossibleShipping = totalPriceZAR + shippingFeeToApply;
+    if (totalWithPossibleShipping > 1000) {
+        // Apply 10% discount if total (with shipping) exceeds ZAR 1000
+        discounted = true;
+        discountPriceZAR = totalWithPossibleShipping * 0.9; // Apply 10% discount
+        discountAmountZAR = totalWithPossibleShipping - discountPriceZAR; // Calculate discount amount
+    } else if (totalWithPossibleShipping > 400) {
+        // Apply 5% discount if total (with shipping) exceeds ZAR 400
+        discounted = true;
+        discountPriceZAR = totalWithPossibleShipping * 0.95; // Apply 5% discount
+        discountAmountZAR = totalWithPossibleShipping - discountPriceZAR; // Calculate discount amount
+    }
+
+    // Step 4: Convert the values (prices, shipping fee, and discount) into the selected currency
+    const totalPriceConverted = convertPrice(totalPriceZAR, storedCurrency);
+    const shippingFeeConverted = convertPrice(shippingFeeToApply, storedCurrency); // Convert the shipping fee
+    const discountPriceConverted = convertPrice(discountPriceZAR, storedCurrency);
+    const discountAmountConverted = convertPrice(discountAmountZAR, storedCurrency); // Convert discount amount to currency
+
+    // Step 5: Update the cart in Firebase (store discount and shipping fee at the user level)
+    const user = auth.currentUser;
+    if (user) {
+        const userId = user.uid;
+        const cartRef = dbRef(db, 'carts/' + userId);
+
+        // Get current cart items and update them with the new discount and shipping fee at the cart level
+        const snapshot = await get(cartRef);
+        if (snapshot.exists()) {
+            const userCart = snapshot.val();
+
+            // Assuming we want to keep the same cart structure and add/update values at the cart level
+            const updatedCart = { ...userCart };
+
+            // Add discount, shipping fee, and total amount paid to the cart (outside of the items)
+            updatedCart.discountAmountZAR = discountAmountZAR;
+            updatedCart.shippingFeeToApply = shippingFeeToApply;
+            updatedCart.totalAmountPaidZAR = discountPriceZAR + shippingFeeToApply;
+
+            // Save the updated cart back to Firebase (including the updated discount, shipping fee, and totalAmountPaid)
+            await set(cartRef, updatedCart);
+        }
+    }
+
+    // Step 6: Update the HTML with calculated values
+    const totalPriceElement = document.querySelector('.totalPrice .price');
+    const discountElement = document.querySelector('.totalPrice .discount'); // Element to show discount amount
+    const shippingElement = document.querySelector('.shipping-fee'); // Element to show shipping fee
+    const totalAmountElement = document.querySelector('.totalAmountToPay'); // Element to show the total amount to pay (including discount and shipping)
+
+    if (totalPriceElement) {
+        if (discounted) {
+            totalPriceElement.innerHTML = `${storedCurrency} <span class="original-price">${totalPriceConverted}</span> <span class="pay-price">${storedCurrency} ${discountPriceConverted}</span>`;
+        } else {
+            totalPriceElement.innerText = `${storedCurrency} ${totalPriceConverted}`;
+        }
+    }
+
+    if (discountElement) {
+        if (discounted) {
+            discountElement.innerHTML = `Save: ${storedCurrency} ${discountAmountConverted}`;
+        } else {
+            discountElement.innerHTML = ''; // Clear discount if no discount applied
+        }
+    }
+
+    if (shippingElement) {
+        // If shipping fee is removed (over ZAR 500), show "Shipping: ZAR 00.00"
+        if (shippingFeeToApply === 0) {
+            shippingElement.innerHTML = `Shipping fee: ${storedCurrency} 00.00`;
+        } else {
+            // Show the shipping fee normally
+            shippingElement.innerHTML = `Shipping fee: ${storedCurrency} ${shippingFeeConverted}`;
+        }
+    }
+
+    // Step 7: Calculate the total amount to pay (final price including discount and shipping)
+    const totalAmountToPayZAR = discountPriceZAR + shippingFeeToApply;
+    const totalAmountToPayConverted = convertPrice(totalAmountToPayZAR, storedCurrency);
+
+    // Display the total amount to pay (including discount and shipping)
+    if (totalAmountElement) {
+        totalAmountElement.innerHTML = `Total: ${storedCurrency} ${totalAmountToPayConverted}`;
+    }
+
+    // Step 8: Convert the discounted price to USD for PayPal (if discounted, use discountPriceZAR)
+    const totalPriceInUSD = convertPrice(discountPriceZAR, 'USD'); // Always pass the discounted price to PayPal
+    initPayPalButton(totalPriceInUSD, discounted, discountPriceZAR, shippingFeeToApply);  // Initialize PayPal button with USD amount, discount flag, and shipping fee
+}
+
+// Initialize PayPal button with total price in USD
+function initPayPalButton(totalPriceInUSD, discounted, discountPriceZAR, shippingFeeZAR) {
+    document.getElementById('paypal-button-container').innerHTML = '';  // Clear any previous PayPal button
+
+    // If a discount is applied, use the discounted price; otherwise, use the original price
+    const finalPriceInUSD = discounted ? totalPriceInUSD : convertPrice(discountPriceZAR, 'USD');  // Always use the discounted price if applicable
+
+    // Calculate total price including shipping for PayPal (even if shipping is ZAR 00.00)
+    const totalPriceWithShippingUSD = convertPrice(discountPriceZAR + shippingFeeZAR, 'USD'); // Add shipping fee in USD
+        
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                application_context: {
+                    shipping_preference: "NO_SHIPPING"  // Use "NO_SHIPPING" to handle shipping fee separately
+                },
+                purchase_units: [{
+                    amount: {
+                        value: totalPriceWithShippingUSD  // Pass the final price including shipping fee to PayPal
+                    }
+                }]
+            });
+        },
+
+        onApprove: async function(data, actions) {
+            try {
+                // Show the loading spinner
+                showLoading();
+
+                // Capture the payment
+                const details = await actions.order.capture();  // Capture the payment
+
+                // Hide the loading spinner
+                hideLoading();
+
+                document.getElementById('alertMessage').innerText = "Payment successful! Thank you for your purchase.";
+                document.getElementById('customAlertModal').style.display = 'block';
+
+                // Add event listener for the "OK" button to close the modal
+                document.getElementById('okButton').addEventListener('click', function() {
+                    // Hide the modal
+                    document.getElementById('customAlertModal').style.display = 'none';
+
+                    // Redirect to Order_history.html
+                    window.location.href = 'Order_history.html';
+                });
+
+                // Proceed with updating payment status and clearing the cart
+                const user = auth.currentUser;
+                if (user) {
+                    const userId = user.uid;
+                    const cartId = generateCartId();  // Generate unique cartId
+                    const timestamp = generateTimestamp(); // Generate timestamp
+
+                    // Update payment status in Firebase
+                    await updatePaymentStatus(userId, cartId, details, user.email);
+                }
+            } catch (error) {
+                // Hide the loading spinner
+                hideLoading();
+
+                // Payment failed or an error occurred
+                console.error("Error processing payment:", error);
+                
+                document.getElementById('alertMessage').innerText = 'Payment failed! There was an error processing your payment. Please try again later.';
+                document.getElementById('customAlertModal').style.display = 'block';
+                document.getElementById('okButton').addEventListener('click', function() {
+                    document.getElementById('customAlertModal').style.display = 'none';
+                });
+            }
+        }
+    }).render('#paypal-button-container');
+}
+
+// Show the loading spinner
+function showLoading() {
+    document.getElementById('loading-overlay').style.display = 'flex'; // Display the overlay and spinner
+}
+
+// Hide the loading spinner
+function hideLoading() {
+    document.getElementById('loading-overlay').style.display = 'none'; // Hide the overlay and spinner
+}
+
+// Function to clear cart data and remove discount and shipping fee
+async function clearCartData(userId) {
+    const cartRef = dbRef(db, 'carts/' + userId);
+
+    // Clear the cart, discount, and shipping fee after payment
+    await update(cartRef, {
+        cart: [],  // Clear all items in the cart
+        discountAmountZAR: null,  // Remove the discount
+        shippingFeeToApply: null,  // Remove the shipping fee
+        totalAmountPaidZAR: null  // Remove the total amount paid
+    });
+}
+
+// Update payment status in Firebase and clear the cart after payment
+async function updatePaymentStatus(userId, cartId, paymentDetails, userEmail) {
+    const timestamp = generateTimestamp();  // Use timestamp for date/time
+    const cartRef = dbRef(db, 'carts/' + userId);  // Cart data reference
+    
+    const cartSnapshot = await get(cartRef);
+    let cartData = {};
+    if (cartSnapshot.exists()) {
+        cartData = cartSnapshot.val();  // If cart exists, get the cart data
+    }
+
+    // Add totalAmountPaid to the cart data before saving the payment
+    const totalAmountPaidZAR = cartData.totalAmountPaidZAR || 0;
+
+    const updatedCart = { ...cartData };  // Create a copy of the cart data
+    updatedCart.totalAmountPaidZAR = totalAmountPaidZAR; // Add total amount paid to the cart
+
+    const paymentRef = dbRef(db, 'payments/'+ cartId);  // Store payment using cartId
+    
+    // Fetch the user's profile data
+    const profileRef = dbRef(db, 'profiles/' + userId);
+    const profileSnapshot = await get(profileRef);
+    
+    let profileData = {};
+    if (profileSnapshot.exists()) {
+        profileData = profileSnapshot.val();  // If profile exists, get the profile data
+    }
+
+await set(paymentRef, {
+    response: paymentDetails,
+    email: userEmail,
+    timestamp: timestamp,
+    userId: userId,
+    cartId: cartId,
+    profile: profileData,
+    discountAmountZAR: updatedCart.discountAmountZAR,
+    shippingFeeToApply: updatedCart.shippingFeeToApply,
+    totalAmountPaidZAR: totalAmountPaidZAR
+    
+});
+
+// Set status separately in status_cart/
+const statusRef = dbRef(db, 'status_cart/' + cartId);
+await set(statusRef, {
+    status: 'Pending',
+    timestamp: timestamp
+});
+
+    // Move cart to archived
+    await moveCartToArchived(userId, cartId, timestamp, paymentDetails, updatedCart); // Pass updatedCart with discount and shipping fee
+
+    // Clear the cart and remove the specific data from Firebase after payment
+    await clearCartData(userId);  // Clear the cart after successful payment
+}
+
+// Move cart to archived after payment
+async function moveCartToArchived(userId, cartId, timestamp, paymentDetails, updatedCart) {
+    const cartRef = dbRef(db, 'carts/' + userId);
+    const profileRef = dbRef(db, 'profiles/' + userId);
+
+    const cartSnapshot = await get(cartRef);
+    const profileSnapshot = await get(profileRef);
+
+    if (cartSnapshot.exists() && profileSnapshot.exists()) {
+        const cartItems = cartSnapshot.val().cart;
+        const profileData = profileSnapshot.val();
+
+        const archivedCartRef = dbRef(db, 'archivedCarts/' + userId + '/' + cartId);  // Use cartId
+        await set(archivedCartRef, {
+            status: 'completed',
+            cart: cartItems,
+            profile: profileData,
+            timestamp: timestamp,  // Use timestamp for date/time
+            paymentDetails: paymentDetails,
+            discountAmountZAR: updatedCart.discountAmountZAR,  // Include discount amount in archived cart
+            shippingFeeToApply: updatedCart.shippingFeeToApply,  // Include shipping fee in archived cart
+            totalAmountPaidZAR: updatedCart.totalAmountPaidZAR  // Include total amount paid
+        });
+
+        // Optionally delete the cart or mark it as archived
+        await update(dbRef(db, 'carts/' + userId), { cart: [] });
+    }
+}
+</script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+
+
+
+
+

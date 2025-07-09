@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fum.studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            position: fixed; /* Fixes the position of the element */
+            top: 0; /* Aligns it to the top */
+            left: 0; /* Aligns it to the left */
+            width: 100%; /* Makes it full width */
+            background-color: white; /* Background color to make it stand out */
+            padding: 10px; /* Some padding for aesthetics */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+            z-index: 1; /* Ensures it stays on top of other content */
+           margin-top: 50px;
+        }
+      h2{
+         color: #333; 
+      }
+        .catalog-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #fff;
+            position: relative;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+        .slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        .slider img {
+            width: 100%;
+            border-radius: 8px;
+            display: none; /* Hide all images by default */
+            opacity: 0; /* Start with zero opacity */
+            transition: opacity 0.5s ease-in-out; /* Smooth transition for opacity */
+        }
+        .slider img.active {
+            display: block; /* Show active image */
+            opacity: 1; /* Full opacity for the active image */
+        }
+        .details {
+            margin-top: 10px;
+        }
+        .price {
+            font-weight: bold;
+            color: #27ae60;
+        }
+         .original-price {
+        margin-left: 10px;
+    }
+       .original-price {
+           text-decoration: line-through; 
+            color: #999;
+            margin-left: 10px;
+      }
+    .line-through {
+        text-decoration: line-through;
+      
+        position: relative; /* Positioning for the pseudo-element */
+    }
+
+    .line-through:after {
+        content: ""; /* Empty content for the line */
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 1px; /* Thickness of the line */
+        background-color: red; /* Color of the line */
+        transform: translateY(-50%); /* Center the line vertically */
+    }
+        .buy-button {
+            background-color: #70b3b1;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-top: 10px;
+          margin-left: 6px;
+        }
+        .buy-button:hover {
+            background-color: #70b3b1;
+        }
+        .discount-label {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: brown;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .icon {
+            font-size: 34px;
+            margin-right: 10px;
+        }
+        .small {
+            color: gray;
+        }
+        .small2 {
+            color: gray;
+            text-align: center;
+          margin-top:80px;
+         
+        }
+      body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+      }
+
+.container {
+    
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.more-details {
+        background: none; /* Remove background */
+    border: none; /* Remove border */
+    color: #70b3b1; /* Change text color if needed */
+    cursor: pointer; /* Change cursor to pointer */
+   
+}
+      .spacial{
+      color: gray;
+            text-align: center;
+           position: fixed; /* Fixes the position of the element */
+            top: 0; /* Aligns it to the top */
+            left: 0; /* Aligns it to the left */
+            width: 100%; /* Makes it full width */
+            background-color: black; /* Background color to make it stand out */
+            padding: 10px; /* Some padding for aesthetics */
+          
+            z-index: 2; /* Ensures it stays on top of other content */
+           margin-top:-1px;
+} 
+
+.video-container {
+  
+    padding: 10px; /* Space between border and video */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #fff; /* Background color */
+    max-width: 100%; /* Prevents overflow */
+    overflow: hidden; /* Ensures no overflow */
+    position: relative; /* Needed for the responsive aspect ratio */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); /* Optional shadow */ 
+}
+
+.video-container iframe {
+    width: 100%; /* Makes iframe responsive */
+    height: auto; /* Maintains aspect ratio */
+    aspect-ratio: 9 / 16; /* Maintains a 9:16 aspect ratio for vertical videos */
+   border-radius: 8px; /* Rounded corners */
+  
+}
+
+
+      
+    </style>
+</head>
+<body>
+<p class="spacial"><span style="color: white;">Celebrate Love:</span> Custom Gifts at <span style="color: red;">35% Off</span> for a Limited Time!</p> 
+<h1><i class="fas fa-gift icon"></i>Fum.studio</h1>
+<p class="small2">KEEP THE BEST MOMENTS</p>
+
+<!-- Jewelry Necklace Item -->
+<div class="catalog-item">
+
+    <div class="slider">
+        <img src="https://fumstudio.shop/img/offer%201.jpg" alt="Item Image" class="active">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%207.39.30%20AM.jpeg?alt=media&token=b90db890-dafe-418b-a20d-1d6c5db4729d" alt="Item Image">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%207.48.17%20AM.jpeg?alt=media&token=6b192458-be1a-42b7-8079-6f6bd98a2060" alt="Item Image">
+       <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%202.14.54%20PM.jpeg?alt=media&token=646550a3-fd7c-427d-a255-aef1a3c02ed0">  
+    </div>
+    <div class="discount-label">35% Off</div>
+    <div class="details">
+        <h2>Jewelry Necklace</h2>
+        <p class="small">Draw attention to the neckline.</p>
+        <h3 class="price">R179.99<span class="original-price"><span class="line-through">R279.99</span></span></h3><button class="buy-button" onclick='JewelryNecklace()'>ORDER NOW</button>
+       <button class="more-details">More Details</button>
+                <div class="details" style="display:none;">Male | Female,1 Picture or name,color: silver,Pendant: 3.5cm round circle,Necklace sizes: 50cm &58cm, Box color: pink or Lightblue,4x6.</div>
+            </li>
+        </ul>
+  </div>
+    </div>
+</div>
+
+<div class="video-container">
+    <iframe width="360" height="640" src="https://www.youtube.com/embed/65mFN-jugks?autoplay=1&mute=1" frameborder="0" allowfullscreen></iframe>
+</div>  
+<div class="catalog-item">
+<div class="video-container">
+    <iframe width="360" height="640" src="https://www.youtube.com/embed/D7jGe8LF07g?" frameborder="0" allowfullscreen></iframe>
+</div>
+
+<div class="discount-label">10% Off</div>
+    <div class="details">
+        <h2>Pillow case</h2>
+        <p class="small">Transform your space with personalized pillowcases that reflect your unique style and memories</p>
+        <h3 class="price">R279.99<span class="original-price"><span class="line-through">R299.99</span></span></h3><button class="buy-button" onclick='Pillowcase()'>ORDER NOW</button>
+       <button class="more-details">More Details</button>
+                <div class="details" style="display:none;">Pillow case & Cushion,<br>
+        SIZE: 40x40cm (Square),<br>
+        COLOR: White,<br>
+        Picture & Massage (back to back)</div>
+            </li>
+        </ul>
+    </div>
+    </div>
+</div>
+<!-- Tote Bag Item -->
+<div class="catalog-item">
+    <div class="slider">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09863_100320.jpg?alt=media&token=4ba68c59-47ab-4d07-b433-b65462a20776" class="active">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09910_054117.jpg?alt=media&token=2f84e9ae-20fc-452a-a298-3df8519078b3">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09850_100343.jpg?alt=media&token=71528584-72db-4026-a32b-870031bba984">
+        
+       
+    </div>
+    <div class="discount-label">30% Off</div>
+    <div class="details">
+        <h2>Stylish Tote Bag</h2>
+        <p class="small">Perfect for your daily essentials.</p>
+        <h3 class="price">R179.99<span class="original-price"><span class="line-through">R259.99</span></span></h3><button class="buy-button" onclick='toteBag()'>ORDER NOW</button>
+        <button class="more-details">More Details</button>
+                <div class="details" style="display:none;">Male | Female,1 Picture or name</div>
+            </li>
+        </ul>
+    </div>
+    </div>
+</div>
+<!-- Watch Item -->
+<div class="catalog-item">
+    <div class="slider">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%208.31.38%20AM.jpeg?alt=media&token=1eff6436-9b28-4234-8f53-47f7f08baa67" alt="Watch" class="active">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%208.37.08%20AM.jpeg?alt=media&token=6de26d0f-ef39-4590-a15a-b943ed02ce46" alt="Watch">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%208.43.27%20AM.jpeg?alt=media&token=9af9932e-dad8-4dd3-8cdb-e39c04e155cd" alt="Watch">
+    </div>
+    <div class="discount-label">25% Off</div>
+    <div class="details">
+        <h2>Rectangle wood keychain</h2>
+        <p class="small">Experience to see these pictures daily, it's easier to identify your set of keys.</p>
+        <h3 class="price">R109.99<span class="original-price"><span class="line-through">R159.99</span></span></h3><button class="buy-button" onclick='elegantWatch()'>ORDER NOW</button>
+      <button class="more-details">More Details</button>
+                <div class="details" style="display:none;">2 Pictures (back to back),
+  color: black ,Rectangle: 4cm x 6cm,1 Leather Tassel.</div>
+            </li>
+        </ul>
+    </div>  
+    </div>
+</div>
+  
+
+<div class="catalog-item">
+    <div class="slider">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%209.08.57%20AM.jpeg?alt=media&token=4e629be9-d7a2-4c0f-902b-f54e5cf8544e" alt="squre wood keyholder" class="active">
+  
+    </div>
+    <div class="discount-label">30% Off</div>
+    <div class="details">
+        <h2>Squre wood keychain</h2>
+        <p class="small">Experience to see these pictures daily, it's easier to identify your set of keys.</p>
+        <h3 class="price">R99.99<span class="original-price"><span class="line-through">R144.99</span>
+          
+        </span></h3><button class="buy-button" onclick='squrekeyholder()'>ORDER NOW</button>
+     <button class="more-details">More Details</button>
+                <div class="details" style="display:none;">2 Pictures (back to back),
+  color: black ,Square: 5cm x 5cm,1 Leather Tassel.</div>
+            </li>
+        </ul>
+    </div>    
+    </div>
+</div>
+
+<div class="catalog-item">
+    <div class="slider">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%209.20.01%20AM.jpeg?alt=media&token=8cd552e8-3dd4-4a67-aa03-db50546b1f6e" alt="squre wood keyholder" class="active">
+  
+    </div>
+    <div class="discount-label">35% Off</div>
+    <div class="details">
+        <h2>Round wood keychain</h2>
+        <p class="small">Experience to see these pictures daily, it's easier to identify your set of keys.</p>
+        <h3 class="price">R79.99<span class="original-price"><span class="line-through">R119.99</span></span></h3><button class="buy-button" onclick='roundkeyholder()'>ORDER NOW</button>
+     <button class="more-details">More Details</button>
+                <div class="details" style="display:none;">2 Pictures (back to back),
+  color: black ,6cm round circle,1 Leather Tassel.</div>
+            </li>
+        </ul>
+    </div>      
+    </div>
+</div>
+<!-- Watch Item -->
+<div class="catalog-item">
+    <div class="slider">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09759_094002.jpg?alt=media&token=8bf315e4-62ff-4cfa-9739-d5d8cce11258" class="active">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09765_094112.jpg?alt=media&token=69942de2-bab2-4d70-9dc3-c5b51005e344">
+       
+    </div>
+    <div class="discount-label">15% Off</div>
+    <div class="details">
+        <h2>Photo Locket Charm Necklace</h2>
+        <p class="small">Display 2 pictures of love ones.</p>
+        <h3 class="price">R139.99<span class="original-price"><span class="line-through">R159.99</span></span><button class="buy-button" onclick='PhotoLocketCharm()'>ORDER NOW</button></h3>
+    </div>
+</div>
+  <!-- Watch Item -->
+<div class="catalog-item">
+    <div class="slider">
+        <img src=" https://fumstudio.shop/img/Polished-Photo-Locket.jpg" class="active">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09765_094112.jpg?alt=media&token=69942de2-bab2-4d70-9dc3-c5b51005e344">
+       
+    </div>
+    <div class="discount-label">10% Off</div>
+    <div class="details">
+        <h2>Polished Photo Locket Necklace</h2>
+        <p class="small">Display 2 pictures of love ones.</p>
+        <h3 class="price">R129.99<span class="original-price"><span class="line-through">R139.99</span></span><button class="buy-button" onclick='polishedPhotoLocketCharm()'>ORDER NOW</button></h3>
+    </div>
+</div>
+  <div class="catalog-item">
+    <div class="slider">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09749%20(1)_094122.jpg?alt=media&token=d78a099b-ebca-44f5-a2ba-69fa20d7a3f9" class="active">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FUntitled%20design%20(25).png?alt=media&token=eaee5bd9-4581-440a-afee-21e9a773762a">
+       
+    </div>
+    <div class="discount-label">25% Off</div>
+    <div class="details">
+        <h2>Steel Necklace ; 2,5cm photo & photo bracelet 2cm</h2>
+        <p class="small">Display 2 pictures of love ones or spacial date</p>
+        <h3 class="price">R239.99<span class="original-price"><span class="line-through">R299.99</span></span><button class="buy-button" onclick='SteelNecklacephotobracelet()'>ORDER NOW</button></h3>
+    </div>
+</div>
+<div class="catalog-item">
+    <div class="slider">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09816_120013.jpg?alt=media&token=8e93ea45-2fd5-4062-9893-df4b3f20e42f" class="active">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09960%20(1)_021158.jpg?alt=media&token=80662f08-6c3c-485d-adaa-d9205891a421">
+       
+    </div>
+    <div class="discount-label">25% Off</div>
+    <div class="details">
+        <h2>Steel Necklace ,2cm photo & photo bracelet</h2>
+        <p class="small">Display 2 pictures of love ones or spacial date</p>
+        <h3 class="price">R219.99<span class="original-price"><span class="line-through">R289.99</span></span><button class="buy-button" onclick='SteelNecklacephotobracelet2cm()'>ORDER NOW</button></h3>
+    </div>
+</div>
+<div class="catalog-item">
+    <div class="slider">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09934_015528.jpg?alt=media&token=ba610615-0e51-4330-948e-16ec0ecce683" class="active">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09935_015543.jpg?alt=media&token=d6c09cd3-17f0-4c70-ad0d-f4b30d142cce">
+    <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09797%20(2)_075610.jpg?alt=media&token=bb266d32-e99d-4a02-a0b9-114c991cc615">
+            
+    </div>
+    <div class="discount-label">15% Off</div>
+    <div class="details">
+        <h2>Steel Necklace ,2cm photo</h2>
+        <p class="small">Display 1 picture of love one or spacial date</p>
+        <h3 class="price">R120.99<span class="original-price"><span class="line-through">R139.99</span></span><button class="buy-button" onclick='SteelNecklacephoto2cm()'>ORDER NOW</button></h3>
+    </div>
+</div>  
+  <div class="catalog-item">
+    <div class="slider">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09747%20(1)_094144.jpg?alt=media&token=59f95fd5-5f23-407f-bf62-d0f78ded879f" class="active">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FIMG_E2564_034102.jpg?alt=media&token=019b004f-bfea-4d2a-80a2-a12b8f6586e8">
+    
+            
+    </div>
+    <div class="discount-label">10% Off</div>
+    <div class="details">
+        <h2>Steel Necklace 2,5cm photo</h2>
+        <p class="small">Display 1 picture of love one or spacial date</p>
+        <h3 class="price">R139.99<span class="original-price"><span class="line-through">R159.99</span></span><button class="buy-button" onclick='SteelNecklacephoto25cm()'>ORDER NOW</button></h3>
+    </div>
+</div>  
+   <div class="catalog-item">
+    <div class="slider">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09834%20(2)_075454.jpg?alt=media&token=de826be7-3693-4d52-bde0-5708af6d6c14" class="active">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09978%20(1)_021724.jpg?alt=media&token=a0eb1e94-116a-414f-9ce1-d496d5f6c126">
+  <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%2012.36.03%20PM.jpeg?alt=media&token=57aa7712-fa37-4373-a2f6-d6e9c0fda367">  
+ <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%2012.36.05%20PM.jpeg?alt=media&token=e59448a0-09eb-43f4-9718-69761dda9d11">              
+    </div>
+    <div class="discount-label">10% Off</div>
+    <div class="details">
+        <h2>Photo bracelet </h2>
+        <p class="small">Display 1 picture of love one or spacial date</p>
+        <h3 class="price">R119.99<span class="original-price"><span class="line-through">R139.99</span></span><button class="buy-button" onclick='photobracelet()'>ORDER NOW</button></h3>
+        
+    </div>
+</div>
+ 
+  <div class="catalog-item">
+    <div class="slider">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%2012.44.25%20PM.jpeg?alt=media&token=55cd1543-9629-48a1-91f6-4ae26151adb2" class="active">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%2012.44.20%20PM.jpeg?alt=media&token=1423fb55-93b0-440b-83a4-033330a0ce92">
+  <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%2012.49.09%20PM.jpeg?alt=media&token=eaea4653-a379-455f-9080-cb2c6bd2a47a">  
+ </div>
+    
+    <div class="details">
+        <h2>Coffee Mug</h2>
+        <p class="small">Display  picture of love one and spacial words</p>
+        <h3 class="price">R179.99<span class="original-price"><button class="buy-button" onclick='cup()'>ORDER NOW</button></h3>
+           <button class="more-details">More Details</button>
+                <div class="details" style="display:none;">1Mug, color: White, 1 Picture & Massage, GIFT 🎁 Box: White & brown rebel, Jacobs Kronung Instant Coffee 1.8g (2 Sachets)</div>
+            </li>
+        </ul>
+    </div>  
+    </div>
+</div>
+    <div class="catalog-item">
+    <div class="slider">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%201.53.35%20PM.jpeg?alt=media&token=f2657254-eec1-4235-acce-3eb3f3a84f7a" class="active">
+               
+    <div class="details">
+        <h2>Photo frame </h2>
+        <p class="small">Showcase Your Favorite Moments with Beautiful Table Frames!</p>
+        <h3 class="price">R99.99, R159.99 for 2<span class="original-price"></h3><button class="buy-button" onclick='whiteframe4x6()'>ORDER NOW</button>
+          <button class="more-details">More Details</button>
+                <div class="details" style="display:none;">Color white ,4X6 frame ,gift bag</div>
+            </li>
+        </ul>
+    </div>       
+    </div>
+  </div> 
+  <div class="catalog-item">
+    <div class="slider">
+      <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-20%20at%2012.53.19%20AM%20(1).jpeg?alt=media&token=181e3d34-6249-4ec9-8c7f-003feb7545cf" class="active">
+      <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-20%20at%202.18.24%20AM.jpeg?alt=media&token=accb5ca3-9f51-437f-beb9-980cd9cb0902">
+       <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-20%20at%2012.53.18%20AM.jpeg?alt=media&token=b96f316b-a492-4609-980e-e022dc089a2a">
+       <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-20%20at%202.10.47%20AM.jpeg?alt=media&token=e4934132-cea0-4078-9c54-f9da4ac5806a">   
+    <div class="details">
+    </div>
+    <div class="details">
+        <h2>Pesonalized Calendar</h2>
+        <p class="small">Display pictures of love ones ,mark birthday months & elevate your space with a personalized wall calendar – a daily dose of inspiration!</p>
+      
+     <p>A. 5 Photos <span class="price">
+    ZAR 119.99
+</span> </p>
+
+   <p>B. 6-10 Photos <span class="price">
+    ZAR 159.99
+</span> </p>  
+   <p>C. 11-15 Photos <span class="price">
+    ZAR 179.99
+</span> </p> 
+       <button class="buy-button" onclick='Calendar()'>ORDER NOW</button>
+          <button class="more-details">More Details</button>
+                <div class="details" style="display:none;">Calendar size: A3, pictures & spacial names,
+     Laminated ,4 Wall stickers.</div>
+            </li>
+        </ul>
+    </div>       
+    </div>
+  </div>
+ <div class="catalog-item">
+    <div class="slider">
+     
+    <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-20%20at%2012.50.31%20AM.jpeg?alt=media&token=353e557b-cccf-4501-baa7-218d9d377105" class="active">
+       <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-20%20at%2012.49.04%20AM%20(1).jpeg?alt=media&token=2f5e92f5-b194-44e7-9a2a-290606b1612a">
+       <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-20%20at%2012.51.20%20AM.jpeg?alt=media&token=3535e1d0-f478-447a-b44a-0527bfbc295f">
+      <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-20%20at%2012.53.18%20AM.jpeg?alt=media&token=b96f316b-a492-4609-980e-e022dc089a2a">
+      
+    <div class="details">
+        <h2>Pic mixing</h2>
+        <p class="small">"Capture the Moment: A3 Picture Mixing Available Now!</p>
+      
+     <p>A. 5 Photos <span class="price">
+    ZAR 119.99
+</span> </p>
+
+   <p>B. 6-10 Photos <span class="price">
+    ZAR 159.99
+</span> </p>  
+   <p>C. 11-15 Photos <span class="price">
+    ZAR 179.99
+</span> </p> 
+       <button class="buy-button" onclick='picmixing()'>ORDER NOW</button>
+          <button class="more-details">More Details</button>
+                <div class="details" style="display:none;">Size: A3, pictures & spacial names,
+     Laminated ,4 Wall stickers.</div>
+            </li>
+        </ul>
+    </div>       
+    </div>
+  </div> 
+<div class="catalog-item">
+    <div class="slider">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%201.52.46%20PM.jpeg?alt=media&token=63bf2f06-960f-4cd6-a359-96b5b1b5b48d" class="active">
+  
+    </div>
+  <div class="discount-label">10% Off</div> 
+    <div class="details">
+        <h2>A4 white wall frame</h2>
+      <p class="small">Experience to see these pictures daily</p>
+        <h3 class="price">R199.99<span class="original-price"><span class="line-through">R219.99</span></span><button class="buy-button" onclick='whiteA4()'>ORDER NOW</button></h3>
+    
+    </div>
+</div>
+<div class="catalog-item">
+    <div class="slider">
+        <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-20%20at%2012.53.18%20AM%20(1).jpeg?alt=media&token=76b16603-e984-4b02-82d7-1849d063d53a" class="active">
+    <img src="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-20%20at%2012.53.19%20AM.jpeg?alt=media&token=b1152292-38de-4b95-adee-17eef38f6f21">
+      
+    </div>
+ 
+    <div class="details">
+        <h2>Wood table frame</h2>
+      <p class="small">Experience to see these pictures daily</p>
+        <h3 class="price">R159.99<span class="original-price"><button class="buy-button" onclick='Woodtableframe()'>ORDER NOW</button></h3>
+    
+    </div>
+</div>
+<script>
+    const sliders = document.querySelectorAll('.slider');
+
+    sliders.forEach(slider => {
+        let currentIndex = 0; // Track current index for each slider
+        const images = slider.querySelectorAll('img');
+
+        // Show the first image
+        images[currentIndex].classList.add('active');
+
+        setInterval(() => {
+            images[currentIndex].classList.remove('active'); // Remove active class from current image
+            currentIndex = (currentIndex + 1) % images.length; // Move to the next image
+            images[currentIndex].classList.add('active'); // Add active class to the new current image
+        }, 3000); // Change image every 3 seconds
+    });
+document.querySelectorAll('.more-details').forEach(button => {
+    button.addEventListener('click', function() {
+        const details = this.nextElementSibling;
+        if (details.style.display === "none" || details.style.display === "") {
+            details.style.display = "block";
+            this.textContent = "Less Details";
+        } else {
+            details.style.display = "none";
+            this.textContent = "More Details";
+        }
+    });
+});
+
+    function JewelryNecklace() {
+        const message = "Is this still available,https://fumstudio.shop/img/offer%201.jpg";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    }
+
+    function toteBag() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09863_100320.jpg?alt=media&token=4ba68c59-47ab-4d07-b433-b65462a20776";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    }
+
+    function rectanglekeyholder() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%208.43.27%20AM.jpeg?alt=media&token=9af9932e-dad8-4dd3-8cdb-e39c04e155cd";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    }
+  
+   function squrekeyholder() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%209.08.57%20AM.jpeg?alt=media&token=4e629be9-d7a2-4c0f-902b-f54e5cf8544e";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    }
+   function squrekeyholder() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%209.08.57%20AM.jpeg?alt=media&token=4e629be9-d7a2-4c0f-902b-f54e5cf8544e";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    }
+   function roundkeyholder() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%209.20.01%20AM.jpeg?alt=media&token=8cd552e8-3dd4-4a67-aa03-db50546b1f6e";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    } 
+   function PhotoLocketCharm() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09759_094002.jpg?alt=media&token=8bf315e4-62ff-4cfa-9739-d5d8cce11258";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    } 
+  function polishedPhotoLocketCharm() {
+        const message = "Is this still available, https://fumstudio.shop/img/Polished-Photo-Locket.jpg";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    }  
+  function SteelNecklacephotobracelet() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09749%20(1)_094122.jpg?alt=media&token=d78a099b-ebca-44f5-a2ba-69fa20d7a3f9";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    }  
+     function SteelNecklacephotobracelet2cm() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09816_120013.jpg?alt=media&token=8e93ea45-2fd5-4062-9893-df4b3f20e42f";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    } 
+ function SteelNecklacephoto2cm() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09934_015528.jpg?alt=media&token=ba610615-0e51-4330-948e-16ec0ecce683";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    } 
+ function SteelNecklacephoto25cm() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09747%20(1)_094144.jpg?alt=media&token=59f95fd5-5f23-407f-bf62-d0f78ded879f";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    } 
+function photobracelet() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09747%20(1)_094144.jpg?alt=media&token=59f95fd5-5f23-407f-bf62-d0f78ded879f";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    } 
+  function cup() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%2012.44.20%20PM.jpeg?alt=media&token=1423fb55-93b0-440b-83a4-033330a0ce92";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    } 
+  
+    function whiteframe4x6() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%201.53.35%20PM.jpeg?alt=media&token=f2657254-eec1-4235-acce-3eb3f3a84f7a";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    }
+   function Calendar() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-20%20at%2012.53.19%20AM%20(1).jpeg?alt=media&token=181e3d34-6249-4ec9-8c7f-003feb7545cf";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    } 
+    
+      function picmixing() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-20%20at%2012.49.04%20AM%20(1).jpeg?alt=media&token=2f5e92f5-b194-44e7-9a2a-290606b1612a";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    }
+   function whiteA4() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-19%20at%201.52.46%20PM.jpeg?alt=media&token=63bf2f06-960f-4cd6-a359-96b5b1b5b48d";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    }
+   function Woodtableframe() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-20%20at%2012.53.18%20AM%20(1).jpeg?alt=media&token=76b16603-e984-4b02-82d7-1849d063d53a";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    }
+   function Pillowcase() {
+        const message = "Is this still available, https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-10-20%20at%2012.53.18%20AM%20(1).jpeg?alt=media&token=76b16603-e984-4b02-82d7-1849d063d53a";
+        const whatsappNumber = '+27 72 866 2309'; // Update this with your WhatsApp number
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    }
+</script>
+</body>
+</html>
+

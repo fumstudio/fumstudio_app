@@ -1,0 +1,2422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>totebag_custom</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+  
+     <link rel="stylesheet" href="css/Designs.css">
+  <!-- Preconnect and Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Bangers&family=Bungee+Inline&family=Cinzel:wght@400..900&family=Lilita+One&family=Monoton&family=Sarina&family=Satisfy&family=Staatliches&display=swap" rel="stylesheet">
+  
+  <!-- Additional Google Fonts and CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Pacifico&family=Lobster&family=Quicksand&family=Poppins&family=Shrikhand&family=Chewy&display=swap" rel="stylesheet">
+  
+
+<style>
+  
+    .main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+     
+}
+    .editor-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 22px;
+    }
+
+    }
+    .logo-settings {
+    display: flex;
+      flex-direction: column;
+      align-items: center;
+     margin-top: 0px;  
+    }
+    .logo-settings label {
+      font-weight: bold;
+      margin-top: 10px;
+      
+    }
+    .logo-settings input[type="text"],
+    .logo-settings select {
+     margin: 10px;
+      padding: 10px; 
+      width: 300px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    
+@media(min-width: 481px){
+    .logo-settings input[type="text"],
+    .logo-settings select {
+      width: 250px;
+margin-left: 88%;    
+/* Media Query for Small to Medium Screens (Tablets) */
+       }
+} 
+@media(min-width: 481px) and (max-width: 1024px) {
+    .logo-settings input[type="text"],
+    .logo-settings select {
+      width: 250px;
+margin-left: 55%;
+
+/* Take up more width on very small screens */
+
+  }
+}
+@media  (min-width: 481px) and(max-width: 1924px) {
+    .logo-settings input[type="text"],
+    .logo-settings select {
+      width: 250px;
+margin-left: 90%;
+
+/* Take up more width on very small screens */
+
+  }
+}
+    .color-picker {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .color-swatch {
+      width: 30px;
+      height: 30px;
+      border: 2px solid #ccc;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+    .color-swatch:hover {
+      transform: scale(1.2);
+    }
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      width: 300px;
+      height: 400px; 
+      border-radius: 8px;
+
+      position: relative;
+     padding: 10px; 
+      background-image: url('https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FSparkle%20(4).jpg?alt=media&token=1955adcf-00ad-4132-9baf-ad7698bea903');
+      background-size: cover;
+      background-position: center;
+      transition: all 0.5s ease;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      text-align: center;
+       margin-top: -10px;
+    }
+    
+/* Media Query for Small to Medium Screens (Tablets) */
+@media (min-width: 481px) {
+      .logo-container {
+margin-top: 20%;
+
+/* Take up more width on very small screens */
+
+  }
+}
+    .logo-containerNew {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      width: 300px;
+      height: 400px; 
+      border-radius: 8px;
+
+      position: relative;
+     padding: 10px; 
+      background-image: url('https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FSparkle%20(6).jpg?alt=media&token=edd5833b-051e-4dcb-8785-98ff5bce42a3');
+      background-size: cover;
+      background-position: center;
+      transition: all 0.5s ease;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      text-align: center;
+       margin-top: 50px;
+    }
+ /* Media Query for Small to Medium Screens (Tablets) */
+@media (min-width: 700px) {
+      .logo-containernew {
+margin-top: -10%;
+
+/* Take up more width on very small screens */
+
+  }
+}   
+    
+/* Media Query for Small to Medium Screens (Tablets) */
+@media(max-width: 1024px) {
+       .main-container {
+margin-top: 20%;
+ margin-right: 50%;
+/* Take up more width on very small screens */
+
+  }
+}
+@media(max-width: 481px) {
+       .main-container {
+margin-top: 20%;
+margin-left: 50%;
+/* Take up more width on very small screens */
+
+  }
+}
+
+  
+    #loadingScreen, #secondLoadingScreen {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 24px;
+      justify-content: center;
+      align-items: center;
+      z-index: 1001;
+    }
+
+
+
+    #imageContainer img {
+      max-width: 100%;
+      max-height: 100%;
+      transform-origin: center;
+      transition: transform 0.3s ease;
+    }
+        .logo-text, .logo-text2 {
+      z-index: 2;
+      display: block;
+      word-wrap: break-word;
+      line-height: 1.2;
+   margin-top: 170px;
+      margin-left: 50px;
+      color:#000000;
+      font-size: 20px;
+    }
+    .logo-text2 {
+      font-size: 10px;
+      margin-top: 0px;
+            margin-left: 150px;
+    }
+   
+
+  </style>
+
+
+  
+    <style>
+    #loadingScreenNew, #secondLoadingScreenNew {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 24px;
+      justify-content: center;
+      align-items: center;
+      z-index: 1001;
+    }
+
+
+   #imageContainer {
+      width: 105px;
+      height: 105px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0.5px solid  #000000;
+      background-color: #f0f0f0;
+      position: relative;
+      background-image: url('');
+      background-size: 50px 50px;
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer; /* Make the
+      container appear clickable */
+bottom: 282px;
+            margin-right: 27%;
+    }
+
+ #imageContainerNew {
+  width: 105px; /* Keep width for portrait appearance */
+  height: 128px; /* Adjust height for a portrait aspect */
+
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.5px solid #000000;
+  background-color: #f0f0f0;
+  position: relative;
+  background-image: url('');
+  background-size: 80px 80px; /* Adjust background size to better fit the portrait orientation */
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer; /* Makes the container clickable */
+  bottom: 205px;
+  margin-right:8%;
+}
+
+    #imageContainerNew img {
+      max-width: 100%;
+      max-height: 100%;
+      transform-origin: center;
+      transition: transform 0.3s ease;
+    }
+
+#Alert {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    color: black;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1001; 
+    width: 160px;
+    /* Ensure text doesn't stack */
+    
+    flex-wrap: wrap;
+    gap: 10px; /* Adds spacing between elements */
+    align-items: center;
+}
+
+    #overlay {
+                  display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+
+
+
+
+  </style>
+<body>
+
+        <div class="overlay" id="overlay"></div>
+    <div id="Alert">
+
+
+    </div>
+
+
+
+<!-- Modal for confirmation -->
+<div id="confirmationModal" class="modal hidden">
+  <div class="modal-content-delete">
+    <p>Do you really want to delete this photo?</p>
+    <button id="confirmDelete" class="confirm-btn green-btn">Yes</button>
+    <button id="cancelDelete" class="cancel-btn red-btn">No</button>
+  </div>
+</div>
+<!-- Modal for confirmation -->
+<div id="confirmationModalNew" class="modal hidden">
+  <div class="modal-content-delete">
+    <p>Do really you want to delete this photo?</p>
+    <button id="confirmDeleteNew" class="confirm-btn green-btn">Yes</button>
+    <button id="cancelDeleteNew" class="cancel-btn red-btn">No</button>
+  </div>
+</div>
+  <div class="overlay" id="overlay"></div>
+<div id="video-alert">
+<i class="fas fa-times-circle red-icon"></i> You cannot upload videos. Please upload an image.
+</div>   
+     
+  <!-- Dark background overlay (hidden by default) -->
+  <div class="dark-overlay" id="dark-overlay"></div>
+
+  <!-- Font list container (hidden by default) -->
+  <div class="font-container" id="font-container">
+<label><strong>Choose a font:</strong></label>
+<!-- Font list container (hidden by default) -->
+
+          <ul class="font-list">
+            <li class="font-item roboto" onclick="setFont('roboto')">Roboto</li>
+            <li class="font-item pacifico" onclick="setFont('pacifico')">Pacifico</li>
+            <li class="font-item lobster" onclick="setFont('lobster')">Lobster</li>
+            <li class="font-item quicksand" onclick="setFont('quicksand')">Quicksand</li>
+            <li class="font-item poppins" onclick="setFont('poppins')">Poppins</li>
+            <li class="font-item shrikhand" onclick="setFont('shrikhand')">Shrikhand</li>
+            <li class="font-item chewy" onclick="setFont('chewy')">Chewy</li>
+            <li class="font-item bangers" onclick="setFont('bangers')">Bangers</li>
+            <li class="font-item cinzel" onclick="setFont('cinzel')">Cinzel</li>
+            <li class="font-item sarina" onclick="setFont('sarina')">Sarina</li>
+            <li class="font-item satisfy" onclick="setFont('satisfy')">Satisfy</li>
+            <li class="font-item staatliches" onclick="setFont('staatliches')">Staatliches</li>
+          </ul>
+        </div>
+
+ 
+  <div class="editor-container">
+
+    <div class="shift-container">
+
+      <button class="button-animation-shift active" onclick="showSection('section1', this)">Design&nbsp;Front</button>
+<hr>
+      <button class="button-animation-shift" onclick="showSection('section2', this)">Design&nbsp;Back</button>
+    </div>
+
+    <!-- Section 1 -->
+    <div id="section1" class="section active">
+
+     <div class="editor-container">
+ 
+  <div class="main-container">    
+  <div class="logo-container" id="logoContainer">
+    <div class="back">
+ 
+      <div class="overlay"></div>
+      <span id="logoTextPreview1" class="logo-text">First Name</span>
+      <span id="logoTextPreview2" class="logo-text2">Last Name</span>
+      <!-- Image container to upload an image by clicking -->
+
+    </div>
+  </div>
+
+      
+  <div id="imageContainer" style="cursor: pointer;">
+    <i class="fas fa-image"></i>
+    <p>Click here to upload photo.</p>
+    
+    <!-- File input (hidden) -->
+    
+    <input type="file" id="fileInput" style="display: none;">
+  </div>
+      </div>
+      
+
+             <div class="button-container">
+ 
+<button id="positionIcon" class="setting-btn hidden">
+  <span class="bar bar1"></span>
+  <span class="bar bar2"></span>
+  <span class="bar bar1"></span>
+  
+  
+  
+  
+</button>
+
+
+    <button id="resetButton" class="setting-btn hidden"><i class="fa-solid fa-rotate-right"></i></button>
+
+    <div id="buttonContainer">
+      <button id="deleteButton" class="setting-btn  hidden"><i class="fas fa-trash"></i></button>
+    </div>
+</div>    
+ <div class="logo-settings">               
+      <input type="text" id="logoText" placeholder="First name" oninput="updateLogo()" maxlength="14" />
+
+      <label for="secondaryText"></label>
+      <input type="text" id="secondaryText" placeholder="Last name" oninput="updateLogo()" maxlength="14" />
+  <div class="container">    
+
+         <button id="addToCartBtn" type="button" class="button-animation">
+  <span class="fold" ></span>
+
+  <div class="points_wrapper">
+    <i class="point"></i>
+    <i class="point"></i>
+    <i class="point"></i>
+    <i class="point"></i>
+    <i class="point"></i>
+    <i class="point"></i>
+    <i class="point"></i>
+    <i class="point"></i>
+    <i class="point"></i>
+    <i class="point"></i>
+  </div>
+
+  <span class="inner"
+    >
+
+      <polyline
+        points="13.18 1.37 13.18 9.64 21.45 9.64 10.82 22.63 10.82 14.36 2.55 14.36 13.18 1.37"
+      ></polyline></svg
+    > <i id="cartIcon" class="fas fa-shopping-cart" style"color :white"></i>    Add to cart</span
+  >
+
+</button>   
+
+        </div>     
+    </div>    
+          
+<div id="controls">
+ 
+
+</div>
+<div id="secondLoadingScreen">Processing... Please wait</div>
+<div id="loadingScreen" style="display: none;">
+  Uploading... 0%
+</div>
+
+
+
+     
+ 
+
+    <!-- The link will be shown here -->
+<button id="shareButton" style="display:none;">Share Image</button>
+
+ 
+    <!-- Share Link Container -->
+    <div id="shareLinkContainer" style="display:none;">
+      <a id="shareLink" href="#" style="display:none;">Share this logo</a>
+    </div>
+
+
+  <!-- THE NAVBAR NER -->
+
+    <div class="bottom-navbar">
+        <!-- Icon Buttons -->
+
+   <button class="square-button" onclick="generateRandomLogo()"><i class="fa-duotone fa-solid fa-wand-magic-sparkles"></i></button>       
+        <a href="#" id="colorIcon">
+            <i class="fas fa-paint-brush icon"></i> <!-- Paint Brush Icon -->
+            <div id="colorContent" class="content-section">
+                <!-- Content for color icon -->
+           <div class="color-picker">
+<div class="color-swatch" style="background-color: #000000;" onclick="setTextColor('#000000')"></div>             
+<div class="color-swatch" style="background-color:#8808C1 ;" onclick="setTextColor('#8808C1')"></div>
+<div class="color-swatch" style="background-color: #4B6F44;" onclick="setTextColor('#4B6F44')"></div>
+<div class="color-swatch" style="background-color: #4F6F9F;" onclick="setTextColor('#4F6F9F')"></div>
+
+<div class="color-swatch" style="background-color: #A02A2A;" onclick="setTextColor('#A02A2A')"></div>
+
+            </div>
+    
+            </div>
+        </a>
+<button class="square-button" id="autoBreakButton" onclick="toggleAutoBreak()" style="display: none;">
+          <i class="fa-brands fa-autoprefixer"></i>
+        </button>
+        
+    <!-- Button to toggle the font list -->
+        <a href="#" id="fontIcon">
+<i id="toggle-btn" class="fa-solid fa-font"></i></a>
+
+<script>// Toggle the visibility of the font list container and dark overlay
+document.getElementById('toggle-btn').addEventListener('click', function() {
+  const fontContainer = document.getElementById('font-container');
+  const darkOverlay = document.getElementById('dark-overlay');
+  const isVisible = fontContainer.style.display === 'block';
+
+  // Toggle visibility of the font list and dark overlay
+  if (isVisible) {
+    fontContainer.style.display = 'none';
+    darkOverlay.style.display = 'none';
+  } else {
+    fontContainer.style.display = 'block';
+    darkOverlay.style.display = 'block';
+  }
+});
+
+// Set font when a list item is clicked
+function setFont(font) {
+  // Change the font of the body (or label) text
+  document.body.style.fontFamily = font;
+
+  // Add 'selected' class to clicked item
+  const items = document.querySelectorAll('.font-list li');
+  items.forEach(item => item.classList.remove('selected')); // Remove 'selected' from all items
+  event.target.classList.add('selected'); // Add 'selected' to the clicked item
+
+  // Hide the font container and dark overlay immediately
+  document.getElementById('font-container').style.display = 'none';
+  document.getElementById('dark-overlay').style.display = 'none';
+}
+
+// Close font container when clicking on the dark overlay
+document.getElementById('dark-overlay').addEventListener('click', function() {
+  document.getElementById('font-container').style.display = 'none';
+  document.getElementById('dark-overlay').style.display = 'none';
+});</script>
+
+
+
+
+            <div id="positionContent" class="content-section ">
+                <!-- Content for position icon -->
+         <div class="slider-container">
+      <div class="range-display">
+        <label class="slider-label" for="zoomRange">Zoom</label>
+        <input type="range" id="zoomRange" class="slider" min="1" max="3" step="0.1" value="1.5">
+        <span id="zoomValue" class="range-value">1.5</span>
+      </div>
+
+      <div class="range-display">
+        <label class="slider-label" for="moveX">Left | Right</label>
+        <input type="range" id="moveX" class="slider" min="-100" max="100" step="1" value="0">
+        <span id="moveXValue" class="range-value">0</span>
+      </div>
+
+      <div class="range-display">
+        <label class="slider-label" for="moveY">Up | Down</label>
+        <input type="range" id="moveY" class="slider" min="-100" max="100" step="1" value="0">
+        <span id="moveYValue" class="range-value">0</span>
+     
+      </div>
+      
+        <div class="range-display">
+          <label class="slider-label" for="rotateRange">Rotate</label>
+          <input type="range" id="rotateRange" class="slider" min="-180" max="180" step="1" value="0">
+          <span id="rotateValue" class="range-value">0</span>        </div>
+        
+    </div>
+      
+            </div>
+       
+      <div class="square-button" id="toggleItalicBtn"><em>T</em></div>
+    <div class="square-button" id="toggleBoldBtn"><strong>B</strong></div>  
+   
+ 
+    </div>
+    </div>
+        </div>
+        
+
+
+        
+    <!-- Section 2 -->
+    <div id="section2" class="section">
+      <div class="editor-container">
+ 
+  <div class="main-container">    
+  <div class="logo-containerNew" id="logoContainerNew">
+    <div class="back">
+  
+
+
+      <div class="overlay"></div>
+
+    </div>
+  </div>
+     
+  <div id="imageContainerNew" style="cursor: pointer;">
+    <i class="fas fa-image"></i>
+    <p>Click here to upload photo.</p>
+    <!-- File input (hidden) -->
+    <input type="file" id="fileInputNew" style="display: none;">
+  </div>
+      </div>
+             <div class="button-container">
+
+               <button id="positionIconNew" class="setting-btn hidden">
+                 <span class="bar bar1"></span>
+                 <span class="bar bar2"></span>
+                 <span class="bar bar1"></span>
+
+
+
+
+               </button>
+
+
+               <button id="resetButtonNew" class="setting-btn hidden"><i class="fa-solid fa-rotate-right"></i></button>
+
+               <div id="buttonContainerNew">
+                 <button id="deleteButtonNew" class="setting-btn  hidden"><i class="fas fa-trash"></i></button>
+               </div>
+             </div>
+<br><br><br><br>
+
+    <div class="logo-settings">               
+
+
+
+          </div> 
+      
+     </div> 
+    
+          
+<div id="controlsNew">
+ 
+  <div id="shareLinkContainerNew"  style="display: none;">
+
+    <a id="shareLinkNew" href="" target="_blank" style="display: none;">Share Link</a>
+  </div>
+</div>
+<div id="secondLoadingScreenNew">Processing... Please wait</div>
+<div id="loadingScreenNew">
+  Uploading... 0%
+</div>
+ 
+
+    <!-- The link will be shown here -->
+<button id="shareButtonNew" style="display: none;">Share Image</button>
+
+ 
+
+
+<!-- Button to toggle the font list -->
+
+
+
+   <!-- Dark background overlay (hidden by default) -->
+   <div class="dark-overlay" id="dark-overlay"></div>
+
+   
+
+
+    <div class="bottom-navbar">
+        <!-- Icon Buttons -->
+      
+
+
+
+  
+
+
+
+            <div id="positionContentNew" class="content-section">
+                <!-- Content for position icon -->
+         <div class="slider-container">
+      <div class="range-display">
+        <label class="slider-label" for="zoomRangeNew">Zoom</label>
+        <input type="range" id="zoomRangeNew" class="slider" min="1" max="3" step="0.1" value="1.5">
+        <span id="zoomValueNew" class="range-value">1.5</span>
+      </div>
+
+      <div class="range-display">
+        <label class="slider-label" for="moveXNew">Left | Right</label>
+        <input type="range" id="moveXNew" class="slider" min="-100" max="100" step="1" value="0">
+        <span id="moveXValueNew" class="range-value">0</span>
+      </div>
+
+      <div class="range-display">
+        <label class="slider-label" for="moveYNew">Up | Down</label>
+        <input type="range" id="moveYNew" class="slider" min="-100" max="100" step="1" value="0">
+        <span id="moveYValueNew" class="range-value">0</span>
+      </div>
+      
+              <div class="range-display">
+          <label class="slider-label" for="rotateRangeNew">Rotate</label>
+          <input type="range" id="rotateRangeNew" class="slider" min="-180" max="180" step="1" value="0">
+          <span id="rotateValueNew" class="range-value">0</span>        </div>
+    </div>
+      
+            </div>
+        </a>
+
+    </div>    </div>    </div> 
+    
+
+     <!-- JavaScript -->
+    <script>// Function to toggle visibility of content under each icon inside the navbar
+function toggleContent(iconId, contentId, event) {
+    event.preventDefault(); // Prevent default anchor behavior (scroll to top)
+
+    const contentSection = document.getElementById(contentId);
+    const icon = document.getElementById(iconId);
+
+    // If the clicked content is already visible, hide it and remove highlight
+    if (contentSection.classList.contains('active')) {
+        contentSection.classList.remove('active');
+        icon.classList.remove('active-icon'); // Remove highlight
+    } else {
+        // Hide all other content sections and remove highlight from other icons
+        const allSections = document.querySelectorAll('.content-section');
+        allSections.forEach(section => section.classList.remove('active'));
+
+        const allIcons = document.querySelectorAll('.bottom-navbar a');
+        allIcons.forEach(icon => icon.classList.remove('active-icon')); // Remove highlight from all icons
+
+        // Show the clicked content section and highlight the icon
+        contentSection.classList.add('active');
+        icon.classList.add('active-icon'); // Add highlight to the clicked icon
+
+        // Scroll the content section into view (only if needed)
+        contentSection.scrollIntoView({
+            behavior: 'smooth', // Smooth scroll
+            block: 'center',    // Center the element vertically
+            inline: 'center'    // Center the element horizontally (optional)
+        });
+    }
+}
+
+// Prevent the content from closing when clicking inside it (stop event propagation)
+document.querySelectorAll('.content-section').forEach(content => {
+    content.addEventListener('click', function(event) {
+        event.stopPropagation(); // Prevent the click from propagating to the parent icon
+    });
+});
+
+
+// Event listeners for each icon
+document.getElementById('colorIcon').addEventListener('click', function(event) {
+    toggleContent('colorIcon', 'colorContent', event);
+});
+
+
+
+document.getElementById('positionIcon').addEventListener('click', function(event) {
+    toggleContent('positionIcon', 'positionContent', event);
+});
+
+
+
+
+
+
+
+document.getElementById('positionIconNew').addEventListener('click', function(event) {
+    toggleContent('positionIconNew', 'positionContentNew', event);
+});
+     
+
+      
+</script>
+    </div>
+  </div>
+</div>
+
+
+    </div>
+  </div>
+
+
+  <script>
+    // Function to show the selected section and hide others, and update button styles
+    function showSection(sectionId, button) {
+      // Get all sections
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(function(section) {
+        section.classList.remove('active');
+      });
+
+      // Get all buttons
+      const buttons = document.querySelectorAll('.button-animation-shift');
+      buttons.forEach(function(btn) {
+        btn.classList.remove('active');
+      });
+
+      // Show the selected section
+      const selectedSection = document.getElementById(sectionId);
+      selectedSection.classList.add('active');
+
+      // Add active class to the clicked button
+      button.classList.add('active');
+    }
+  </script>
+  
+
+  
+ <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+  import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL,deleteObject } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
+  import { getDatabase, ref, set, get, remove,ref as dbRef } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+  // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBDrzrgLslaJvnXbo1e90irCEtdcm9ZsCU",
+    authDomain: "logins-13661.firebaseapp.com",
+    databaseURL: "https://logins-13661-default-rtdb.firebaseio.com",  // Realtime Database URL
+    projectId: "logins-13661",
+    storageBucket: "logins-13661.appspot.com",
+    messagingSenderId: "451535349483",
+    appId: "1:451535349483:web:d3c9867fd2bffbbdca40ae",
+    measurementId: "G-EWZC4FFTTG"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const storage = getStorage(app);
+  const database = getDatabase(app);  // Initialize Realtime Database
+  const auth = getAuth();
+  const db = getDatabase();
+
+   
+document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('fileInput');
+    const imageContainer = document.getElementById('imageContainer');
+    const deleteButton = document.getElementById('deleteButton');
+    const resetButton = document.getElementById('resetButton');
+    const loadingScreen = document.getElementById('loadingScreen');
+    const secondLoadingScreen = document.getElementById('secondLoadingScreen');
+    const zoomRange = document.getElementById('zoomRange');
+    const moveX = document.getElementById('moveX');
+    const moveY = document.getElementById('moveY');
+    const zoomValue = document.getElementById('zoomValue');
+    const moveXValue = document.getElementById('moveXValue');
+    const moveYValue = document.getElementById('moveYValue');
+    const rotateValue = document.getElementById('rotateValue');
+    const shareButton = document.getElementById('shareButton');
+    const linkContainer = document.getElementById('linkContainer');
+    const imageLink = document.getElementById('imageLink');
+
+
+let autoBreakEnabled = true;
+  let breakSize = 'words';
+  let currentColor = "#000000";
+  let currentFont = "shrikhand";
+  let currentText = "";
+  let secondaryText = "";
+  let uploadedImageUrl = null;
+
+
+    
+    // Firebase Authentication listener
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log('User is logged in:', user.email);  // Logs the user's email
+        console.log('User ID:', user.uid);  // Logs the user's UID
+      } else {
+        console.log('No user is logged in');
+        window.location.href = 'login.html';  // Redirect to login if not authenticated
+      }
+    });
+
+// Handle file selection
+fileInput.addEventListener('change', handleFileSelect);
+resetButton.addEventListener('click', resetTransform);
+deleteButton.addEventListener('click', deleteImage);
+
+zoomRange.addEventListener('input', applyTransform);
+moveX.addEventListener('input', applyTransform);
+moveY.addEventListener('input', applyTransform);
+    rotateRange.addEventListener('input', applyTransform); 
+
+// Modify the image container click behavior
+imageContainer.addEventListener('click', () => {
+  if (uploadedImageUrl) {
+    // If the image has been uploaded, open the URL in a new tab
+    window.open(uploadedImageUrl, '_blank');
+  } else {
+    // If no image is uploaded, trigger the file input dialog
+    console.log("Image container clicked");  // Debug message
+    fileInput.click();  // Trigger the file input dialog
+  }
+});
+
+function videoAlert(message, iconClass = "") {
+  console.log('Displaying cart alert message:', message); // Debugging: Log when cart alert is triggered
+
+  const cartAlert = document.getElementById('Alert');
+  const overlay = document.getElementById('overlay');
+
+  if (cartAlert && overlay) {
+    // Add the icon to the message if an icon class is provided
+    const iconHtml = iconClass ? `<i class="${iconClass}"></i> ` : '';
+    cartAlert.innerHTML = iconHtml + message; // Set the message with the icon inside the cart alert
+    cartAlert.style.display = 'block'; // Show the cart alert
+    overlay.style.display = 'block'; // Show the overlay
+
+    // Start the countdown for hiding the alert
+    startAlertTimeout();
+
+    // Pause the countdown when the user interacts with the overlay or alert
+    overlay.addEventListener('mousedown', pauseAlertCountdown);
+    cartAlert.addEventListener('mousedown', pauseAlertCountdown);
+    overlay.addEventListener('touchstart', pauseAlertCountdown);
+    cartAlert.addEventListener('touchstart', pauseAlertCountdown);
+
+    // Cancel the alert and hide immediately when the user clicks on the alert or overlay
+    overlay.addEventListener('click', cancelAndHideAlert);
+    cartAlert.addEventListener('click', cancelAndHideAlert);
+
+    // Resume countdown after the user stops interacting
+    overlay.addEventListener('mouseup', resumeAlertCountdown);
+    cartAlert.addEventListener('mouseup', resumeAlertCountdown);
+    overlay.addEventListener('touchend', resumeAlertCountdown);
+    cartAlert.addEventListener('touchend', resumeAlertCountdown);
+  } else {
+    console.error('Cart alert or overlay element not found');
+  }
+}
+async function handleFileSelect() { 
+  const user = auth.currentUser;
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const file = fileInput.files[0];
+
+  if (file && file.type.startsWith("video/")) {
+    fileInput.value = "";
+    videoAlert('<i class="fas fa-times-circle red-icon"></i>You cannot upload videos. Please upload an image.');
+    return;
+  }
+
+  if (file) {
+    const userId = user.uid;
+    const userImageRef = dbRef(db, `uploads/${userId}/istagramprofiletotebag`);
+
+    // Check if there's an existing image & delete its reference
+    const snapshot = await get(userImageRef);
+    if (snapshot.exists()) {
+      await remove(userImageRef);
+      console.log("✅ Old image reference deleted from Database");
+    }
+
+    // Upload new image
+    const uniqueFileName = `${Date.now()}-${file.name}`;
+    const storagePath = storageRef(storage, `images/${uniqueFileName}`);
+    const uploadTask = uploadBytesResumable(storagePath, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        loadingScreen.textContent = `Uploading... ${Math.round(progress)}%`;
+        loadingScreen.style.display = "flex";
+      },
+      (error) => {
+        console.error("❌ Upload failed:", error);
+        loadingScreen.style.display = "none";
+      },
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        uploadedImageUrl = downloadURL;
+
+        // Save new image info in Firebase Realtime Database
+        await set(userImageRef, { name: uniqueFileName, url: downloadURL });
+
+        console.log(`✅ New image uploaded successfully: ${uniqueFileName}`);
+
+        // Update UI
+        const imgElement = document.createElement("img");
+        imgElement.src = uploadedImageUrl;
+        imageContainer.innerHTML = "";
+        imageContainer.appendChild(imgElement);
+        imageContainer.style.cursor = "pointer";
+
+        // Add click event to open image in a new tab
+        imageContainer.onclick = () => {
+          if (uploadedImageUrl) {
+            window.open(uploadedImageUrl, "_blank");
+          }
+        };
+
+        loadingScreen.style.display = "none";
+        secondLoadingScreen.style.display = "flex";
+
+        setTimeout(() => {
+          secondLoadingScreen.style.display = "none";
+          applyTransform();
+        }, 5000);
+
+        fileInput.disabled = true;
+        deleteButton.classList.remove("hidden");
+        resetButton.classList.remove("hidden");
+        positionIcon.classList.remove("hidden");
+      }
+    );
+  } else {
+    alert("You can only upload one image. Please delete the existing image first.");
+  }
+}
+
+async function deleteImage() {
+  if (!isDeleteConfirmed) return;
+
+  const user = auth.currentUser;
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const userId = user.uid;
+  const userImageRef = dbRef(db, `uploads/${userId}/istagramprofiletotebag`);
+
+  // Retrieve image name from Firebase
+  const snapshot = await get(userImageRef);
+  if (snapshot.exists()) {
+    const { name } = snapshot.val();
+    const storagePath = storageRef(storage, `images/${name}`);
+
+    try {
+      await deleteObject(storagePath);
+      console.log(`✅ Image ${name} deleted from Storage`);
+    } catch (error) {
+      console.error("❌ Error deleting image:", error);
+    }
+
+    await remove(userImageRef);
+    console.log("✅ Image reference deleted from Database");
+  }
+  // Reset UI
+  imageContainer.innerHTML = '<i class="fas fa-image"></i><p>Click here to upload photo</p>';
+  uploadedImageUrl = null;
+  fileInput.value = "";
+  fileInput.disabled = false;
+  deleteButton.classList.add("hidden");
+  resetButton.classList.add("hidden");
+  positionIcon.classList.add("hidden");
+
+  const positionContent = document.getElementById("positionContent");
+  if (positionContent?.classList.contains("active")) {
+    positionContent.classList.remove("active");
+    positionIcon.classList.remove("active-icon");
+  }
+
+  isDeleteConfirmed = false; // Reset confirmation flag
+  console.log("🗑️ Image deletion process completed.");
+}
+let isDeleteConfirmed = false;
+
+
+
+
+function resetTransform() {
+  zoomRange.value = 1.5;
+  moveX.value = 0;
+  moveY.value = 0;
+  rotateRange.value = 0;
+  applyTransform();
+}
+
+function applyTransform() {
+  const imgElement = imageContainer.querySelector('img');
+  if (imgElement) {
+    imgElement.style.transform = `scale(${zoomRange.value}) translate(${moveX.value}px, ${moveY.value}px) rotate(${rotateRange.value}deg)`;
+    zoomValue.textContent = zoomRange.value;
+    moveXValue.textContent = moveX.value;
+    moveYValue.textContent = moveY.value;
+    rotateValue.textContent = rotateRange.value;
+  }
+}
+
+
+const confirmationModal = document.getElementById('confirmationModal');
+const confirmDelete = document.getElementById('confirmDelete');
+const cancelDelete = document.getElementById('cancelDelete');
+
+
+
+
+// Show the modal when delete button is clicked
+deleteButton.addEventListener('click', function(event) {
+  event.preventDefault();  // Prevent immediate deletion
+  isDeleteConfirmed = false; // Reset the confirmation flag
+  confirmationModal.style.display = 'flex';  // Show the modal
+});
+
+// If 'Yes' is clicked, perform the delete action
+confirmDelete.addEventListener('click', function() {
+  isDeleteConfirmed = true;  // Set the flag to true when confirmed
+  confirmationModal.style.display = 'none';  // Hide the modal
+  deleteImage();  // Call the deleteImage function after confirmation
+});
+
+// If 'No' is clicked, close the modal without deleting
+cancelDelete.addEventListener('click', function() {
+  confirmationModal.style.display = 'none';  // Hide the modal
+});
+
+// Function to delete the image
+
+  function frontphotoalert(message, iconClass = "") {
+  console.log('Displaying cart alert message:', message); // Debugging: Log when cart alert is triggered
+
+  const cartAlert = document.getElementById('Alert');
+  const overlay = document.getElementById('overlay');
+
+  if (cartAlert && overlay) {
+    // Add the icon to the message if an icon class is provided
+    const iconHtml = iconClass ? `<i class="${iconClass}"></i> ` : '';
+    cartAlert.innerHTML = iconHtml + message; // Set the message with the icon inside the cart alert
+    cartAlert.style.display = 'block'; // Show the cart alert
+    overlay.style.display = 'block'; // Show the overlay
+
+    // Start the countdown for hiding the alert
+    startAlertTimeout();
+
+    // Pause the countdown when the user interacts with the overlay or alert
+    overlay.addEventListener('mousedown', pauseAlertCountdown);
+    cartAlert.addEventListener('mousedown', pauseAlertCountdown);
+    overlay.addEventListener('touchstart', pauseAlertCountdown);
+    cartAlert.addEventListener('touchstart', pauseAlertCountdown);
+
+    // Cancel the alert and hide immediately when the user clicks on the alert or overlay
+    overlay.addEventListener('click', cancelAndHideAlert);
+    cartAlert.addEventListener('click', cancelAndHideAlert);
+
+    // Resume countdown after the user stops interacting
+    overlay.addEventListener('mouseup', resumeAlertCountdown);
+    cartAlert.addEventListener('mouseup', resumeAlertCountdown);
+    overlay.addEventListener('touchend', resumeAlertCountdown);
+    cartAlert.addEventListener('touchend', resumeAlertCountdown);
+  } else {
+    console.error('Cart alert or overlay element not found');
+  }
+}
+let alertTimeout;
+let alertStartTime = 0;
+let alertTimeLeft = 3000; // 3 seconds for the alert to auto-dismiss
+function frontphotoalert(message, iconClass = "") {
+  console.log('Displaying cart alert message:', message); // Debugging: Log when cart alert is triggered
+
+  const cartAlert = document.getElementById('Alert');
+  const overlay = document.getElementById('overlay');
+
+  if (cartAlert && overlay) {
+    // Add the icon to the message if an icon class is provided
+    const iconHtml = iconClass ? `<i class="${iconClass}"></i> ` : '';
+    cartAlert.innerHTML = iconHtml + message; // Set the message with the icon inside the cart alert
+    cartAlert.style.display = 'block'; // Show the cart alert
+    overlay.style.display = 'block'; // Show the overlay
+
+    // Start the countdown for hiding the alert
+    startAlertTimeout();
+
+    // Pause the countdown when the user interacts with the overlay or alert
+    overlay.addEventListener('mousedown', pauseAlertCountdown);
+    cartAlert.addEventListener('mousedown', pauseAlertCountdown);
+    overlay.addEventListener('touchstart', pauseAlertCountdown);
+    cartAlert.addEventListener('touchstart', pauseAlertCountdown);
+
+    // Cancel the alert and hide immediately when the user clicks on the alert or overlay
+    overlay.addEventListener('click', cancelAndHideAlert);
+    cartAlert.addEventListener('click', cancelAndHideAlert);
+
+    // Resume countdown after the user stops interacting
+    overlay.addEventListener('mouseup', resumeAlertCountdown);
+    cartAlert.addEventListener('mouseup', resumeAlertCountdown);
+    overlay.addEventListener('touchend', resumeAlertCountdown);
+    cartAlert.addEventListener('touchend', resumeAlertCountdown);
+  } else {
+    console.error('Cart alert or overlay element not found');
+  }
+}
+
+
+// Start the timeout to hide the alert after a certain time
+function startAlertTimeout() {
+  alertStartTime = Date.now();
+  clearTimeout(alertTimeout); // Clear any existing timeouts first
+  alertTimeout = setTimeout(() => {
+    const cartAlert = document.getElementById('Alert');
+    const overlay = document.getElementById('overlay');
+    if (cartAlert && overlay) {
+      console.log("Hiding alert after timeout"); // Debugging: Confirming that timeout is firing
+      cartAlert.style.display = 'none'; // Hide the cart alert
+      overlay.style.display = 'none'; // Hide the overlay
+    } else {
+      console.error('Cart alert or overlay not found during timeout.');
+    }
+    alertTimeLeft = 3000; // Reset time to 5000 after timeout
+  }, alertTimeLeft); // Use current alertTimeLeft
+}
+
+// Pause the countdown without hiding the alert or overlay
+function pauseAlertCountdown() {
+  clearTimeout(alertTimeout); // Stop the countdown
+  console.log("Alert paused, countdown stopped.");
+}
+
+// Cancel and hide the alert immediately when the user clicks or taps on it
+function cancelAndHideAlert(event) {
+  const cartAlert = document.getElementById('Alert');
+  const overlay = document.getElementById('overlay');
+
+  // Hide the alert and overlay immediately
+  if (cartAlert && overlay) {
+    cartAlert.style.display = 'none';
+    overlay.style.display = 'none';
+    console.log("Alert canceled and hidden immediately.");
+  } else {
+    console.error('Cart alert or overlay not found when canceling.');
+  }
+
+  // Reset the countdown immediately when canceled
+  alertTimeLeft = 3000;
+  clearTimeout(alertTimeout); // Clear the current timeout
+  console.log("Countdown reset to 5000.");
+}
+
+// Resume the countdown when the user releases the mouse or touch
+function resumeAlertCountdown() {
+  startAlertTimeout(); // Restart the countdown from the current time left
+  console.log("Alert resumed, countdown restarted.");
+}
+
+// Get the current values from the input fields
+document.getElementById('shareButton').addEventListener('click', async () => {
+  
+          if (!uploadedImageUrl || uploadedImageUrl.trim() === '') {
+        console.log('No photo URL, showing cart alert');  // Debugging: Log when no image URL
+        // If there's no image URL, show the cart alert with an icon
+      frontphotoalert ('<i class="fas fa-times-circle red-icon"></i> Please upload front design photo.');      
+
+        // Add event listener for the "OK" button to close the modal
+
+        return; // Don't proceed with sharing
+    }
+  
+  
+
+  // Get the current values from the input fields
+currentText = document.getElementById('logoText').value || 'Your Logo';
+  secondaryText = document.getElementById('secondaryText').value || 'Secondary Text';
+
+const logoData = {
+    text: currentText,
+    secondaryText: secondaryText,
+    font: currentFont,
+    color: currentColor,
+    autoBreakEnabled: autoBreakEnabled,
+    breakSize: breakSize,
+          isItalic: isItalic || false,  // Whether text is italic
+      isBold: isBold || false,     // Whether text is bold
+    zoom: parseFloat(zoomRange.value), // Use the current zoom value
+    moveX: parseInt(moveX.value, 10), // Use the current moveX value
+    moveY: parseInt(moveY.value, 10),
+    // Use the current moveY value
+    
+   rotate: parseInt(rotateRange.value),
+    url: uploadedImageUrl || '' // Image URL if uploaded
+  };
+
+  try {
+    // Get the current user's UID
+    const user = auth.currentUser;
+    if (!user) {
+      alert("User is not authenticated. Please log in.");
+      return;
+    }
+
+    const userId = user.uid; // Get the user’s unique ID
+
+    // Save the logo data under the user's specific path
+    const newLogoRef = ref(database, 'logos/' + Date.now()); // Use a timestamp for unique logo ID
+    await set(newLogoRef, logoData);
+
+    // Generate the shareable link
+    const shareableUrl = `${window.location.origin}/profile_picture_totebag_customized_front.html?logoId=${newLogoRef.key}`;
+    console.log('Shareable URL:', shareableUrl);
+    window.shareableUrl = shareableUrl;
+    // Update the link container and show the link
+    const shareLink = document.getElementById('shareLink');
+    const shareLinkContainer = document.getElementById('shareLinkContainer');
+    shareLink.href = shareableUrl;
+    shareLink.textContent = 'Click to view the logo';
+    shareLinkContainer.style.display = 'block'; // Show the link container
+  } catch (error) {
+    console.error('Error saving logo data to Firebase:', error.message || error);
+    alert('There was an error saving your logo. Please try again.');
+  }
+});
+
+const urlParams = new URLSearchParams(window.location.search);
+const logoId = urlParams.get('logoId');
+
+if (logoId) {
+  const logoRef = ref(database, 'logos/' + logoId);
+
+  get(logoRef).then((snapshot) => {
+    if (snapshot.exists()) {
+      const logoData = snapshot.val();
+      // Render the logo data on the page (e.g., display text and image)
+      document.getElementById('logoText').textContent = logoData.text;
+      document.getElementById('secondaryText').textContent = logoData.secondaryText;
+      // You can add more logic to render colors, fonts, or the image URL if available
+    } else {
+      console.error('Logo not found');
+      alert('Logo not found!');
+    }
+  }).catch((error) => {
+    console.error('Error fetching logo:', error);
+    alert('Error fetching logo!');
+  });
+}
+
+
+  // File upload handling (optional, if using image upload)
+  document.getElementById('fileInput').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const storageRefPath = storageRef(storage, 'images/' + file.name);
+      const uploadTask = uploadBytesResumable(storageRefPath, file);
+      uploadTask.on('state_changed', (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log(`Upload is ${progress}% done`);
+      }, (error) => {
+        console.error('Upload failed:', error);
+      }, () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          uploadedImageUrl = downloadURL;
+          console.log('Image uploaded successfully:', uploadedImageUrl);
+        });
+      });
+    }
+  });
+  
+
+
+
+
+  // Function to generate a random logo
+  window.generateRandomLogo = function() {
+    const randomFonts = ["shrikhand", "chewy", "Lobster", "Quicksand"];
+    const randomColors = [" #A02A2A", " #4F6F9F", " #4B6F44", " #8808C1"];
+    const randomText = ["Awesome", "Creative", "Logo Design", "Fantastic", "Brand Name"];
+    const randomSecondaryText = ["Tagline", "By Us", "Est. 2024", "Your Brand", "Design Name"];
+
+    const logoTextValue = document.getElementById('logoText').value || randomText[Math.floor(Math.random() * randomText.length)];
+    const secondaryTextValue = document.getElementById('secondaryText').value || randomSecondaryText[Math.floor(Math.random() * randomSecondaryText.length)];
+
+    const randomFont = randomFonts[Math.floor(Math.random() * randomFonts.length)];
+    const randomColor = randomColors[Math.floor(Math.random() * randomColors.length)];
+
+    document.getElementById('logoText').value = logoTextValue;
+    document.getElementById('secondaryText').value = secondaryTextValue;
+    setFont(randomFont);
+    
+    setTextColor(randomColor);
+  };
+
+
+  let currentUserId = null;
+let isShared = false;
+
+let isItalic = false;  // This will track whether italic is enabled
+let isBold = false;     // Set this to true to make the font bold by default
+
+
+
+  function toggleItalic() {
+    isItalic = !isItalic;
+    updateLogo();
+    const toggleButton = document.getElementById('toggleItalicBtn');
+    toggleButton.innerText = isItalic ? 'T' : 'T';
+    toggleButton.style.fontStyle = isItalic ? 'normal' : 'italic';
+  }
+
+  function toggleBold() {
+    isBold = !isBold;
+    updateLogo();
+    const toggleButton = document.getElementById('toggleBoldBtn');
+    
+      toggleButton.innerText = isBold ? 'B' : 'B';
+
+    toggleButton.style.fontWeight = isBold ? 'normal' : 'bold';
+  }
+
+  document.getElementById('toggleItalicBtn').addEventListener('click', toggleItalic);
+  document.getElementById('toggleBoldBtn').addEventListener('click', toggleBold);
+
+  function adjustLogoTextFontSize(element) {
+    let textLength = element.textContent.length;
+    const containerWidth = element.offsetWidth;
+    const containerHeight = element.offsetHeight;
+
+    let baseFontSize = 10;
+
+    if (textLength <= 10) {
+      baseFontSize = 90;
+    } else if (textLength <= 20) {
+      baseFontSize = 40;
+    } else if (textLength <= 30) {
+      baseFontSize = 30;
+    } else if (textLength <= 50) {
+      baseFontSize = 20;
+    } else {
+      baseFontSize = 30;
+    }
+
+    let scaleFactor = Math.min(containerWidth / (textLength * 500), containerHeight / 10);
+    const adjustedFontSize = Math.max(baseFontSize * scaleFactor, 20);
+
+    element.style.fontSize = `${adjustedFontSize}px`;
+  }
+
+  function adjustSecondaryTextFontSize(element) {
+    const containerWidth = document.getElementById('logoContainer').offsetWidth;
+    const containerHeight = document.getElementById('logoContainer').offsetHeight;
+    let fontSize = 15;
+
+    const textLength = element.textContent.replace(/\s/g, '').length;
+    fontSize = Math.max(10, Math.min(15, 15 - textLength / 4));
+
+    element.style.fontSize = `${fontSize}px`;
+  }
+
+  function breakTextIntoChunks(text, breakSize) {
+    if (autoBreakEnabled === 'word') {
+      return breakTextByWords(text, breakSize);
+    } else if (autoBreakEnabled === 'character') {
+      return breakTextByCharacters(text, breakSize);
+    }
+    return text;
+  }
+
+  function breakTextByWords(text, breakSize) {
+    const words = text.split(/\s+/);
+    let chunks = [];
+    let currentChunk = '';
+
+    for (let word of words) {
+      if (word.length >= 13) {
+        while (word.length >= 13) {
+          chunks.push(word.substring(0, 13));
+          word = word.substring(13);
+        }
+        if (word.length > 0) {
+          currentChunk += word;
+        }
+      } else {
+        if (currentChunk.length + word.length + 1 <= breakSize) {
+          currentChunk += (currentChunk.length > 0 ? ' ' : '') + word;
+        } else {
+          chunks.push(currentChunk);
+          currentChunk = word;
+        }
+      }
+    }
+
+    if (currentChunk.length > 0) {
+      chunks.push(currentChunk);
+    }
+
+    return chunks.join('<br>');
+  }
+
+  function breakTextByCharacters(text, breakSize) {
+    const chars = text.split('');
+    let formattedText = '';
+    let chunk = '';
+
+    for (let i = 0; i < chars.length; i++) {
+      chunk += chars[i];
+
+      if ((i + 1) % 3 === 0 || i === chars.length - 1) {
+        formattedText += chunk + '<br>';
+        chunk = '';
+      }
+    }
+    return formattedText.trim();
+  }
+
+  // Function to set the font for logo text
+  function setFont(font) {
+    currentFont = font;
+    updateLogo();  // Update the logo with the selected font
+  }
+  // Function to set the font for logo text
+  window.setFont = function(font) {
+      currentFont = font;
+      updateLogo(); // Update the logo with the selected font
+          // Hide the font container and overlay when a font is selected
+      document.getElementById('font-container').style.display = 'none';
+      document.getElementById('dark-overlay').style.display = 'none';
+
+    }
+    
+    
+  window.updateLogo = function() {
+    let logoText = document.getElementById('logoText').value || '';
+    let secondaryText = document.getElementById('secondaryText').value || '';
+
+    logoText = logoText.substring(0, 150);
+    secondaryText = secondaryText.substring(0, 150);
+
+    const formattedText = breakTextIntoChunks(logoText, 25);
+  const formattedSecondaryText = secondaryText;
+
+    const logoTextPreview1 = document.getElementById('logoTextPreview1');
+    const logoTextPreview2 = document.getElementById('logoTextPreview2');
+
+    logoTextPreview1.innerHTML = formattedText;
+    logoTextPreview2.innerHTML = formattedSecondaryText;
+
+    logoTextPreview1.style.color = currentColor;
+    logoTextPreview2.style.color = currentColor;
+    logoTextPreview1.style.fontFamily = currentFont;
+    logoTextPreview2.style.fontFamily = currentFont;
+
+    if (isItalic) {
+      logoTextPreview1.style.fontStyle = 'italic';
+      logoTextPreview2.style.fontStyle = 'italic';
+    } else {
+      logoTextPreview1.style.fontStyle = 'normal';
+      logoTextPreview2.style.fontStyle = 'normal';
+    }
+
+    if (isBold) {
+      logoTextPreview1.style.fontWeight = 'bold';
+      logoTextPreview2.style.fontWeight = 'bold';
+    } else {
+      logoTextPreview1.style.fontWeight = 'normal';
+      logoTextPreview2.style.fontWeight = 'normal';
+    }
+
+    adjustLogoTextFontSize(logoTextPreview1);
+    adjustSecondaryTextFontSize(logoTextPreview2);
+
+    if (currentUserId) {
+      saveLogoData(currentUserId, logoText, secondaryText, currentFont, currentColor, autoBreakEnabled);
+    }
+  };
+
+  window.toggleAutoBreak = function() {
+    if (autoBreakEnabled === 'word') {
+      autoBreakEnabled = 'character';
+      document.getElementById('autoBreakButton').innerText = 'Auto Break: 1-3 Characters';
+    } else {
+      autoBreakEnabled = 'word';
+      document.getElementById('autoBreakButton').innerText = 'Auto Break: Every 2 Words';
+    }
+    updateLogo();
+  };
+
+
+
+  window.setTextColor = function(color) {
+    currentColor = color;
+    updateLogo();
+  };
+
+window.onload = function() {
+    // Get the URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const logoId = urlParams.get('logoId'); // Used for logo text and settings
+    const imageId = urlParams.get('logoId'); // Used for image URL and transformations
+  
+    // If logoId is present, load the logo data (text, font, color, etc.)
+    if (logoId) {
+      const dbRef = ref(database, 'logos/' + logoId);
+      get(dbRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          const logoData = snapshot.val();
+  
+          // Set the logo text and settings
+          document.getElementById('logoText').value = logoData.text;
+          document.getElementById('secondaryText').value = logoData.secondaryText;
+     currentFont = logoData.font  || 'Roboto';
+          currentColor = logoData.color;
+          autoBreakEnabled = logoData.autoBreakEnabled; // Load auto break state
+          breakSize = logoData.breakSize; // Load break size
+          isItalic = logoData.isItalic || false; // Set italic state
+          isBold = logoData.isBold || false; // Set bold state Whether text is bold
+          // Update the logo (assumed to be a separate function)
+          updateLogo();
+        } else {
+          console.log("Logo not found.");
+        }
+      })
+    }
+  
+    // If imageId is present, load the image and transformations (zoom, move, etc.)
+    if (imageId) {
+      const imageRef = ref(database, 'logos/' + imageId);
+      get(imageRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          const logoData = snapshot.val();
+  
+          // Set the image source and transformation values from Realtime Database
+          const imageContainer = document.getElementById('imageContainer');
+          const imgElement = document.createElement('img');
+          imgElement.src = logoData.url;
+          imageContainer.innerHTML = '';
+          imageContainer.appendChild(imgElement);
+  
+          // Load and display transformation values
+          zoomRange.value = logoData.zoom;
+          moveX.value = logoData.moveX;
+          moveY.value = logoData.moveY;
+              rotateRange.value = logoData.rotate;
+
+          document.getElementById('zoomValue').textContent = logoData.zoom;
+          document.getElementById('moveXValue').textContent = logoData.moveX;
+          document.getElementById('moveYValue').textContent = logoData.moveY;
+              document.getElementById('rotateValue').textContent = logoData.rotate;
+
+          // Apply transformations
+          applyTransform();
+        } else {
+          console.log("No image data found for this ID.");
+        }
+      })
+    }
+};
+  });  
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const fileInputNew = document.getElementById('fileInputNew');
+    const imageContainerNew = document.getElementById('imageContainerNew');
+    const deleteButtonNew = document.getElementById('deleteButtonNew');
+    const resetButtonNew = document.getElementById('resetButtonNew');
+    const loadingScreenNew = document.getElementById('loadingScreenNew');
+    const secondLoadingScreenNew = document.getElementById('secondLoadingScreenNew');
+    const zoomRangeNew = document.getElementById('zoomRangeNew');
+    const moveXNew = document.getElementById('moveXNew');
+    const moveYNew = document.getElementById('moveYNew');
+    const zoomValueNew = document.getElementById('zoomValueNew');
+    const moveXValueNew = document.getElementById('moveXValueNew');
+    const moveYValueNew = document.getElementById('moveYValueNew');
+        const rotateValueNew = document.getElementById('rotateValueNew');
+    const shareButtonNew = document.getElementById('shareButtonNew');
+    const linkContainerNew = document.getElementById('linkContainerNew');
+    const imageLinkNew = document.getElementById('imageLinkNew');
+
+
+
+  let uploadedImageUrlNew = null;
+
+ let autoBreakEnabled = true;
+  let breakSize = 3;
+  let currentColor = "#000000";
+  let currentFont = "shrikhand";
+  let currentText = "";
+  let secondaryText = "";
+  let uploadedImageUrl = null;
+  
+    // Firebase Authentication listener
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log('User is logged in:', user.email);  // Logs the user's email
+        console.log('User ID:', user.uid);  // Logs the user's UID
+      } else {
+        console.log('No user is logged in');
+
+      }
+    });
+
+
+// Handle file selection
+    fileInputNew.addEventListener('change', handleFileSelect);
+    resetButtonNew.addEventListener('click', resetTransform);
+    deleteButtonNew.addEventListener('click', deleteImage);
+
+    zoomRangeNew.addEventListener('input', applyTransformNew);
+    moveXNew.addEventListener('input', applyTransformNew);
+    moveYNew.addEventListener('input', applyTransformNew);
+    rotateRangeNew.addEventListener('input', applyTransformNew);
+
+    imageContainerNew.addEventListener('click', () => {
+      console.log("Image container clicked");  // Debug message
+      fileInputNew.click();  // Trigger the file input dialog
+    });
+
+
+function videoAlertNew(message, iconClass = "") {
+  console.log('Displaying cart alert message:', message); // Debugging: Log when cart alert is triggered
+
+  const cartAlert = document.getElementById('Alert');
+  const overlay = document.getElementById('overlay');
+
+  if (cartAlert && overlay) {
+    // Add the icon to the message if an icon class is provided
+    const iconHtml = iconClass ? `<i class="${iconClass}"></i> ` : '';
+    cartAlert.innerHTML = iconHtml + message; // Set the message with the icon inside the cart alert
+    cartAlert.style.display = 'block'; // Show the cart alert
+    overlay.style.display = 'block'; // Show the overlay
+
+    // Start the countdown for hiding the alert
+    startAlertTimeout();
+
+    // Pause the countdown when the user interacts with the overlay or alert
+    overlay.addEventListener('mousedown', pauseAlertCountdown);
+    cartAlert.addEventListener('mousedown', pauseAlertCountdown);
+    overlay.addEventListener('touchstart', pauseAlertCountdown);
+    cartAlert.addEventListener('touchstart', pauseAlertCountdown);
+
+    // Cancel the alert and hide immediately when the user clicks on the alert or overlay
+    overlay.addEventListener('click', cancelAndHideAlert);
+    cartAlert.addEventListener('click', cancelAndHideAlert);
+
+    // Resume countdown after the user stops interacting
+    overlay.addEventListener('mouseup', resumeAlertCountdown);
+    cartAlert.addEventListener('mouseup', resumeAlertCountdown);
+    overlay.addEventListener('touchend', resumeAlertCountdown);
+    cartAlert.addEventListener('touchend', resumeAlertCountdown);
+  } else {
+    console.error('Cart alert or overlay element not found');
+  }
+}
+    
+
+async function handleFileSelect() {
+  const user = auth.currentUser;
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const file = fileInputNew.files[0];
+
+  if (file && file.type.startsWith("video/")) {
+    fileInputNew.value = ""; // Reset file input
+    videoAlertNew('<i class="fas fa-times-circle red-icon"></i>You cannot upload videos. Please upload an image.');
+    return;
+  }
+
+  if (file && !uploadedImageUrlNew) {
+    const uniqueFileName = `${Date.now()}-${file.name}`;
+    const storagePath = storageRef(storage, `images/${uniqueFileName}`);
+    const uploadTask = uploadBytesResumable(storagePath, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        loadingScreenNew.textContent = `Uploading... ${Math.round(progress)}%`;
+        loadingScreenNew.style.display = "flex";
+      },
+      (error) => {
+        console.error("❌ Upload failed:", error);
+        loadingScreenNew.style.display = "none";
+      },
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        uploadedImageUrlNew = downloadURL;
+
+        const userId = user.uid;
+        const imageRef = dbRef(db, `uploads/${userId}/istagramprofiletotebagnew`);
+        await set(imageRef, { name: uniqueFileName, url: downloadURL });
+
+        console.log(`✅ Image uploaded successfully: ${uniqueFileName}`);
+
+        // Update UI
+        const imgElement = document.createElement("img");
+        imgElement.src = uploadedImageUrlNew;
+        imageContainerNew.innerHTML = "";
+        imageContainerNew.appendChild(imgElement);
+        imageContainerNew.style.cursor = "pointer"; // Change cursor to indicate it's clickable
+
+        // Add event listener to open image in new tab
+        imageContainerNew.onclick = () => {
+          if (uploadedImageUrlNew) {
+            window.open(uploadedImageUrlNew, "_blank");
+          }
+        };
+
+        loadingScreenNew.style.display = "none";
+        secondLoadingScreenNew.style.display = "flex";
+
+        setTimeout(() => {
+          secondLoadingScreenNew.style.display = "none";
+          applyTransformNew();
+        }, 5000);
+
+        fileInputNew.disabled = true;
+        deleteButtonNew.classList.remove("hidden");
+        resetButtonNew.classList.remove("hidden");
+        positionIconNew.classList.remove("hidden");
+      }
+    );
+  } else {
+    alert("You can only upload one image. Please delete the existing image first.");
+  }
+}
+
+async function deleteImage() {
+  const user = auth.currentUser;
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  if (!isDeleteConfirmed) return;
+
+  try {
+    console.log(`🗑️ Attempting to delete image for user ${user.uid}...`);
+
+    const userId = user.uid;
+    const imageRef = dbRef(db, `uploads/${userId}/istagramprofiletotebagnew`);
+    const snapshot = await get(imageRef);
+
+    if (snapshot.exists()) {
+      const { name } = snapshot.val();
+
+      if (name) {
+        const storagePath = storageRef(storage, `images/${name}`);
+
+        await deleteObject(storagePath)
+          .then(() => console.log("✅ Image deleted from Firebase Storage"))
+          .catch((error) => console.error("❌ Error deleting from Storage:", error));
+      }
+
+      await remove(imageRef)
+        .then(() => console.log("✅ Image reference deleted from Firebase Database"))
+        .catch((error) => console.error("❌ Error deleting from Database:", error));
+    } else {
+      console.log("⚠️ No image found in Firebase Database.");
+    }
+  } catch (error) {
+    console.error("❌ Error during deletion process:", error);
+  }
+
+  imageContainerNew.innerHTML = '<i class="fas fa-image"></i><p>Click here to upload photo</p>';
+  uploadedImageUrlNew = null;
+  fileInputNew.value = "";
+  fileInputNew.disabled = false;
+  deleteButtonNew.classList.add("hidden");
+  resetButtonNew.classList.add("hidden");
+  positionIconNew.classList.add("hidden");
+
+  imageContainerNew.style.cursor = "default"; // Remove pointer cursor
+  imageContainerNew.onclick = null; // Remove click event
+
+  const positionContentNew = document.getElementById("positionContentNew");
+  if (positionContentNew?.classList.contains("active")) {
+    positionContentNew.classList.remove("active");
+    positionIconNew.classList.remove("active-icon");
+  }
+
+  isDeleteConfirmed = false;
+  console.log("✅ Image deletion process completed.");
+}
+    function resetTransform() {
+      zoomRangeNew.value = 1.5;
+      moveXNew.value = 0;
+      moveYNew.value = 0;
+  rotateRangeNew.value = 0;
+      applyTransformNew();
+    }
+
+const confirmationModalNew = document.getElementById('confirmationModalNew');
+const confirmDeleteNew = document.getElementById('confirmDeleteNew');
+const cancelDeleteNew = document.getElementById('cancelDeleteNew');
+
+
+
+
+let isDeleteConfirmed= false;
+
+
+// Show the modal when delete button is clicked
+deleteButtonNew.addEventListener('click', function(event) {
+  event.preventDefault();  // Prevent immediate deletion
+  isDeleteConfirmed= false; // Reset the confirmation flag
+  confirmationModalNew.style.display = 'flex';  // Show the modal
+});
+
+// If 'Yes' is clicked, perform the delete action
+confirmDeleteNew.addEventListener('click', function() {
+  isDeleteConfirmed= true;  // Set the flag to true when confirmed
+  confirmationModalNew.style.display = 'none';  // Hide the modal
+  deleteImage();  // Call the deleteImage function after confirmation
+});
+
+// If 'No' is clicked, close the modal without deleting
+cancelDeleteNew.addEventListener('click', function() {
+  confirmationModalNew.style.display = 'none';  // Hide the modal
+});
+
+// Function to delete the image
+
+   
+
+
+function backgroundphotoAlert(message, iconClass = "") {
+  console.log('Displaying cart alert message:', message); // Debugging: Log when cart alert is triggered
+
+  const cartAlert = document.getElementById('Alert');
+  const overlay = document.getElementById('overlay');
+
+  if (cartAlert && overlay) {
+    // Add the icon to the message if an icon class is provided
+    const iconHtml = iconClass ? `<i class="${iconClass}"></i> ` : '';
+    cartAlert.innerHTML = iconHtml + message; // Set the message with the icon inside the cart alert
+    cartAlert.style.display = 'block'; // Show the cart alert
+    overlay.style.display = 'block'; // Show the overlay
+
+    // Start the countdown for hiding the alert
+    startAlertTimeout();
+
+    // Pause the countdown when the user interacts with the overlay or alert
+    overlay.addEventListener('mousedown', pauseAlertCountdown);
+    cartAlert.addEventListener('mousedown', pauseAlertCountdown);
+    overlay.addEventListener('touchstart', pauseAlertCountdown);
+    cartAlert.addEventListener('touchstart', pauseAlertCountdown);
+
+    // Cancel the alert and hide immediately when the user clicks on the alert or overlay
+    overlay.addEventListener('click', cancelAndHideAlert);
+    cartAlert.addEventListener('click', cancelAndHideAlert);
+
+    // Resume countdown after the user stops interacting
+    overlay.addEventListener('mouseup', resumeAlertCountdown);
+    cartAlert.addEventListener('mouseup', resumeAlertCountdown);
+    overlay.addEventListener('touchend', resumeAlertCountdown);
+    cartAlert.addEventListener('touchend', resumeAlertCountdown);
+  } else {
+    console.error('Cart alert or overlay element not found');
+  }
+}
+
+document.getElementById('shareButtonNew').addEventListener('click', async () => {
+  
+
+        if (!uploadedImageUrlNew || uploadedImageUrlNew.trim() === '') {
+        console.log('No photo URL, showing cart alert');  // Debugging: Log when no image URL
+        // If there's no image URL, show the cart alert with an icon
+
+    backgroundphotoAlert ('<i class="fas fa-times-circle red-icon"></i>\n\nPlease upload the back design photo.');
+
+
+        // Add event listener for the "OK" button to close the modal
+
+        return; // Don't proceed with sharing
+    }
+
+
+    
+  
+  const logoDataNew = {
+
+    zoomNew: parseFloat(zoomRangeNew.value),
+    moveXNew: parseInt(moveXNew.value, 10),
+    moveYNew: parseInt(moveYNew.value, 10),
+   rotateNew: parseInt(rotateRangeNew.value),
+    urlNew: uploadedImageUrlNew || ''
+  };
+
+  try {
+    const user = auth.currentUser;
+    if (!user) {
+      alert("User is not authenticated. Please log in.");
+      return;
+    }
+
+
+      
+
+    const userId = user.uid;
+    const newLogoRef = ref(database, 'logos/' + Date.now());
+    await set(newLogoRef, logoDataNew);
+
+    const shareableUrlNew = `${window.location.origin}/Instagram_totebag_customized.html?logoId=${newLogoRef.key}`;
+    console.log('Shareable URL:', shareableUrlNew);
+
+    // Set the global variable for the new URL
+    window.shareableUrlNew = shareableUrlNew;
+
+    // Update UI to show the link to the user
+    const shareLinkNew = document.getElementById('shareLinkNew');
+    const shareLinkContainerNew = document.getElementById('shareLinkContainerNew');
+    shareLinkNew.href = shareableUrlNew;
+    shareLinkNew.textContent = 'Click to view the second logo';
+    shareLinkContainerNew.style.display = 'block';
+  } catch (error) {
+    console.error('Error saving logo data to Firebase:', error.message || error);
+    alert('There was an error saving your logo. Please try again.');
+  }
+});
+
+
+
+// Function to handle the "Add to Cart" logic
+function generateItemId() {
+    return 'item-' + Math.random().toString(36).substr(2, 9); // Generate a random ID for uniqueness
+}
+
+
+let alertTimeout;
+let alertStartTime = 0;
+let alertTimeLeft = 3000; // 3 seconds for the alert to auto-dismiss
+function itemAddedAlert(message, iconClass = "") {
+  console.log('Displaying cart alert message:', message); // Debugging: Log when cart alert is triggered
+
+  const cartAlert = document.getElementById('Alert');
+  const overlay = document.getElementById('overlay');
+
+  if (cartAlert && overlay) {
+    // Add the icon to the message if an icon class is provided
+    const iconHtml = iconClass ? `<i class="${iconClass}"></i> ` : '';
+    cartAlert.innerHTML = iconHtml + message; // Set the message with the icon inside the cart alert
+    cartAlert.style.display = 'block'; // Show the cart alert
+    overlay.style.display = 'block'; // Show the overlay
+
+    // Start the countdown for hiding the alert
+    startAlertTimeout();
+
+    // Pause the countdown when the user interacts with the overlay or alert
+    overlay.addEventListener('mousedown', pauseAlertCountdown);
+    cartAlert.addEventListener('mousedown', pauseAlertCountdown);
+    overlay.addEventListener('touchstart', pauseAlertCountdown);
+    cartAlert.addEventListener('touchstart', pauseAlertCountdown);
+
+    // Cancel the alert and hide immediately when the user clicks on the alert or overlay
+    overlay.addEventListener('click', cancelAndHideAlert);
+    cartAlert.addEventListener('click', cancelAndHideAlert);
+
+    // Resume countdown after the user stops interacting
+    overlay.addEventListener('mouseup', resumeAlertCountdown);
+    cartAlert.addEventListener('mouseup', resumeAlertCountdown);
+    overlay.addEventListener('touchend', resumeAlertCountdown);
+    cartAlert.addEventListener('touchend', resumeAlertCountdown);
+  } else {
+    console.error('Cart alert or overlay element not found');
+  }
+}
+
+
+// Start the timeout to hide the alert after a certain time
+function startAlertTimeout() {
+  alertStartTime = Date.now();
+  clearTimeout(alertTimeout); // Clear any existing timeouts first
+  alertTimeout = setTimeout(() => {
+    const cartAlert = document.getElementById('Alert');
+    const overlay = document.getElementById('overlay');
+    if (cartAlert && overlay) {
+      console.log("Hiding alert after timeout"); // Debugging: Confirming that timeout is firing
+      cartAlert.style.display = 'none'; // Hide the cart alert
+      overlay.style.display = 'none'; // Hide the overlay
+    } else {
+      console.error('Cart alert or overlay not found during timeout.');
+    }
+    alertTimeLeft = 3000; // Reset time to 5000 after timeout
+  }, alertTimeLeft); // Use current alertTimeLeft
+}
+
+// Pause the countdown without hiding the alert or overlay
+function pauseAlertCountdown() {
+  clearTimeout(alertTimeout); // Stop the countdown
+  console.log("Alert paused, countdown stopped.");
+}
+
+// Cancel and hide the alert immediately when the user clicks or taps on it
+function cancelAndHideAlert(event) {
+  const cartAlert = document.getElementById('Alert');
+  const overlay = document.getElementById('overlay');
+
+  // Hide the alert and overlay immediately
+  if (cartAlert && overlay) {
+    cartAlert.style.display = 'none';
+    overlay.style.display = 'none';
+    console.log("Alert canceled and hidden immediately.");
+  } else {
+    console.error('Cart alert or overlay not found when canceling.');
+  }
+
+  // Reset the countdown immediately when canceled
+  alertTimeLeft = 5000;
+  clearTimeout(alertTimeout); // Clear the current timeout
+  console.log("Countdown reset to 5000.");
+}
+
+// Resume the countdown when the user releases the mouse or touch
+function resumeAlertCountdown() {
+  startAlertTimeout(); // Restart the countdown from the current time left
+  console.log("Alert resumed, countdown restarted.");
+}
+
+async function addToCart() {
+
+    console.log("Generating new URLs for both logos...");
+
+
+
+    itemAddedAlert ('Item added to cart\n\n<i class="fa fa-check-circle green-icon"></i>');
+
+    await document.getElementById('shareButton').click();  // Trigger first logo URL generation
+    await document.getElementById('shareButtonNew').click();  // Trigger second logo URL generation
+
+    // Wait until both URLs are generated
+    const waitForUrls = new Promise((resolve) => {
+        const interval = setInterval(() => {
+            if (window.shareableUrl && window.shareableUrlNew) {
+                clearInterval(interval);
+                resolve();
+            }
+        }, 100); // Check every 100ms if both URLs are available
+    });
+
+    await waitForUrls; // Wait until both URLs are available
+
+    // Get the current user
+    const user = auth.currentUser;
+    if (!user) {
+        return; // Return if the user is not authenticated
+    }
+
+    const userId = user.uid;
+
+    // Generate a New Unique Item ID every time an item is added to the cart
+    const newItemId = generateItemId();
+
+    // Create the new cart item using window.shareableLink and window.shareableLinkNew
+    const newShareableLink = window.shareableUrl;
+    const newShareableLinkNew = window.shareableUrlNew;
+
+    const newItem = {
+        id: newItemId, // Unique item ID
+        shareableLink: newShareableLink,
+        shareableLinkNew: newShareableLinkNew,
+    };
+
+    const itemPageLink = `bothlinks.html?link1=${encodeURIComponent(newItem.shareableLink)}&link2=${encodeURIComponent(newItem.shareableLinkNew)}&id=${newItemId}`;
+
+    try {
+        const itemRef = ref(database, 'items/' + newItem.id);
+        await set(itemRef, newItem); // Save the item to Firebase
+
+        const cartRef = ref(database, 'carts/' + userId);
+        const snapshot = await get(cartRef);
+        const cartItems = snapshot.exists() ? snapshot.val().cart : [];
+
+        cartItems.push({
+            shareableLink: itemPageLink,
+            title: "Tote bag",
+            cost: 180,
+            catalogUrl: 'https://fumstudio.shop/totebag.html',
+            designs: [
+                {
+                    itemImage: "https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FSparkle%20(5).jpg?alt=media&token=dc0b1263-915a-4b10-8815-536b684e5022",
+                    
+
+                }
+            ]
+        });
+
+        await set(cartRef, { cart: cartItems });
+        
+  window.location.href = "cart_page.html";
+      
+        
+    } catch (error) {
+        console.error("Error adding to cart:", error);
+    }
+}
+
+
+
+
+document.getElementById('addToCartBtn').addEventListener('click', addToCart);
+
+
+
+// Add event listener to the "Add to Cart" button
+document.getElementById('addToCartBtn').addEventListener('click', addToCart);
+
+
+
+
+window.onload = function() {
+  // Get the URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const logoId = urlParams.get('logoId'); // Used for logo text and settings
+  const imageId = urlParams.get('logoId'); // Used for image URL and transformations
+
+  // If logoId is present, load the logo data (text, font, color, etc.)
+  if (logoId) {
+    const dbRef = ref(database, 'logos/' + logoId);  // Corrected the reference to use 'logoId'
+    get(dbRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const logoDataNew = snapshot.val();
+
+        // Set the logo text and settings
+
+
+      } else {
+        console.log("Logo not found.");
+      }
+    });
+  }
+
+  // If imageId is present, load the image and transformations (zoom, move, etc.)
+  if (imageId) {
+    const imageRef = ref(database, 'logos/' + imageId); // Corrected the reference to use 'imageId'
+    get(imageRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const logoDataNew = snapshot.val();
+
+        // Set the image source and transformation values from Realtime Database
+        const imageContainerNew = document.getElementById('imageContainerNew');
+        const imgElement = document.createElement('img');
+        imgElement.src = logoDataNew.urlNew;
+        imageContainerNew.innerHTML = '';
+        imageContainerNew.appendChild(imgElement);
+
+        // Load and display transformation values
+        zoomRangeNew.value = logoDataNew.zoomNew;
+        moveXNew.value = logoDataNew.moveXNew;
+        moveYNew.value = logoDataNew.moveYNew;
+            rotateRangeNew.value = logoDataNew.rotateNew;
+
+        document.getElementById('zoomValueNew').textContent = logoDataNew.zoomNew;
+        document.getElementById('moveXValueNew').textContent = logoDataNew.moveXNew;
+        document.getElementById('moveYValueNew').textContent = logoDataNew.moveYNew;
+              document.getElementById('rotateValueNew').textContent = logoDataNew.rotateNew;
+        // Apply transformations
+        applyTransformNew();
+      } else {
+        console.log("No image data found for this ID.");
+      }
+    });
+  }
+
+  // Event listeners to apply transformations when sliders are adjusted
+  document.getElementById('zoomRangeNew').addEventListener('input', applyTransformNew);
+  document.getElementById('moveXNew').addEventListener('input', applyTransformNew);
+  document.getElementById('moveYNew').addEventListener('input', applyTransformNew);
+};
+
+function applyTransform() {
+  const imgElement = imageContainer.querySelector('img');
+  if (imgElement) {
+    imgElement.style.transform = `scale(${zoomRange.value}) translate(${moveX.value}px, ${moveY.value}px) rotate(${rotateRange.value}deg)`;
+    zoomValue.textContent = zoomRange.value;
+    moveXValue.textContent = moveX.value;
+    moveYValue.textContent = moveY.value;
+    rotateValue.textContent = rotateRange.value;
+  }
+}
+
+
+    let startDistance = 0, initialScale = 1, isDragging = false;
+    let startX = 0, startY = 0, initialX = 0, initialY = 0;
+
+
+
+
+
+    function handleTouchStart(e) {
+      if (e.touches.length === 2) {
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        startDistance = Math.sqrt(dx * dx + dy * dy);
+        const imgElement = imageContainer.querySelector('img');
+        initialScale = parseFloat(imgElement.style.transform.match(/scale\(([^)]+)\)/)[1]);
+      } else if (e.touches.length === 1) {
+        const touch = e.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
+        initialX = parseFloat(moveX.value);
+        initialY = parseFloat(moveY.value);
+        isDragging = true;
+      }
+    }
+
+    function handleTouchMove(e) {
+      const imgElement = imageContainer.querySelector('img');
+      if (!imgElement) return;
+
+      if (e.touches.length === 2 && startDistance) {
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const newDistance = Math.sqrt(dx * dx + dy * dy);
+        const scale = (newDistance / startDistance) * initialScale;
+        zoomRange.value = scale;
+        applyTransform();
+      } else if (e.touches.length === 1 && isDragging) {
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - startX;
+        const deltaY = touch.clientY - startY;
+        moveX.value = initialX + deltaX;
+        moveY.value = initialY + deltaY;
+        applyTransform();
+      }
+    }
+
+    function handleTouchEnd(e) {
+      if (e.touches.length === 0) {
+        isDragging = false;
+      }
+    }
+
+    // Add touch event listeners
+    imageContainer.addEventListener('touchstart', handleTouchStart);
+    imageContainer.addEventListener('touchmove', handleTouchMove);
+    imageContainer.addEventListener('touchend', handleTouchEnd);
+
+
+        let startDistanceNew = 0, initialScaleNew = 1, isDraggingNew= false;
+    let startXNew = 0, startYNew = 0, initialXNew = 0, initialYNew = 0;
+
+
+      function applyTransformNew() {
+      const imgElement = imageContainerNew.querySelector('img');
+      if (imgElement) {
+        imgElement.style.transform = `scale(${zoomRangeNew.value}) translate(${moveXNew.value}px, ${moveYNew.value}px) rotate(${rotateRangeNew.value}deg)`;
+        zoomValueNew.textContent = zoomRangeNew.value;
+        moveXValueNew.textContent = moveXNew.value;
+        moveYValueNew.textContent = moveYNew.value;
+      rotateValueNew.textContent = rotateRangeNew.value;
+
+      }
+    }
+
+    function handleTouchStartNew(e) {
+      if (e.touches.length === 2) {
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        startDistanceNew = Math.sqrt(dx * dx + dy * dy);
+        const imgElement = imageContainerNew.querySelector('img');
+        initialScaleNew = parseFloat(imgElement.style.transform.match(/scale\(([^)]+)\)/)[1]);
+      } else if (e.touches.length === 1) {
+        const touch = e.touches[0];
+        startXNew = touch.clientX;
+        startYNew = touch.clientY;
+        initialXNew = parseFloat(moveXNew.value);
+        initialXNew = parseFloat(moveYNew.value);
+        isDraggingNew = true;
+      }
+    }
+
+function handleTouchMoveNew(e) {
+      const imgElement = imageContainerNew.querySelector('img');
+      if (!imgElement) return;
+
+      if (e.touches.length === 2 && startDistanceNew) {
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const newDistance = Math.sqrt(dx * dx + dy * dy);
+        const scale = (newDistance / startDistanceNew) * initialScaleNew;
+        zoomRangeNew.value = scale;
+        applyTransformNew();
+      } else if (e.touches.length === 1 && isDraggingNew) {
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - startXNew;
+        const deltaY = touch.clientY - startYNew;
+        moveXNew.value = initialXNew + deltaX;
+        moveYNew.value = initialYNew + deltaY;
+        applyTransformNew();
+      }
+    }
+
+    function handleTouchEndNew(e) {
+      if (e.touches.length === 0) {
+        isDraggingNew = false;
+      }
+    }
+
+       // Add touch event listeners
+    imageContainerNew.addEventListener('touchstart', handleTouchStartNew);
+    imageContainerNew.addEventListener('touchmove', handleTouchMoveNew);
+    imageContainerNew.addEventListener('touchend', handleTouchEndNew); 
+});
+
+</script> 
+  
+</body>
+</html>

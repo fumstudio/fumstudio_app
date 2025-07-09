@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double_sided_photo_jewelry_necklace_custom</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+
+                  body {
+
+            background-color: #42445A;
+            /* Nav */
+
+        }
+
+#imageContainer {
+      
+border-top: 5px solid #303038;    
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 5.5%;
+       width: 250px;
+      height: 250px;
+      border-radius: 5%;
+margin-left: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    cursor: pointer;
+    background-size: cover;
+    background-color: #000000;
+
+    
+}
+
+/* Adjust left for small screens */
+@media (max-width: 600px) { 
+    #imageContainer {
+        
+
+    }
+}
+#imageContainer2 {
+    border-top: 5px solid #303038;    
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+margin-top: 5.5%;
+       width: 250px;
+      height: 250px;
+      border-radius: 5%;
+margin-left: 9px;
+          display: flex;
+
+    background-color: #000000;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    
+
+}
+
+
+.tells {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      width: 70px;
+      height:70px; 
+      border-radius: 8px;
+
+      position: relative;
+     padding: 10px; 
+background-image: url('images/20250312_095949.png');
+
+      background-size: cover;
+      background-position: center;
+      transition: all 0.5s ease;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      text-align: center;
+   margin-bottom: -108px;
+   margin-left: 250px;
+         z-index:5;
+
+}
+
+.logo-container {
+   
+      display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  width: 350px;
+  height: 350px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  position: relative;
+  padding: 10px;
+  background-image: url('');
+  background-size: cover;
+  background-position: center;
+  transition: all 0.5s ease;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+  margin-bottom: 5%;
+
+}
+
+@media (max-width: 768px) {
+  .logo-container {
+    left: auto;
+
+  } 
+}
+    .fronttext {
+margin-top: 10%;
+margin-right: 40%;
+  transform: translate(-50%, -50%);
+  background-color: #FFFFFF73;
+  color: #000000; /* Softer modern color */
+  padding: 10px 15px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  text-align: center;
+  max-width: 80%;
+  
+
+}
+.backtext {
+  
+margin-top: 10%;
+margin-right: 40%;
+  transform: translate(-50%, -50%);
+  background-color: #FFFFFF73;
+  color:#000000; /* Softer modern color */
+  padding: 10px 15px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  text-align: center;
+  max-width: 80%;
+
+}
+
+    </style>
+
+<link rel="stylesheet" href="css/lite_design.css">
+
+      <link rel="stylesheet" href="css/navbar.css">
+      <link rel="stylesheet" href="css/custom_intro.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-left">
+            <div class="back-button" id="backButton">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+        </div>
+        
+        <div class="cart-container">
+
+      <h3 class="item-nam cart-text">Custom</h3>
+      <h3 class="item-name">Key holder</h3>
+   
+      </div>
+    </div>
+    
+    
+    
+
+
+<div class="editor-container">
+
+  <div class="main-container"> 
+             <h6 class="fronttext">FRONT</h6> 
+                       <div class="tells">    </div>           
+    <div class="logo-container" id="logoContainer">
+
+<a id="frontImageLink" target="_blank" style="display: contents;">
+
+
+    <div id="imageContainer">
+        <p id="uploadText"><i class="fas fa-image"></i><br>Click here to upload front photo</p>
+        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+    </div>
+          </a>
+    </div>
+
+    
+  <div id="buttonContainer">
+  
+    <button id="deleteButton">
+        <i class="fas fa-trash"></i>
+    </button>
+    <button id="reCropButton">
+        <i class="fas fa-crop"></i> Re-Crop
+    </button>
+</div>    
+    <!-- Container 1 Rotation Controls -->
+      <h6 class="backtext">BACK</h6>
+                          <div class="tells">    </div> 
+       <div class="logo-container" id="logoContainer">
+
+    <!-- Second Image Container -->
+    <a id="backImageLink" target="_blank" style="display: contents;">
+
+
+    <div id="imageContainer2">
+        <p id="uploadText2"><i class="fas fa-image"></i><br>Click here to upload back photo</p>
+        <input type="file" id="fileInput2" accept="image/*" style="display: none;">
+    </div>
+          </a>
+    </div>
+  </div>      
+    <!-- Second Button Container -->
+    <div id="buttonContainer2" style="display: none;">
+
+
+        <button id="deleteButton2">
+            <i class="fas fa-trash"></i>
+        </button>
+        <button id="reCropButton2">
+            <i class="fas fa-crop"></i> Re-Crop
+        </button>
+    <button id="shareBtn" class="share-button">Submit</button>
+     
+    </div>
+        <!-- Container 2 Rotation Controls -->
+
+  
+</div>
+
+       <button id="addToCartBtn" class="rectangle-button">
+        <i class="fas fa-cart-plus"></i> Add to Cart
+    </button>
+
+</div>
+
+<div id="cropModal" style="display: none;">
+    <div class="modal-content">
+        <img id="cropImage" src="">
+        <div class="modal-buttons">
+
+            <button id="cropCancel">Cancel</button>
+            <button id="cropConfirm">Crop</button>
+            
+        </div>
+    </div>
+</div>
+
+<div id="cropModal2" style="display: none;">
+    <div class="modal-content2">
+        <img id="cropImage2" src="">
+        <div class="modal-buttons2">
+            <button id="cropCancel2">Cancel</button>
+   
+            <button id="cropConfirm2">Crop</button>
+     </div>
+    </div>
+</div>
+<!-- Processing Section -->
+<div id="processingOverlay" style="display: none;">
+    <div id="processingSection">
+        <p>Processing your image...</p>
+        <div id="progressBarContainer">
+            <div id="progressBar"></div>
+        </div>
+        <p id="progressText">0%</p>
+    </div>
+</div>
+
+
+
+        <div class="overlay" id="overlay"></div>
+    <div id="Alert">
+
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+       <div id="sharebuttons" class="share-buttons" style="display:none;">
+        <!-- Native Share API Button -->
+        
+      <button id="addToCartBtn" class="rectangle-button" style="display:none;">
+        <i class="fas fa-cart-plus"></i> Add to Cart
+    </button>      
+        <button id="nativeShareBtn" class="share-btn native-share">
+            <i class="fas fa-share-alt"></i> Share
+        </button>
+ 
+        <!-- WhatsApp Share Button -->
+        <button id="whatsappShareBtn" class="share-btn whatsapp-share">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+        </button>
+<!-- HTML Button (add this to your HTML file) -->
+<button id="reAddToCartBtn" class="add-to-cart-btn">
+    <i class="fas fa-shopping-cart"></i> Re-Add to Cart
+</button>
+
+
+    </div> 
+     <br><br><br><br><br><br><br>   
+    
+
+<script type="module" src="js/custom_2S_Sq_NoneRote.js"></script>
+   
+ <script src="js/custom_intro.js"></script>
+ <script src="js/back_button.js"></script>
+   
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="logo">
+<i class="fas fa-gift" style="font-size: 3rem; color: floralwhite;"></i> Fumstudio
+        </div>
+        <div class="spinner"></div>
+
+    </div>
+
+</body>
+</html>

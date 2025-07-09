@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom_Totebag</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+
+    <style>
+    
+body {
+
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            background-color: #f4f4f4;
+            background: url('') no-repeat center center fixed;
+            background-size: cover;
+            transition: filter 0.3s ease;
+                        font-size: 16px; /* Base font size */
+        }
+#imageContainer {
+      
+
+  margin-top: 35%;
+  width: 92.50px; /* Keep width for portrait appearance */
+  height: 105.5px; /* Adjust height for a portrait aspect */
+margin-right: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    cursor: pointer;
+    background-size: cover;
+    background-color: #000000;
+
+    
+}
+
+/* Adjust left for small screens */
+@media (max-width: 600px) { 
+    #imageContainer {
+        
+
+    }
+}
+
+.logo-container {
+   
+      display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  width: 350px;
+  height: 350px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  position: relative;
+  padding: 10px;
+  background-image: url('https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FSparkle%20(6).jpg?alt=media&token=edd5833b-051e-4dcb-8785-98ff5bce42a3');
+  background-size: cover;
+  background-position: center;
+  transition: all 0.5s ease;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+  margin-bottom: 5%;
+    left: 0%;
+}
+
+@media (max-width: 768px) {
+  .logo-containe {
+    left: auto;
+
+  }
+}
+    </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/lite_design.css">
+
+      <link rel="stylesheet" href="css/navbar.css">
+      <link rel="stylesheet" href="css/custom_intro.css">
+
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-left">
+            <div class="back-button" id="backButton">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+        </div>
+         <div class="cart-container">
+      <h3 class="item-nam cart-text">Custom Tote bag</h3>
+       </div>
+    </div>
+    
+<br><br>
+
+
+ <div class="editor-container">
+  <div class="main-container">    
+    <div class="logo-container" id="logoContainer">
+  <a id="imageLink" target="_blank" style="display: contents;">
+
+    <div id="imageContainer">
+
+                <p id="uploadText" >                    <i class="fas fa-image"></i><br>Click here to upload photo</p>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            </div>
+            </a> 
+    </div>  
+    </div>  
+
+    
+    
+<div id="buttonContainer">
+  
+
+    <button id="deleteButton">
+        <i class="fas fa-trash"></i>
+    </button>
+    <button id="reCropButton">
+        <i class="fas fa-crop"></i> Re-Crop
+    </button>
+
+    <button id="shareBtn" class="share-whatsapp">            <i class="fab fa-whatsapp"></i>Submit</button>
+
+</div>
+       <button id="addToCartBtn" class="rectangle-button">
+        <i class="fas fa-cart-plus"></i> Add to Cart
+    </button>
+    <div id="cropModal" style="display:none ;">
+        <div class="modal-content">
+            <img id="cropImage">
+            <div class="modal-buttons">
+
+                <button id="cropCancel">Cancel</button>
+                                <button id="cropConfirm">Crop</button>
+            </div>
+        </div>
+    </div>
+    
+    
+<!-- Processing Section -->
+<div id="processingOverlay" style="display: none;">
+    <div id="processingSection">
+        <p>Processing your image...</p>
+        <div id="progressBarContainer">
+            <div id="progressBar"></div>
+        </div>
+        <p id="progressText">0%</p>
+    </div>
+</div>
+
+
+        <div class="overlay" id="overlay"></div>
+    <div id="Alert">
+
+
+    </div>
+
+    <div id="sharebuttons" class="share-buttons" style="display:none;">
+        <!-- Native Share API Button -->
+        
+
+        <button id="nativeShareBtn" class="share-btn native-share">
+            <i class="fas fa-share-alt"></i> Share
+        </button>
+ 
+        <!-- WhatsApp Share Button -->
+        <button id="whatsappShareBtn" class="share-btn whatsapp-share">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+        </button>
+        
+    <!-- HTML Button (add this to your HTML file) -->
+<button id="reAddToCartBtn" class="add-to-cart-btn">
+    <i class="fas fa-shopping-cart"></i> Re-Add to Cart
+</button>
+
+
+
+    </div>
+  
+
+
+
+<script type="module" src="js/custom_1S_R_NonRote.js"></script>
+   
+ <script src="js/custom_intro.js"></script>
+ <script src="js/back_button.js"></script>
+   
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="logo">
+<i class="fas fa-gift" style="font-size: 3rem; color: floralwhite;"></i> Fumstudio
+        </div>
+        <div class="spinner"></div>
+
+    </div>
+
+
+</body>
+</html>

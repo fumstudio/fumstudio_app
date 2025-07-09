@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" Experience high-quality personalized products that reflect your unique style. Start personalizing your items today with fum.studio!
+">
+<title>Product Catalog</title>
+
+
+
+          <link rel="stylesheet" href="css/Itempage.css">     
+   <link rel= "Shortcut icon" type="x-icon" href= "https://i.postimg.cc/XqrhcVpD/20240702-095704.png"> 
+   
+      <link rel="stylesheet" href="css/catalog.css
+    ">
+
+        <link href="https://fonts.google.com/share?selection.family=Jersey+25|Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<link rel= "Shortcut icon" type="x-icon" href= "https://i.postimg.cc/XqrhcVpD/20240702-095704.png "> 
+
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJSDSSVMM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9RJSDSSVMM');
+</script>
+  
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MNW5B4W9');</script>
+<!-- End Google Tag Manager -->
+
+      <!-- link pages -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+          <script>
+        $(function(){
+            $("#navbar").load("navbar.html");
+        });
+    </script>
+    <script>
+        $(function(){
+            $("#footer").load("footer.html");
+        });
+    </script>
+ <script>
+        $(function(){
+            $("#Whatsapp_button").load("whatsApp_button.html");
+        });
+    </script>
+
+</head>
+<body>
+
+<div class="container">
+
+
+
+    <!-- Nav -->
+    <nav class="main-nav">
+<h1 alt="Microsoft" class="logo">
+<i class="fa fa-chevron-left back-button" aria-hidden="true" onclick="goBack()"></i>
+<script>
+
+function goBack() {
+    window.history.back();
+}
+
+</script>   &nbsp; Order History</h1>
+         <div id="navbar"></div>
+                      <!-- Advertisement Section -->
+
+
+    <a href="cart_page.html" id="cartLink">
+    <div class="cart-container">
+        <i class="fas fa-shopping-cart cart-icon"></i>
+        <span id="totalItemCount" class="item-count">0</span>
+    </div>
+    </a>
+
+      <div class="menu-btn">
+ 
+    <i class="fas fa-bars fa-2x"></i>   </nav> 
+  </div>
+        
+
+
+</div>
+
+    <style>/* Base Styles */
+body {
+    background-color: #f8f4e9; /* Soft ivory background */
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Luxury Container */
+.cart-list {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+   margin-top:20%;
+}
+
+/* Luxury Cart Item */
+.cart-item {
+    background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.cart-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+}
+
+.cart-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #d4af37, #f1e5ac, #d4af37);
+    background-size: 200% 200%;
+    animation: shimmer 3s ease infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Cart Image */
+.cart-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    border: 3px solid #d4af37;
+    padding: 5px;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.cart-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Date Text */
+.cart-item p {
+    margin: 0;
+    font-size: 16px;
+    color: #555;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    position: relative;
+    padding-top: 15px;
+}
+
+.cart-item p::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+}
+
+/* Empty State */
+.cart-list > p {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #999;
+    font-size: 18px;
+    padding: 40px;
+    font-style: italic;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .cart-list {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        padding: 20px;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cart-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .cart-item {
+        padding: 20px;
+    }
+}</style>
+</head>
+
+<body>
+
+    <div id="cartListContainer" class="cart-list">
+        <!-- List of archived cart IDs will appear here -->
+    </div>
+
+
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getDatabase, ref as dbRef, get } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+    const firebaseConfig = {
+  apiKey: "AIzaSyCg8WRJx4wu-kkynIIIiLbbU5GaTxU-E9s",
+  authDomain: "fumstudio-b6694.firebaseapp.com",
+  databaseURL: "https://fumstudio-b6694-default-rtdb.firebaseio.com",
+  projectId: "fumstudio-b6694",
+  storageBucket: "fumstudio-b6694.firebasestorage.app",
+  messagingSenderId: "505195774753",
+  appId: "1:505195774753:web:7b94be0cf52e52a22f7460",
+  measurementId: "G-E4LBX75DR0"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+        if (!user) {
+            window.location.href = "login.html";
+        } else {
+            loadArchivedCarts(user.uid);
+        }
+    });
+
+    async function loadArchivedCarts(userId) {
+        const archivedCartsRef = dbRef(db, 'archivedCarts/' + userId);
+        const snapshot = await get(archivedCartsRef);
+
+        const cartListContainer = document.getElementById('cartListContainer');
+        cartListContainer.innerHTML = '';
+
+        if (snapshot.exists()) {
+            const archivedCarts = snapshot.val();
+            const sortedCarts = Object.keys(archivedCarts)
+                .map(cartId => ({
+                    cartId,
+                    timestamp: archivedCarts[cartId].timestamp,
+                    ...archivedCarts[cartId]
+                }))
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            // Process each cart to get the first item's main image
+            for (const cart of sortedCarts) {
+                const cartId = cart.cartId;
+                const formattedDate = formatTimestamp(cart.timestamp);
+                
+                // Fetch the payment data to get cart items
+                const paymentRef = dbRef(db, `payments/${cartId}`);
+                const paymentSnapshot = await get(paymentRef);
+                
+                let firstItemImageUrl = 'https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-09-26%20at%207.51.40%20AM.jpeg?alt=media&token=42565b33-c522-4167-bbd6-3a7f267d6627'; // Default image
+                
+                if (paymentSnapshot.exists()) {
+                    const paymentData = paymentSnapshot.val();
+                    const cartItems = paymentData.cartItems || [];
+                    
+                    if (cartItems.length > 0) {
+                        const firstItem = cartItems[0];
+                        const itemRef = dbRef(db, `items/${firstItem.itemID}`);
+                        const itemSnapshot = await get(itemRef);
+                        
+                        if (itemSnapshot.exists()) {
+                            const itemData = itemSnapshot.val();
+                            // Get the first main image URL if available
+                            if (itemData.images) {
+                                const imageKeys = Object.keys(itemData.images);
+                                for (const key of imageKeys) {
+                                    if (itemData.images[key]?.mainImage?.url) {
+                                        firstItemImageUrl = itemData.images[key].mainImage.url;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Create cart item element
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                
+                const cartImage = document.createElement('img');
+                cartImage.src = firstItemImageUrl;
+                cartImage.alt = 'Cart Item Image';
+                cartImage.classList.add('cart-item-image');
+                
+                const cartDateElement = document.createElement('p');
+                cartDateElement.textContent = formattedDate;
+                cartDateElement.classList.add('cart-date');
+                
+                cartItem.appendChild(cartImage);
+                cartItem.appendChild(cartDateElement);
+                cartItem.onclick = () => viewCart(cartId);
+                
+                cartListContainer.appendChild(cartItem);
+            }
+        } else {
+            cartListContainer.innerHTML = '<p>No archived carts found.</p>';
+        }
+    }
+
+    function formatTimestamp(timestamp) {
+        const date = new Date(timestamp);
+        const day = date.getDate();
+        const month = date.toLocaleString('default', { month: 'long' });
+        const year = date.getFullYear();
+        let hours = date.getHours();
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        let period = 'AM';
+
+        if (hours >= 12) {
+            period = 'PM';
+            if (hours > 12) {
+                hours -= 12;
+            }
+        } else if (hours === 0) {
+            hours = 12;
+        }
+
+        return `${day} ${month} ${year} ${hours}:${minutes}:${seconds} ${period}`;
+    }
+
+    function viewCart(cartId) {
+        window.location.href = `http://localhost:7700/fumstudio_app-main/viewcart_id.html?cartId=${cartId}`;
+    }
+</script>
+<script type="module" src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+ </body>
+</html>

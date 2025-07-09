@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Checkout</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        .payment-container {
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .payment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .payment-header h2 {
+            margin: 0;
+            color: #003087;
+        }
+        .paypal-logo {
+            width: 120px;
+            margin-right: 20px;
+        }
+        .security-badge {
+            display: flex;
+            align-items: center;
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .security-badge img {
+            width: 40px;
+            margin-right: 15px;
+        }
+        .benefits-list {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        .benefits-list li {
+            margin-bottom: 10px;
+        }
+        .btn-paypal {
+            background: #FFC439;
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        .btn-paypal:hover {
+            background: #F2BA30;
+        }
+        .btn-paypal img {
+            width: 20px;
+            margin-right: 10px;
+        }
+        .trust-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <div class="payment-header">
+            <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="PayPal" class="paypal-logo">
+            <h2>Secure PayPal Checkout</h2>
+        </div>
+        
+        <div class="security-badge">
+            <img src="https://cdn-icons-png.flaticon.com/512/2889/2889676.png" alt="Security Shield">
+            <div>
+                <strong>Your payment is securely processed by PayPal</strong>
+                <p>All transactions are encrypted and protected</p>
+            </div>
+        </div>
+        
+        <h3>Why pay with PayPal?</h3>
+        <ul class="benefits-list">
+            <li><strong>Fast checkout</strong> - No need to enter your payment details every time</li>
+            <li><strong>Buyer protection</strong> - Get a refund if your item doesn't arrive or match the description</li>
+            <li><strong>Secure payments</strong> - Your financial information is never shared with sellers</li>
+            <li><strong>Accepted worldwide</strong> - Pay in your local currency</li>
+        </ul>
+        
+        <button class="btn-paypal">
+            <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" alt="PayPal">
+            Check Out with PayPal
+        </button>
+        
+        <p class="trust-text">Trusted by millions of users worldwide</p>
+    </div>
+    
+    <div style="margin-top: 30px; font-size: 13px; color: #777; text-align: center;">
+        <p>All transactions are secure and encrypted. We never store your credit card information.</p>
+    </div>
+</body>
+</html>

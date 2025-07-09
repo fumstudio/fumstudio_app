@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a2639;
+            --secondary-color: #3e4a61;
+            --accent-color: #c24e00;
+            --text-light: #f0f0f0;
+            --text-dark: #333;
+            --bg-light: #f5f5f5;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: var(--secondary-color);
+            font-weight: 300;
+        }
+        
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .order-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .order-cover {
+            width: 100%;
+            aspect-ratio: 1/1;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--primary-color);
+        }
+        
+        .order-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            transition: opacity 0.3s ease, transform 0.5s ease;
+        }
+        
+        .order-card:hover .order-image {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+        
+        .order-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: var(--text-light);
+            background: linear-gradient(to bottom, rgba(26, 38, 57, 0.7), rgba(26, 38, 57, 0.9));
+        }
+        
+        .order-id {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            word-break: break-all;
+        }
+        
+        .item-id {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+        
+        .order-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .order-datetime {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        .order-date {
+            font-weight: 500;
+        }
+        
+        .order-time {
+            opacity: 0.8;
+            font-size: 0.8rem;
+        }
+        
+        .item-count {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .order-details {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .order-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-pending {
+            background-color: #fff3e0;
+            color: #ff6d00;
+        }
+        
+        .status-processing {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .status-customizing {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .status-packing {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-shipped {
+            background-color: #e0f7fa;
+            color: #00838f;
+        }
+        
+        .status-delivered {
+            background-color: #e8f5e9;
+            color: #1b5e20;
+        }
+        
+        .status-review {
+            background-color: #fff8e1;
+            color: #ff8f00;
+        }
+        
+        .status-cancelled {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            grid-column: 1 / -1;
+        }
+        
+        .empty-icon {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+        
+        .empty-text {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            grid-column: 1 / -1;
+            color: var(--secondary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .orders-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .orders-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+      <style>
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px; /* Thin header */
+            background-color: #1a2639;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            cursor: pointer;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        .cart-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cart-icon {
+            font-size: 18px;
+        }
+        
+        .cart-text {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        body {
+            padding-top: 50px; /* To account for fixed navbar */
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-left">
+            <div class="back-button" id="backButton">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+        </div>
+        
+        <div class="cart-container">
+            <i class="fas fa-shopping-cart cart-icon"></i>
+            <span class="cart-text">Order history</span>
+        </div>
+    </div>
+    
+    
+
+    <script>
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.history.back();
+        });
+    </script>
+    
+    <div class="container">
+
+    <div id="cartListContainer" class="orders-grid">
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading your order history...</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getDatabase, ref as dbRef, get } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBDrzrgLslaJvnXbo1e90irCEtdcm9ZsCU",
+            authDomain: "logins-13661.firebaseapp.com",
+            databaseURL: "https://logins-13661-default-rtdb.firebaseio.com",
+            projectId: "logins-13661",
+            storageBucket: "logins-13661.appspot.com",
+            messagingSenderId: "451535349483",
+            appId: "1:451535349483:web:d3c9867fd2bffbbdca40ae",
+            measurementId: "G-DWP16WX2H7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = "login.html";
+            } else {
+                loadArchivedCarts(user.uid);
+            }
+        });
+
+        async function loadArchivedCarts(userId) {
+            try {
+                // First get all archived carts for this user
+                const archivedCartsRef = dbRef(db, 'archivedCarts/' + userId);
+                const archivedCartsSnapshot = await get(archivedCartsRef);
+
+                const cartListContainer = document.getElementById('cartListContainer');
+                cartListContainer.innerHTML = '';
+
+                if (archivedCartsSnapshot.exists()) {
+                    const archivedCarts = archivedCartsSnapshot.val();
+                    const sortedCarts = Object.keys(archivedCarts)
+                        .map(cartId => ({
+                            cartId,
+                            timestamp: archivedCarts[cartId].timestamp,
+                            ...archivedCarts[cartId]
+                        }))
+                        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                    if (sortedCarts.length === 0) {
+                        showEmptyState(cartListContainer);
+                        return;
+                    }
+
+                    // Now get the status for all carts at once
+                    const statusCartsRef = dbRef(db, 'status_cart');
+                    const statusCartsSnapshot = await get(statusCartsRef);
+                    const statusCarts = statusCartsSnapshot.exists() ? statusCartsSnapshot.val() : {};
+
+                    // Process each cart to get details
+                    for (const cart of sortedCarts) {
+                        const cartId = cart.cartId;
+                        const { dateStr, timeStr } = formatDateTime(cart.timestamp);
+                        
+                        // Get status from status_cart node
+                        const cartStatus = statusCarts[cartId]?.status || 'Pending';
+                        const statusClass = getStatusClass(cartStatus);
+                        
+                        // Default values
+                        let firstItemImageUrl = 'https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202024-09-26%20at%207.51.40%20AM.jpeg?alt=media&token=42565b33-c522-4167-bbd6-3a7f267d6627';
+                        let firstItemId = '';
+                        let totalItems = 0;
+                        
+                        // Fetch payment data to get cart items
+                        const paymentRef = dbRef(db, `payments/${cartId}`);
+                        const paymentSnapshot = await get(paymentRef);
+                        
+                        if (paymentSnapshot.exists()) {
+                            const paymentData = paymentSnapshot.val();
+                            const cartItems = paymentData.cartItems || [];
+                            totalItems = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                            
+                            if (cartItems.length > 0) {
+                                firstItemId = cartItems[0].itemID || '';
+                                
+                                // Fetch first item's image
+                                if (firstItemId) {
+                                    const itemRef = dbRef(db, `items/${firstItemId}`);
+                                    const itemSnapshot = await get(itemRef);
+                                    
+                                    if (itemSnapshot.exists()) {
+                                        const itemData = itemSnapshot.val();
+                                        
+                                        // Get the first available image
+                                        if (itemData.images) {
+                                            const imageKeys = Object.keys(itemData.images);
+                                            for (const key of imageKeys) {
+                                                if (itemData.images[key]?.mainImage?.url) {
+                                                    firstItemImageUrl = itemData.images[key].mainImage.url;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // Create order card
+                        const orderCard = document.createElement('div');
+                        orderCard.classList.add('order-card');
+                        orderCard.innerHTML = `
+                            <div class="order-cover">
+                                <img src="${firstItemImageUrl}" alt="Order cover" class="order-image">
+                                <div class="order-overlay">
+                                    <div>
+                                        <div class="order-id">${cartId}</div>
+                                        ${firstItemId ? `<div class="item-id">Item ID: ${firstItemId}</div>` : ''}
+                                    </div>
+                                    <div class="order-meta">
+                                        <div class="order-datetime">
+                                            <div class="order-date">${dateStr}</div>
+                                            <div class="order-time">${timeStr}</div>
+                                        </div>
+                                        <div class="item-count">${totalItems} ${totalItems === 1 ? 'item' : 'items'}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-details">
+                                <span class="order-status ${statusClass}">${cartStatus}</span>
+                            </div>
+                        `;
+                        
+                        orderCard.onclick = () => viewCart(cartId);
+                        cartListContainer.appendChild(orderCard);
+                    }
+                } else {
+                    showEmptyState(cartListContainer);
+                }
+            } catch (error) {
+                console.error("Error loading order history:", error);
+                document.getElementById('cartListContainer').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="empty-text">Failed to load order history</div>
+                        <p>Please try again later</p>
+                    </div>
+                `;
+            }
+        }
+
+        function formatDateTime(timestamp) {
+            const date = new Date(timestamp);
+            const dateStr = date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+            const timeStr = date.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+            return { dateStr, timeStr };
+        }
+
+        function getStatusClass(status) {
+            switch(status.toLowerCase()) {
+                case 'pending': return 'status-pending';
+                case 'processing': return 'status-processing';
+                case 'customizing': return 'status-customizing';
+                case 'packing': return 'status-packing';
+                case 'shipped': return 'status-shipped';
+                case 'delivered': return 'status-delivered';
+                case 'review': return 'status-review';
+                case 'cancelled': return 'status-cancelled';
+                default: return 'status-pending';
+            }
+        }
+
+        function showEmptyState(container) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon"><i class="far fa-folder-open"></i></div>
+                    <div class="empty-text">No orders found</div>
+                    <p>Your order history will appear here</p>
+                </div>
+            `;
+        }
+
+function viewCart(cartId) {
+        window.location.href = `http://localhost:7700/fumstudio_app-main/viewcart_id.html?cartId=${cartId}`;
+    }
+    </script>
+</body>
+</html>

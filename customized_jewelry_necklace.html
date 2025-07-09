@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customized jewelry necklace</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+  
+   <style>
+   body {
+  font-family: Arial, sans-serif;
+background-color: #FFFFFF;
+  background-size: cover; /* Makes sure the gradient covers the whole screen */
+  background-attachment: fixed; /* Keeps the background fixed when scrolling */
+  color: #333; /* Text color */
+  margin: 0;
+  padding: 0;
+
+ 
+}
+ 
+  </style>
+  <style>
+   
+  
+    .main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+    .editor-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 22px;
+    }
+
+    }
+    .logo-settings {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+     margin-top: 0px;
+    }
+    .logo-settings label {
+      font-weight: bold;
+      margin-top: 10px;
+      
+    }
+    .logo-settings input[type="text"],
+    .logo-settings select {
+     margin: 10px;
+      padding: 10px; 
+      width: 300px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    .color-picker {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .color-swatch {
+      width: 30px;
+      height: 30px;
+      border: 2px solid #ccc;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+    .color-swatch:hover {
+      transform: scale(1.2);
+    }
+
+    /* From Uiverse.io by ilkhoeri */ 
+.button-animation {
+  --h-button: 48px;
+  --w-button: 102px;
+  --round: 0.75rem;
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  background: radial-gradient(
+      65.28% 65.28% at 50% 100%,
+      rgba(223, 113, 255, 0.8) 0%,
+      rgba(223, 113, 255, 0) 100%
+    ),
+    linear-gradient(0deg, #7a5af8, #7a5af8);
+  border-radius: var(--round);
+  border: none;
+  outline: none;
+  padding: 12px 18px;
+}
+.button-animation::before,
+.button-animation::after {
+  content: "";
+  position: absolute;
+  inset: var(--space);
+  transition: all 0.5s ease-in-out;
+  border-radius: calc(var(--round) - var(--space));
+  z-index: 0;
+}
+.button-animation::before {
+  --space: 1px;
+  background: linear-gradient(
+    177.95deg,
+    rgba(255, 255, 255, 0.19) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+.button-animation::after {
+  --space: 2px;
+  background: radial-gradient(
+      65.28% 65.28% at 50% 100%,
+      rgba(223, 113, 255, 0.8) 0%,
+      rgba(223, 113, 255, 0) 100%
+    ),
+    linear-gradient(0deg, #7a5af8, #7a5af8);
+}
+.button-animation:active {
+  transform: scale(0.95);
+}
+
+.fold {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 1rem;
+  width: 1rem;
+  display: inline-block;
+  transition: all 0.5s ease-in-out;
+  background: radial-gradient(
+    100% 75% at 55%,
+    rgba(223, 113, 255, 0.8) 0%,
+    rgba(223, 113, 255, 0) 100%
+  );
+  box-shadow: 0 0 3px black;
+  border-bottom-left-radius: 0.5rem;
+  border-top-right-radius: var(--round);
+}
+.fold::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150%;
+  height: 150%;
+  transform: rotate(45deg) translateX(0%) translateY(-18px);
+  background-color: #e8e8e8;
+  pointer-events: none;
+}
+.button:hover .fold {
+  margin-top: -1rem;
+  margin-right: -1rem;
+}
+
+.points_wrapper {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.points_wrapper .point {
+  bottom: -10px;
+  position: absolute;
+  animation: floating-points infinite ease-in-out;
+  pointer-events: none;
+  width: 2px;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 9999px;
+}
+@keyframes floating-points {
+  0% {
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-55px);
+    opacity: 0;
+  }
+}
+.points_wrapper .point:nth-child(1) {
+  left: 10%;
+  opacity: 1;
+  animation-duration: 2.35s;
+  animation-delay: 0.2s;
+}
+.points_wrapper .point:nth-child(2) {
+  left: 30%;
+  opacity: 0.7;
+  animation-duration: 2.5s;
+  animation-delay: 0.5s;
+}
+.points_wrapper .point:nth-child(3) {
+  left: 25%;
+  opacity: 0.8;
+  animation-duration: 2.2s;
+  animation-delay: 0.1s;
+}
+.points_wrapper .point:nth-child(4) {
+  left: 44%;
+  opacity: 0.6;
+  animation-duration: 2.05s;
+}
+.points_wrapper .point:nth-child(5) {
+  left: 50%;
+  opacity: 1;
+  animation-duration: 1.9s;
+}
+.points_wrapper .point:nth-child(6) {
+  left: 75%;
+  opacity: 0.5;
+  animation-duration: 1.5s;
+  animation-delay: 1.5s;
+}
+.points_wrapper .point:nth-child(7) {
+  left: 88%;
+  opacity: 0.9;
+  animation-duration: 2.2s;
+  animation-delay: 0.2s;
+}
+.points_wrapper .point:nth-child(8) {
+  left: 58%;
+  opacity: 0.8;
+  animation-duration: 2.25s;
+  animation-delay: 0.2s;
+}
+.points_wrapper .point:nth-child(9) {
+  left: 98%;
+  opacity: 0.6;
+  animation-duration: 2.6s;
+  animation-delay: 0.1s;
+}
+.points_wrapper .point:nth-child(10) {
+  left: 65%;
+  opacity: 1;
+  animation-duration: 2.5s;
+  animation-delay: 0.2s;
+}
+
+.inner {
+  z-index: 2;
+  gap: 6px;
+  position: relative;
+  width: 100%;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  transition: color 0.2s ease-in-out;
+}
+
+.inner svg.icon {
+  width: 18px;
+  height: 18px;
+  transition: fill 0.1s linear;
+}
+
+.button:focus svg.icon {
+  fill: white;
+}
+.button:hover svg.icon {
+  fill: transparent;
+  animation:
+    dasharray 1s linear forwards,
+    filled 0.1s linear forwards 0.95s;
+}
+@keyframes dasharray {
+  from {
+    stroke-dasharray: 0 0 0 0;
+  }
+  to {
+    stroke-dasharray: 68 68 0 0;
+  }
+}
+@keyframes filled {
+  to {
+    fill: white;
+  }
+}
+    overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+    .logo-text, .logo-text2 {
+      z-index: 2;
+      display: block;
+      word-wrap: break-word;
+      line-height: 1.2;
+   margin-top: 170px;
+      margin-left: 50px;
+      color:#000000;
+      font-size: 20px;
+    }
+    .logo-text2 {
+      font-size: 10px;
+      margin-top: 0px;
+            margin-left: 150px;
+    }
+   
+
+    #shareLinkContainer {
+      margin-top: 20px;
+      display: none;
+      text-align: center;
+    }
+    #shareLink {
+      color: #4CAF50;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .margic{
+   background-color: #f2f2f2;
+      color: #333;
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+      margin: 0 10px;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+    .margic:hover {
+      background-color: #e0e0e0;
+    }
+    /* Active button styles */
+    .margic-container {
+  display: flex;
+  gap: 10px; /* Optional, adds spacing between buttons */
+}
+
+.margic {
+  padding: 10px 20px;
+  font-size: 16px;
+}     
+    
+    
+
+  </style>
+  
+   <style>
+    #loadingScreen, #secondLoadingScreen {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 24px;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #secondLoadingScreen {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 18px;
+      z-index: 1001;
+    }
+
+   
+
+    #imageContainer img {
+      max-width: 100%;
+      max-height: 100%;
+      transform-origin: center;
+      transition: transform 0.3s ease;
+    }
+
+  #imageContainer  ,#imageContainerNew {
+      width: 208px;
+      height: 208px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background-color: #f0f0f0;
+      position: relative;
+      background-image: url('');
+      background-size: 50px 50px;
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer; /* Make the
+      container appear clickable */
+bottom: 222px;
+
+    }
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      width: 300px;
+      height: 400px; 
+      border-radius: 8px;
+      text-transform: uppercase;
+      position: relative;
+     padding: 10px; 
+      background-image: url('https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2F1.png?alt=media&token=01542aa9-1146-4b72-a3f0-52f6e86ffe00');
+      background-size: cover;
+      background-position: center;
+      transition: all 0.5s ease;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      text-align: center;
+
+    }
+    
+    
+
+    .slider-container {
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
+    }
+
+    .range-display {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px; 
+    }
+
+    .slider-label {
+      flex: 1; 
+      text-align: left; 
+      color: #000000 ;
+      font-size: 15px;
+    }
+
+    .slider {
+      flex: 2; 
+      margin: 0 10px; 
+    }
+
+    .range-value {
+      flex: 1; 
+      text-align: right; 
+      color: #000000 ;
+       font-size: 15px;
+    }
+
+
+
+    #controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px;
+    }
+
+    .custom-title {
+      color: white;
+      background-color: #4A90E2;
+      border: 2px solid #FFFFFF;
+      border-radius: 8px;
+      padding: 10px 15px;
+      text-align: center;
+      font-size: 1.5em;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+    }
+
+    #resetButton, #deleteButton, #addToCartBtn {
+gap: 10px;
+
+      flex-direction: column;
+      align-items: center;
+      margin: 20px;
+    }
+    
+
+#cartAlert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000; 
+        }
+    #overlay {
+                  display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+   /* From Uiverse.io by vinodjangid07 */ 
+.setting-btn {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: #E3E3E3;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+
+  color: #000000;
+  border: 2px solid #000000;
+}
+.bar {
+  width: 50%;
+  height: 2px;
+  background-color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 2px;
+}
+.bar::before {
+  content: "";
+  width: 2px;
+  height: 2px;
+  background-color: #000000;
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid #9A9AA3;
+  transition: all 0.3s;
+  box-shadow: 0px 0px 5px white;
+}
+.bar1::before {
+  transform: translateX(-4px);
+}
+.bar2::before {
+  transform: translateX(4px);
+}
+.setting-btn:hover .bar1::before {
+  transform: translateX(4px);
+}
+.setting-btn:hover .bar2::before {
+  transform: translateX(-4px);
+}   
+    .hidden {
+      display: none;
+    }
+  </style>
+  
+  <!-- navbar bottom -->
+
+    <style>
+
+
+        .content {
+            padding-bottom: 80px; /* Space for fixed navbar */
+        }
+
+       /* Bottom Navbar */
+.bottom-navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #FFFFFF; /* Semi-transparent black background */
+    display: flex;
+    overflow-x: auto; /* Enable horizontal scroll */
+    white-space: nowrap; /* Prevent wrapping of icons */
+    padding: 10px 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+    z-index: 500;
+    
+}
+nav {
+
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+    z-index: 1000;
+    
+}
+.bottom-navbar a {
+    color: white; /* Ensure text/icons inside the navbar are visible */
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 16px;
+
+
+        }
+  .bottom-navbar a {
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            padding: 10px;
+            position: relative;
+            display: inline-block;
+            flex-shrink: 0; /* Prevent icons from shrinking */
+            text-align: center;
+        }
+
+      
+        .bottom-navbar a:hover {
+            color: #f39c12; /* Hover effect */
+        }
+
+        .bottom-navbar .active-icon {
+            color: #f39c12; /* Highlight active icon */
+        }
+
+      /* Content sections under the icons inside the navbar */
+.content-section {
+    display: none;
+    
+   margin-top: -10px;
+    padding: 15px;
+    border-radius: 8px; /* More rounded corners for a softer look */
+    width: 280px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition for transform and opacity */
+   Optional: adds a blur effect behind the content */
+    opacity: 0; /* Initially hidden */
+}
+
+.content-section.active {
+    display: block;
+    opacity: 1; /* Fade-in effect when active */
+    transform: translateY(10px); /* Subtle move upwards when the section becomes active */
+}
+
+
+        /* Square Buttons Style */
+        .square-button {
+  width: 40px; /* Square shape with equal width and height */
+  height: 30px;
+  font-size: 15px; /* Large text */
+  border: 2px solid ##5e42f1; /* Soft purple border */
+      box-shadow: 0px 0px 0px 2px rgb(212, 209, 255);
+  background-color: #2E2F33; /* Gradient background color */
+  color: white; /* White text */
+  border-radius: 8px; /* Rounded corners */
+  display: flex;
+  justify-content: center; /* Center the content horizontally */
+  align-items: center; /* Center the content vertically */
+  padding: 0 10px; /* Padding for space inside the button */
+  margin: 10px; /* Space around each button */
+  cursor: pointer; /* Show pointer on hover */
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease; /* Smooth transition for background and hover effects */
+}
+
+.square-button:hover {
+  background-color: #4e2a84; /* Darker purple on hover */
+  border-color: #ff6ec7; /* Bright pink border on hover */
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+.square-button:active {
+  background-color: #3a1e5e; /* Even darker purple when clicked */
+  border-color: #ff3366; /* Dark pink border when clicked */
+  transform: scale(0.95); /* Slightly shrink the button when clicked for an effect */
+}
+
+/* Modal Style */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+button {
+
+}
+
+.green-btn {
+  background-color: green;
+  color: white;
+  border: none;
+    padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.red-btn {
+  background-color: red;
+  color: white;
+  border: none;
+    padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.green-btn:hover, .red-btn:hover {
+  opacity: 0.8;
+}
+#video-alert {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    z-index: 200;
+}
+.rectangle-button {
+  background-color: #EDEDEE; /* Vibrant orange */
+  color: #000000;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+  text-transform: uppercase;
+}
+
+
+    </style>
+   
+  
+   <link rel="stylesheet" href="css/catalog.css">
+      <link rel="stylesheet" href="css/Product.css
+    ">
+          <link rel="stylesheet" href="css/Itempage.css">     
+   <link rel= "Shortcut icon" type="x-icon" href= "https://i.postimg.cc/XqrhcVpD/20240702-095704.png "> 
+
+
+<meta name="google-site-verification" content="c6IEOWw2gr7deS66lgrvu5-eNfUoRfR4UidciqEeoGk" />
+
+  <meta name="description" content="
+  Perfect your daily assentials.
+">
+    <!-- Open Graph Meta Tags -->
+
+    <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09865_100332.jpg?alt=media&token=537ae439-d24c-4863-a68d-df0eb70b37d4" /> <!-- Ensure this is a valid image URL -->
+    
+    <meta property="og:url" content="https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09865_100332.jpg?alt=media&token=537ae439-d24c-4863-a68d-df0eb70b37d4" /> 
+  
+  <meta name="keywords"  content="Fumstudio, fum.studio, fumstudio.shop">
+
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJSDSSVMM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9RJSDSSVMM');
+</script>
+  
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MNW5B4W9');</script>
+<!-- End Google Tag Manager -->
+
+ 
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        $(function(){
+            $("#navbar").load("navbar.html");
+        });
+    </script>
+
+
+
+            <script>
+        $(function(){
+            $("#Whatsapp_button").load("whatsApp_button.html");
+        });
+    </script>
+        <script>
+        $(function(){
+            $("#footer").load("footer.html");
+        });
+</script>
+
+    <style>
+        /* Style for the cart icon container */
+        .cart-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+
+        }
+
+        /* Style for the cart icon */
+        .cart-icon {
+            font-size: 20px;
+
+        }
+
+        /* Style for the notification bubble with the total item count */
+        .item-count {
+            position: absolute;
+            top: -1px;
+            left: 12px;
+            background-color: red;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+        
+          .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 5px;
+            text-align: center;
+
+        }
+        
+        
+ @media only screen and (max-width: 600px) {
+             .modal-content {          margin-top: 60%;
+}
+            }    
+        
+        .close-button {
+            background-color: black;
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+            border-radius: 5px;
+        }      
+     
+   /* Red color for the exclamation icon */
+.red-icon {
+    color: red;
+}
+
+/* Green color for the check icon */
+.green-icon {
+    color: green;
+}  
+        
+    </style>
+
+</head>
+<body>
+<div class="background">
+<div class="container2">
+
+
+    <!-- Nav -->
+    
+<nav class="main-nav">
+  <!-- Navigation content -->
+
+
+<i class="fa fa-chevron-left back-button" aria-hidden="true" onclick="goBack()"></i>
+<script>
+
+function goBack() {
+    window.history.back();
+}
+
+</script>
+ <h1 class="item-name">Customized jewelry necklace</h1>
+</nav>
+ <br>        <br>        <br>  <br> 
+         <!-- Design Selector Button -->
+
+
+
+<div id="linkContainer" class="hidden">
+  <p>Shareable Link:</p>
+  <a id="imageLink" href="#" target="_blank" style="word-break: break-word;">Click to view the image</a>
+</div>
+
+<div class="editor-container">
+  <div class="main-container">    
+    <div class="logo-container" id="logoContainer"></div>
+
+  <div class="overlay" id="overlay"></div>
+        <button id="addToCartBtn" class="rectangle-button" style="display: none;">Add to cart</button>
+  
+    <div id="imageContainer" style="cursor: pointer;">
+      <i class="fas fa-image"></i>
+      <p>Click here to upload photo</p>
+      <input type="file" id="fileInput" style="display: none;">
+    </div>  
+  </div>
+</div>
+
+<div id="secondLoadingScreen">Processing... Please wait</div>
+<div id="loadingScreen" style="display: none;">
+  Uploading... 0%
+</div>
+
+        <div class="overlay" id="overlay"></div>
+    <div id="cartAlert">
+        <p>Item added to cart!</p>
+
+    </div>
+   
+
+<div class="bottom-navbar">
+  <button id="resetButton" class="setting-btn hidden"><i class="fa-solid fa-rotate-right"></i></button>
+  <button id="deleteButton" class="setting-btn hidden"><i class="fas fa-trash"></i></button>
+
+  <div id="controls">
+    <button id="positionIcon" class="setting-btn hidden">
+      <span class="bar bar1"></span>
+      <span class="bar bar2"></span>
+      <span class="bar bar1"></span>
+    </button>
+
+    <div id="positionContent" class="content-section">
+      <div class="slider-container">
+        <div class="range-display">
+          <label class="slider-label" for="zoomRange">Zoom</label>
+          <input type="range" id="zoomRange" class="slider" min="1" max="3" step="0.1" value="1.5">
+          <span id="zoomValue" class="range-value">1.5</span>
+        </div>
+
+        <div class="range-display">
+          <label class="slider-label" for="moveX">Left | Right</label>
+          <input type="range" id="moveX" class="slider" min="-100" max="100" step="1" value="0">
+          <span id="moveXValue" class="range-value">0</span>
+        </div>
+
+        <div class="range-display">
+          <label class="slider-label" for="moveY">Up | Down</label>
+          <input type="range" id="moveY" class="slider" min="-100" max="100" step="1" value="0">
+          <span id="moveYValue" class="range-value">0</span>
+        </div>
+
+        <div class="range-display">
+          <label class="slider-label" for="rotateRange">Rotate</label>
+          <input type="range" id="rotateRange" class="slider" min="-180" max="180" step="1" value="0">
+          <span id="rotateValue" class="range-value">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal for confirmation -->
+<div id="confirmationModal" class="modal hidden">
+  <div class="modal-content">
+    <p>Do you want to delete this photo?</p>
+    <button id="confirmDelete" class="confirm-btn green-btn">Yes</button>
+    <button id="cancelDelete" class="cancel-btn red-btn">No</button>
+  </div>
+</div>
+  <div class="overlay" id="overlay">
+<div id="video-alert"></div>
+ <i class="fas fa-exclamation-circle"></i> You cannot upload videos. Please upload an image.
+</div>
+
+       <!-- JavaScript -->
+    <script>// Function to toggle visibility of content under each icon inside the navbar
+function toggleContent(iconId, contentId, event) {
+    event.preventDefault(); // Prevent default anchor behavior (scroll to top)
+
+    const contentSection = document.getElementById(contentId);
+    const icon = document.getElementById(iconId);
+
+    // If the clicked content is already visible, hide it and remove highlight
+    if (contentSection.classList.contains('active')) {
+        contentSection.classList.remove('active');
+        icon.classList.remove('active-icon'); // Remove highlight
+    } else {
+        // Hide all other content sections and remove highlight from other icons
+        const allSections = document.querySelectorAll('.content-section');
+        allSections.forEach(section => section.classList.remove('active'));
+
+        const allIcons = document.querySelectorAll('.bottom-navbar a');
+        allIcons.forEach(icon => icon.classList.remove('active-icon')); // Remove highlight from all icons
+
+        // Show the clicked content section and highlight the icon
+        contentSection.classList.add('active');
+        icon.classList.add('active-icon'); // Add highlight to the clicked icon
+
+        // Scroll the content section into view (only if needed)
+        contentSection.scrollIntoView({
+            behavior: 'smooth', // Smooth scroll
+            block: 'center',    // Center the element vertically
+            inline: 'center'    // Center the element horizontally (optional)
+        });
+    }
+}
+
+// Prevent the content from closing when clicking inside it (stop event propagation)
+document.querySelectorAll('.content-section').forEach(content => {
+    content.addEventListener('click', function(event) {
+        event.stopPropagation(); // Prevent the click from propagating to the parent icon
+    });
+});
+
+
+
+document.getElementById('positionIcon').addEventListener('click', function(event) {
+    toggleContent('positionIcon', 'positionContent', event);
+});
+
+
+      
+</script>
+
+  <script>
+    // Function to show the selected section and hide others, and update button styles
+    function showSection(sectionId, button) {
+      // Get all sections
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(function(section) {
+        section.classList.remove('active');
+      });
+
+      // Get all buttons
+      const buttons = document.querySelectorAll('.button-animation-shift');
+      buttons.forEach(function(btn) {
+        btn.classList.remove('active');
+      });
+
+      // Show the selected section
+      const selectedSection = document.getElementById(sectionId);
+      selectedSection.classList.add('active');
+
+      // Add active class to the clicked button
+      button.classList.add('active');
+    }
+  </script>
+   
+ <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+  import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL,deleteObject } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
+  import { getDatabase, ref, set, get, remove,ref as dbRef } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+  // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBDrzrgLslaJvnXbo1e90irCEtdcm9ZsCU",
+    authDomain: "logins-13661.firebaseapp.com",
+    databaseURL: "https://logins-13661-default-rtdb.firebaseio.com",  // Realtime Database URL
+    projectId: "logins-13661",
+    storageBucket: "logins-13661.appspot.com",
+    messagingSenderId: "451535349483",
+    appId: "1:451535349483:web:d3c9867fd2bffbbdca40ae",
+    measurementId: "G-EWZC4FFTTG"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const storage = getStorage(app);
+  const database = getDatabase(app);  // Initialize Realtime Database
+  const auth = getAuth();
+  const db = getDatabase();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('fileInput');
+    const imageContainer = document.getElementById('imageContainer');
+    const deleteButton = document.getElementById('deleteButton');
+    const resetButton = document.getElementById('resetButton');
+    const loadingScreen = document.getElementById('loadingScreen');
+    const secondLoadingScreen = document.getElementById('secondLoadingScreen');
+    const zoomRange = document.getElementById('zoomRange');
+    const moveX = document.getElementById('moveX');
+    const moveY = document.getElementById('moveY');
+    const rotateRange = document.getElementById('rotateRange');
+    const zoomValue = document.getElementById('zoomValue');
+    const moveXValue = document.getElementById('moveXValue');
+    const moveYValue = document.getElementById('moveYValue');
+    const rotateValue = document.getElementById('rotateValue');
+    const shareButton = document.getElementById('shareButton');
+    const linkContainer = document.getElementById('linkContainer');
+    const imageLink = document.getElementById('imageLink');
+
+    let uploadedImageUrl = null;
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log('User is logged in:', user.email);  
+        console.log('User ID:', user.uid);  
+      } else {
+        console.log('No user is logged in');
+        window.location.href = 'login.html';  
+      }
+    });
+
+
+
+// Handle file selection
+fileInput.addEventListener('change', handleFileSelect);
+resetButton.addEventListener('click', resetTransform);
+deleteButton.addEventListener('click', deleteImage);
+
+zoomRange.addEventListener('input', applyTransform);
+moveX.addEventListener('input', applyTransform);
+moveY.addEventListener('input', applyTransform);
+    rotateRange.addEventListener('input', applyTransform);
+
+
+
+let alertTimeout;
+let alertStartTime = 0;
+let alertTimeLeft = 3000; // 3 seconds for the alert to auto-dismiss
+
+async function handleFileSelect() { 
+  const user = auth.currentUser;
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const file = fileInput.files[0];
+
+  if (file && file.type.startsWith("video/")) {
+    fileInput.value = "";
+    videoAlert('<i class="fas fa-times-circle red-icon"></i>You cannot upload videos. Please upload an image.');
+    return;
+  }
+
+  if (file) {
+    const userId = user.uid;
+    const userImageRef = dbRef(db, `uploads/${userId}/jewelryneklace`);
+
+    // Check if there's an existing image & delete its reference
+    const snapshot = await get(userImageRef);
+    if (snapshot.exists()) {
+      await remove(userImageRef);
+      console.log("✅ Old image reference deleted from Database");
+    }
+
+    // Upload new image
+    const uniqueFileName = `${Date.now()}-${file.name}`;
+    const storagePath = storageRef(storage, `images/${uniqueFileName}`);
+    const uploadTask = uploadBytesResumable(storagePath, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        loadingScreen.textContent = `Uploading... ${Math.round(progress)}%`;
+        loadingScreen.style.display = "flex";
+      },
+      (error) => {
+        console.error("❌ Upload failed:", error);
+        loadingScreen.style.display = "none";
+      },
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        uploadedImageUrl = downloadURL;
+
+        // Save new image info in Firebase Realtime Database
+        await set(userImageRef, { name: uniqueFileName, url: downloadURL });
+
+        console.log(`✅ New image uploaded successfully: ${uniqueFileName}`);
+
+        // Update UI
+        const imgElement = document.createElement("img");
+        imgElement.src = uploadedImageUrl;
+        imageContainer.innerHTML = "";
+        imageContainer.appendChild(imgElement);
+        imageContainer.style.cursor = "pointer";
+
+        // Add click event to open image in a new tab
+        imageContainer.onclick = () => {
+          if (uploadedImageUrl) {
+            window.open(uploadedImageUrl, "_blank");
+          }
+        };
+
+        loadingScreen.style.display = "none";
+        secondLoadingScreen.style.display = "flex";
+
+        setTimeout(() => {
+          secondLoadingScreen.style.display = "none";
+          applyTransform();
+        }, 5000);
+
+        fileInput.disabled = true;
+        deleteButton.classList.remove("hidden");
+        resetButton.classList.remove("hidden");
+        positionIcon.classList.remove("hidden");
+      }
+    );
+  } else {
+    alert("You can only upload one image. Please delete the existing image first.");
+  }
+}
+
+async function deleteImage() {
+  if (!isDeleteConfirmed) return;
+
+  const user = auth.currentUser;
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const userId = user.uid;
+  const userImageRef = dbRef(db, `uploads/${userId}/jewelryneklace`);
+
+  // Retrieve image name from Firebase
+  const snapshot = await get(userImageRef);
+  if (snapshot.exists()) {
+    const { name } = snapshot.val();
+    const storagePath = storageRef(storage, `images/${name}`);
+
+    try {
+      await deleteObject(storagePath);
+      console.log(`✅ Image ${name} deleted from Storage`);
+    } catch (error) {
+      console.error("❌ Error deleting image:", error);
+    }
+
+    await remove(userImageRef);
+    console.log("✅ Image reference deleted from Database");
+  }
+
+  // Reset UI
+  imageContainer.innerHTML = '<i class="fas fa-image"></i><p>Click here to upload photo</p>';
+  uploadedImageUrl = null;
+  fileInput.value = "";
+  fileInput.disabled = false;
+  deleteButton.classList.add("hidden");
+  resetButton.classList.add("hidden");
+  positionIcon.classList.add("hidden");
+
+  const positionContent = document.getElementById("positionContent");
+  if (positionContent?.classList.contains("active")) {
+    positionContent.classList.remove("active");
+    positionIcon.classList.remove("active-icon");
+  }
+
+  isDeleteConfirmed = false;
+}
+function startAlertTimeout() {
+  alertStartTime = Date.now();
+  alertTimeout = setTimeout(() => {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('video-alert').style.display = 'none';
+  }, alertTimeLeft);
+}
+
+function pauseAlertCountdown() {
+  clearTimeout(alertTimeout); // Stop the countdown
+  alertTimeLeft -= Date.now() - alertStartTime; // Subtract elapsed time
+}
+
+function resumeAlertCountdown() {
+  startAlertTimeout(); // Restart the countdown with the remaining time
+}
+
+const confirmationModal = document.getElementById('confirmationModal');
+const confirmDelete = document.getElementById('confirmDelete');
+const cancelDelete = document.getElementById('cancelDelete');
+
+let isDeleteConfirmed = false;
+
+// Show the modal when delete button is clicked
+deleteButton.addEventListener('click', function(event) {
+  event.preventDefault();  // Prevent immediate deletion
+  isDeleteConfirmed = false; // Reset the confirmation flag
+  confirmationModal.style.display = 'flex';  // Show the modal
+});
+
+// If 'Yes' is clicked, perform the delete action
+confirmDelete.addEventListener('click', function() {
+  isDeleteConfirmed = true;  // Set the flag to true when confirmed
+  confirmationModal.style.display = 'none';  // Hide the modal
+  deleteImage();  // Call the deleteImage function after confirmation
+});
+
+// If 'No' is clicked, close the modal without deleting
+cancelDelete.addEventListener('click', function() {
+  confirmationModal.style.display = 'none';  // Hide the modal
+});
+
+
+
+
+function resetTransform() {
+  zoomRange.value = 1.5;
+  moveX.value = 0;
+  moveY.value = 0;
+  rotateRange.value = 0;
+  applyTransform();
+}
+
+function applyTransform() {
+  const imgElement = imageContainer.querySelector('img');
+  if (imgElement) {
+    imgElement.style.transform = `scale(${zoomRange.value}) translate(${moveX.value}px, ${moveY.value}px) rotate(${rotateRange.value}deg)`;
+    zoomValue.textContent = zoomRange.value;
+    moveXValue.textContent = moveX.value;
+    moveYValue.textContent = moveY.value;
+    rotateValue.textContent = rotateRange.value;
+  }
+}
+
+
+    
+async function addToCart() {
+
+               // Check if there is no valid uploaded image URL
+    if (!uploadedImageUrl || uploadedImageUrl.trim() === '') {
+        console.log('No photo URL, showing cart alert');  // Debugging: Log when no image URL
+        // If there's no image URL, show the cart alert with an icon
+        showCartAlert("No photo is uploaded.", "fas fa-exclamation-circle", "red-icon");
+        return; // Don't proceed with sharing
+    }
+
+                 showCartAlert("Item added to cart!", "fa fa-check-circle green-icon", "green-icon");
+      
+  
+  const imageId = Date.now().toString(); // Generate a unique image ID
+  const imageData = {
+    url: uploadedImageUrl, // Ensure this is defined and contains a valid URL
+    zoom: parseFloat(zoomRange.value), // Ensure zoomRange is defined
+    moveX: parseInt(moveX.value), // Ensure moveX is defined
+    moveY: parseInt(moveY.value), // Ensure moveY is defined
+        rotate: parseInt(rotateRange.value)
+  };
+
+  try {
+    // Save image data to Realtime Database (this can be omitted if you don't need to store it)
+    await set(ref(database, 'sharedImages/' + imageId), imageData);
+    console.log('Image settings saved to Realtime Database');
+
+    // Construct the shareable link with the imageId
+    const shareableLink = `${window.location.origin}/customized_jewelery_necklace.html?imageId=${imageId}`;
+
+    // Add the shareable link directly to the cart
+    const user = auth.currentUser;
+    if (!user) {
+      window.location.href = "login.html"; // Redirect to login if the user is not authenticated
+      return;
+    }
+
+    const userId = user.uid;
+    const cartRef = ref(database, 'carts/' + userId);
+    const snapshot = await get(cartRef);
+    const cartItems = snapshot.exists() ? snapshot.val().cart : [];
+
+    // Add the shareable link to the cart
+    const newItem = {
+      shareableLink: shareableLink, // Add the generated shareable link to the cart
+
+        title: "Jewelry necklace",
+        cost: 160,
+        catalogUrl: 'https://fumstudio.shop/silver_jewelery_neclace.html',
+        designs: [
+            {
+
+                
+                itemImage: 'https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FWhatsApp%20Image%202025-03-13%20at%201.28.16%20PM%20(1).jpeg?alt=media&token=c37e918a-1a49-43d1-a645-afbbad8b0c4b',
+            }
+            ]
+    };
+
+    // Push the new item to the cart
+    cartItems.push(newItem);
+    await set(cartRef, { cart: cartItems });
+
+window.location.href = "cart_page.html";
+      
+    // Show a success alert or feedback
+
+  } catch (error) {
+    console.error('Error saving to Realtime Database:', error);
+  }
+}
+
+    
+
+document.getElementById('addToCartBtn').addEventListener('click', addToCart);
+
+
+
+function showCartAlert(message, iconClass = "", iconColorClass = "") {
+  console.log('Displaying cart alert message:', message); // Debugging: Log when cart alert is triggered
+
+  const cartAlert = document.getElementById('cartAlert');
+  const overlay = document.getElementById('overlay');
+
+  if (cartAlert && overlay) {
+    // Add the icon to the message if an icon class is provided
+    const iconHtml = iconClass ? `<i class="${iconClass} ${iconColorClass}"></i> ` : '';
+    cartAlert.innerHTML = iconHtml + message; // Set the message with the icon inside the cart alert
+    cartAlert.style.display = 'block'; // Show the cart alert
+    overlay.style.display = 'block'; // Show the overlay
+
+    // Start the countdown for hiding the alert
+    startAlertTimeout();
+
+    // Pause the countdown when the user interacts with the overlay or alert
+    overlay.addEventListener('mousedown', pauseAlertCountdown);
+    cartAlert.addEventListener('mousedown', pauseAlertCountdown);
+    overlay.addEventListener('touchstart', pauseAlertCountdown);
+    cartAlert.addEventListener('touchstart', pauseAlertCountdown);
+
+    // Resume the countdown when the user releases the mouse or finger
+    overlay.addEventListener('mouseup', resumeAlertCountdown);
+    cartAlert.addEventListener('mouseup', resumeAlertCountdown);
+    overlay.addEventListener('touchend', resumeAlertCountdown);
+    cartAlert.addEventListener('touchend', resumeAlertCountdown);
+  } else {
+    console.error('Cart alert or overlay element not found');
+  }
+}
+// Start the timeout to hide the alert after a certain time
+function startAlertTimeout() {
+  alertStartTime = Date.now();
+  alertTimeout = setTimeout(() => {
+    const cartAlert = document.getElementById('cartAlert');
+    const overlay = document.getElementById('overlay');
+    if (cartAlert && overlay) {
+      console.log("Hiding alert after timeout"); // Debugging: Confirming that timeout is firing
+      cartAlert.style.display = 'none'; // Hide the cart alert
+      overlay.style.display = 'none'; // Hide the overlay
+    } else {
+      console.error('Cart alert or overlay not found during timeout.');
+    }
+  }, alertTimeLeft);
+}
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const imageId = urlParams.get('imageId');
+
+      if (imageId) {
+        const imageRef = ref(database, 'sharedImages/' + imageId);
+        get(imageRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            const imageData = snapshot.val();
+
+            const imageContainer = document.getElementById('imageContainer');
+            const imgElement = document.createElement('img');
+            imgElement.src = imageData.url;
+            imageContainer.innerHTML = '';
+            imageContainer.appendChild(imgElement);
+
+            zoomRange.value = imageData.zoom;
+            moveX.value = imageData.moveX;
+            moveY.value = imageData.moveY;
+            rotateRange.value = imageData.rotate;
+
+            document.getElementById('zoomValue').textContent = imageData.zoom;
+            document.getElementById('moveXValue').textContent = imageData.moveX;
+            document.getElementById('moveYValue').textContent = imageData.moveY;
+            document.getElementById('rotateValue').textContent = imageData.rotate;
+
+            applyTransform();
+          }
+        }).catch((error) => {
+          console.error("Error fetching document:", error);
+        });
+      }
+    };
+  });
+</script>
+
+</body>
+</html>

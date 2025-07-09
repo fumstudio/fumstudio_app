@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+
+
+</head>
+
+<body>
+
+
+    
+
+
+    <ul class="main-menu" id="menu">
+
+    <li><a href='catalog.html'><i class="fas fa-home" style="color: #FF5733;"></i>&nbsp;Home</a></li>
+    
+  <li><a href="Address_book.html"><i class="fas fa-address-book icon-book"></i>&nbsp; Address Book</a></li>
+        
+      <li><a href="Order-histort.html"><i class="fas fa-receipt icon-history"></i>&nbsp;Order History</a></li>
+      <li><a href="currency.html"><i class="fas fa-coins icon-currency"></i>&nbsp;Currency</a></li>
+      <li><a href="Help_center.html"><i class="fas fa-info-circle icon-help"></i>&nbsp;Help Center</a></li>
+      <li><a href="About.html"><i class="fas fa-user-tie icon-about"></i>&nbsp;About</a></li>
+      <li><a href="logout.html"><i class="fas fa-sign-out-alt icon-logout"></i>&nbsp;Log Out</a></li>
+    </ul>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getDatabase, ref as dbRef, get, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBDrzrgLslaJvnXbo1e90irCEtdcm9ZsCU",
+        authDomain: "logins-13661.firebaseapp.com",
+        databaseURL: "https://logins-13661-default-rtdb.firebaseio.com",
+        projectId: "logins-13661",
+        storageBucket: "logins-13661.appspot.com",
+        messagingSenderId: "451535349483",
+        appId: "1:451535349483:web:d3c9867fd2bffbbdca40ae",
+        measurementId: "G-DWP16WX2H7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth();
+
+    // Check authentication state
+    onAuthStateChanged(auth, (user) => {
+        const authLink = document.querySelector('a[href="logout.html"]');
+        const icon = authLink.querySelector('i') || document.createElement('i');
+        const menu = document.getElementById('menu');
+        
+        if (user) {
+            // User is logged in - show email
+            const emailItem = document.createElement('li');
+            emailItem.innerHTML = `<span style="color: black; padding: 10px; display: inline-block;">
+                                    <i class="fas fa-user" style="margin-right: 5px;"></i>
+                                    ${user.email}
+                                   </span>`;
+            menu.insertBefore(emailItem, authLink.parentNode);
+
+            // Set up logout link
+            icon.className = "fas fa-sign-out-alt icon-logout";
+            authLink.innerHTML = '';
+            authLink.appendChild(icon);
+            authLink.appendChild(document.createTextNode('\u00A0Log Out'));
+            
+            // Handle click to log out
+            authLink.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    await signOut(auth);
+                    window.location.href = "login.html";
+                } catch (error) {
+                    console.error("Logout error:", error);
+                    window.location.href = "login.html";
+                }
+            });
+        } else {
+            // User is not logged in
+            icon.className = "fas fa-sign-in-alt icon-logout";
+            authLink.innerHTML = '';
+            authLink.appendChild(icon);
+            authLink.appendChild(document.createTextNode('\u00A0Log In'));
+            
+            // Handle click to go to login page
+            authLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = "login.html";
+            });
+        }
+    });
+</script>
+</body>
+</html>

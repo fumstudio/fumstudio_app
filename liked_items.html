@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Collection</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --text-color: #111111;
+      --light-text: #666666;
+      --border-color: #eeeeee;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #ffffff;
+      color: var(--text-color);
+      line-height: 1.4;
+      padding: 10px;
+    }
+    
+    .collection-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .collection-item {
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+    
+    .item-image-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 125%;
+      overflow: hidden;
+    }
+    
+    .item-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    
+    .item-details {
+      padding: 8px;
+    }
+    
+    .item-title {
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .item-description {
+      font-size: 11px;
+      color: var(--light-text);
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .item-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .item-price {
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .item-like {
+      display: flex;
+      align-items: center;
+      font-size: 11px;
+      color: var(--light-text);
+    }
+    
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    
+    .empty-icon {
+      font-size: 24px;
+      color: var(--light-text);
+      margin-bottom: 10px;
+    }
+    
+    .empty-title {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    
+    @media (min-width: 768px) {
+      .collection-container {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+      }
+      
+      .item-title {
+        font-size: 13px;
+      }
+      
+      .item-description {
+        font-size: 12px;
+      }
+      
+      .item-price {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="collection-container" class="collection-container"></div>
+
+  <div id="loading-overlay" class="loading-overlay">
+    <div>Loading...</div>
+  </div>
+
+<script type="module">
+    import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyARESVdkH9dVHLoPBo-P0DPq131H8dDre4",
+  authDomain: "login-6556f.firebaseapp.com",
+  databaseURL: "https://login-6556f-default-rtdb.firebaseio.com",
+  projectId: "login-6556f",
+  storageBucket: "login-6556f.appspot.com",
+  messagingSenderId: "515699848523",
+  appId: "1:515699848523:web:dda81ed68642f51f39e4ce",
+  measurementId: "G-DFWFZJ5BP2"
+};
+    const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+
+    const container = document.getElementById("collection-container");
+    const loader = document.getElementById("loading-overlay");
+
+
+    function formatLikeCount(count) {
+      if (count >= 1000000) return (count / 1000000).toFixed(1) + 'M';
+      if (count >= 1000) return (count / 1000).toFixed(1) + 'K';
+      return count;
+    }
+    // Currency conversion rates (example values - update with real rates)
+    const conversionRates = {
+        'USD': 0.054,  // 1 ZAR = 0.054 USD
+        'EUR': 0.050,  // 1 ZAR = 0.050 EUR
+        'ZAR': 1       // Base currency
+    };
+
+    // Function to convert price based on currency
+    function convertPrice(price, currency) {
+        if (!price || isNaN(price)) return 'Price not available';
+        
+        const numericPrice = parseFloat(price);
+        if (isNaN(numericPrice)) return price;
+        
+        if (currency === 'ZAR') {
+            return `R ${numericPrice.toFixed(2)}`;
+        } else if (conversionRates[currency]) {
+            const convertedPrice = numericPrice * conversionRates[currency];
+            return `${currency} ${convertedPrice.toFixed(2)}`;
+        }
+        return `$${numericPrice.toFixed(2)}`; // Default to USD format
+    }
+
+    // Function to update all prices on the page
+    function updateAllPrices(currency) {
+        const priceElements = document.querySelectorAll('.item-price');
+        priceElements.forEach(element => {
+            const originalPrice = element.dataset.price;
+            element.textContent = convertPrice(originalPrice, currency);
+        });
+    }
+
+    function renderAllItems(userId) {
+      const likedRef = ref(db, `users/${userId}/likedItems`);
+      const currencyRef = ref(db, `users/${userId}/selectedCurrency`);
+      
+      // First get the user's preferred currency
+      onValue(currencyRef, (currencySnap) => {
+          const currency = currencySnap.exists() ? currencySnap.val() : 'ZAR';
+          
+          // Then get the liked items
+          onValue(likedRef, (likedSnap) => {
+            container.innerHTML = "";
+            if (!likedSnap.exists()) {
+              loader.style.display = "none";
+              container.innerHTML = `
+                <div class="empty-state">
+                  <div class="empty-icon">
+                    <i class="far fa-heart"></i>
+                  </div>
+                  <h2 class="empty-title">No saved items</h2>
+                </div>
+              `;
+              return;
+            }
+
+            const likedItems = likedSnap.val();
+            let itemPromises = [];
+
+            for (const itemId in likedItems) {
+              const imageIndexes = Object.keys(likedItems[itemId].images || {});
+              const itemRef = ref(db, `items/${itemId}`);
+
+              const promise = new Promise((resolve) => {
+                onValue(itemRef, (itemSnap) => {
+                  if (!itemSnap.exists()) return resolve();
+                  const itemData = itemSnap.val();
+                  for (const index of imageIndexes) {
+                    const mainImageData = itemData.images?.[index]?.mainImage;
+                    if (!mainImageData || !mainImageData.url) continue;
+
+                    renderItem({
+                      id: itemId,
+                      index,
+                      title: itemData.title || "Untitled",
+                      description: mainImageData.description || "",
+                      price: mainImageData.displayPrice || "",
+                      imageUrl: mainImageData.url,
+                      likes: mainImageData.likes || 0
+                    }, currency);
+                  }
+                  resolve();
+                }, { onlyOnce: true });
+              });
+
+              itemPromises.push(promise);
+            }
+
+            Promise.all(itemPromises).then(() => {
+              loader.style.display = "none";
+              if (!container.hasChildNodes()) {
+                container.innerHTML = `
+                  <div class="empty-state">
+                    <div class="empty-icon">
+                      <i class="far fa-heart"></i>
+                    </div>
+                    <h2 class="empty-title">No items found</h2>
+                  </div>
+                `;
+              }
+              // Update all prices with the selected currency
+              updateAllPrices(currency);
+            });
+          });
+      }, { onlyOnce: true });
+    }
+
+    function renderItem({ id, index, title, description, price, imageUrl, likes }, currency) {
+      const el = document.createElement("div");
+      el.className = "collection-item";
+      el.innerHTML = `
+        <div class="item-image-container">
+          <img src="${imageUrl}" alt="${title}" class="item-image" onerror="this.src='https://via.placeholder.com/300x375?text=No+Image';">
+        </div>
+        <div class="item-details">
+          <div class="item-title">${title}</div>
+          <div class="item-description">${description}</div>
+
+          <div class="item-meta">
+                <div class="item-price" data-price="${price || ''}">${convertPrice(price, currency)}</div>
+            <div class="item-like">
+              <i class="far fa-heart"></i> ${formatLikeCount(likes)}
+            </div>
+          </div>
+        </div>
+        <a href="item.html?itemId=${id}&image=${index}" style="position:absolute;inset:0;"></a>
+      `;
+      container.appendChild(el);
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        loader.style.display = "none";
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">
+              <i class="fas fa-user-lock"></i>
+            </div>
+            <h2 class="empty-title">Sign in required</h2>
+          </div>
+        `;
+        return;
+      }
+      renderAllItems(user.uid);
+    });
+</script>
+
+</body>
+</html>

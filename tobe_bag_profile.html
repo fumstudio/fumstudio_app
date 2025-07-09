@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Customize Music plaque</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+       <link rel="stylesheet" href="css/Designs.css">
+
+  <!-- Preconnect and Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Bangers&family=Bungee+Inline&family=Cinzel:wght@400..900&family=Lilita+One&family=Monoton&family=Sarina&family=Satisfy&family=Staatliches&display=swap" rel="stylesheet">
+  
+  <!-- Additional Google Fonts and CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Pacifico&family=Lobster&family=Quicksand&family=Poppins&family=Shrikhand&family=Chewy&display=swap" rel="stylesheet">
+  
+    <style>
+                  body {
+    display: flex;
+      flex-direction: column;
+      align-items: center;
+
+        }
+
+.editor-container {
+    width: 100%;
+    max-width: 400px; /* Adjust the max-width to your desired size */
+    margin: 0 auto; /* Centers the container horizontally */
+    padding: 20px; /* Adjust padding as needed */
+    box-sizing: border-box; /* Includes padding in width calculation */
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Remove padding if not needed */
+  margin-top:-30%;    
+}
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      width: 350px;
+      height: 450px; 
+      border-radius: 8px;
+
+      position: relative;
+     padding: 10px; 
+      background-image: url('https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FSparkle%20(4).jpg?alt=media&token=1955adcf-00ad-4132-9baf-ad7698bea903');
+      background-size: cover;
+      background-position: center;
+      transition: all 0.5s ease;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      text-align: center;
+
+
+    }
+
+    </style>
+<style>
+
+
+
+    .main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+     
+}
+    .editor-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 22px;
+    }
+
+    }
+
+    .logo-settings label {
+      font-weight: bold;
+      margin-top: 10px;
+      
+    }
+
+    .logo-settings input[type="text"],
+    .logo-settings select {
+     margin: 10px;
+      padding: 10px; 
+      width: 150px;
+      border-radius: 5px;
+      border: 1px solid #C8C9D4;;
+      font-size: 16px;
+
+
+  
+    }
+.logo-settings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0px;
+margin-top: 120px;  
+}
+
+
+ 
+
+    .color-picker {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .color-swatch {
+      width: 30px;
+      height: 30px;
+      border: 2px solid #ccc;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+    .color-swatch:hover {
+      transform: scale(1.2);
+    }
+
+#imageContainer {
+      position: relative;
+              width: 115px;
+      height: 115px;
+      border-radius: 50%;
+      border: 0.5px solid  #000000;
+  background-color: #5A5B62;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+  background-size: cover;
+  background-color: ;
+  bottom: -260px;
+  margin-right: 26%;
+  z-index: 2;
+}
+#imageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* or cover */
+}
+
+
+  
+        .logo-text {
+
+      display: block;
+      word-wrap: break-word;
+      line-height: 1.2;
+
+      margin-left: 120px;
+      font-size: 14px;
+    }
+    .logo-text2 {
+      font-size: 14px;
+      margin-top: 20px;
+            margin-left: 150px;
+                      }
+   
+    .back {
+           margin-top: -145px;
+      font-size: 14px;
+      margin-top: px;
+               z-index: 3;
+                           margin-left: -20px;
+   
+    }
+   #imageLink{
+       z-index: 2000;
+   }
+
+
+  </style>
+
+
+     <link rel="stylesheet" href="css/catalog.css">
+<link rel="stylesheet" href="css/lite_design.css">
+
+      <link rel="stylesheet" href="css/navbar.css">
+      <link rel="stylesheet" href="css/custom_intro.css">
+
+ 
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-left">
+            <div class="back-button" id="backButton">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+        </div>
+         <div class="cart-container">
+      <h3 class="item-nam cart-text">Custom</h3>      <h3 class="item-name">Tote bag</h3>
+       </div>
+    </div>
+    
+        <div class="overlay" id="overlay"></div>
+    <div id="Alert">
+
+
+    </div>
+
+
+  <!-- Dark background overlay (hidden by default) -->
+  <div class="dark-overlay" id="dark-overlay"></div>
+
+  <!-- Font list container (hidden by default) -->
+  <div class="font-container" id="font-container">
+<label><strong>Choose a font:</strong></label>
+<!-- Font list container (hidden by default) -->
+
+          <ul class="font-list">
+            <li class="font-item roboto" onclick="setFont('roboto')">Roboto</li>
+            <li class="font-item pacifico" onclick="setFont('pacifico')">Pacifico</li>
+            <li class="font-item lobster" onclick="setFont('lobster')">Lobster</li>
+            <li class="font-item quicksand" onclick="setFont('quicksand')">Quicksand</li>
+            <li class="font-item poppins" onclick="setFont('poppins')">Poppins</li>
+            <li class="font-item shrikhand" onclick="setFont('shrikhand')">Shrikhand</li>
+            <li class="font-item chewy" onclick="setFont('chewy')">Chewy</li>
+            <li class="font-item bangers" onclick="setFont('bangers')">Bangers</li>
+            <li class="font-item cinzel" onclick="setFont('cinzel')">Cinzel</li>
+            <li class="font-item sarina" onclick="setFont('sarina')">Sarina</li>
+            <li class="font-item satisfy" onclick="setFont('satisfy')">Satisfy</li>
+            <li class="font-item staatliches" onclick="setFont('staatliches')">Staatliches</li>
+          </ul>
+        </div>
+
+ 
+
+    </div>    
+    </div>
+
+    
+
+      <div class="editor-container">
+   <!-- THE NAVBAR NER -->
+
+    <div class="bottom-navbar" style="z-index: 500;">
+        <!-- Icon Buttons -->
+
+   <button class="square-button" onclick="generateRandomLogo()"><i class="fa-duotone fa-solid fa-wand-magic-sparkles"></i></button>                   <div id="colorContent" class="content-section">
+                <!-- Content for color icon -->
+           <div class="color-picker">
+<div class="color-swatch" style="background-color: #000000;" onclick="setTextColor('#000000')"></div>             
+<div class="color-swatch" style="background-color:#8808C1 ;" onclick="setTextColor('#8808C1')"></div>
+<div class="color-swatch" style="background-color: #4B6F44;" onclick="setTextColor('#4B6F44')"></div>
+<div class="color-swatch" style="background-color: #4F6F9F;" onclick="setTextColor('#4F6F9F')"></div>
+
+<div class="color-swatch" style="background-color: #A02A2A;" onclick="setTextColor('#A02A2A')"></div>
+
+            </div>
+    
+            </div>
+     
+        <a href="#" id="colorIcon">
+            <i class="fas fa-paint-brush icon"></i> <!-- Paint Brush Icon -->
+   </a>
+<button class="square-button" id="autoBreakButton" onclick="toggleAutoBreak()" style="display: none;">
+          <i class="fa-brands fa-autoprefixer"></i>
+        </button>
+        
+    <!-- Button to toggle the font list -->
+        <a href="#" id="fontIcon">
+<i id="toggle-btn" class="fa-solid fa-font"></i></a>
+
+<script>// Toggle the visibility of the font list container and dark overlay
+document.getElementById('toggle-btn').addEventListener('click', function() {
+  const fontContainer = document.getElementById('font-container');
+  const darkOverlay = document.getElementById('dark-overlay');
+  const isVisible = fontContainer.style.display === 'block';
+
+  // Toggle visibility of the font list and dark overlay
+  if (isVisible) {
+    fontContainer.style.display = 'none';
+    darkOverlay.style.display = 'none';
+  } else {
+    fontContainer.style.display = 'block';
+    darkOverlay.style.display = 'block';
+  }
+});
+
+// Set font when a list item is clicked
+function setFont(font) {
+  // Change the font of the body (or label) text
+  document.body.style.fontFamily = font;
+
+  // Add 'selected' class to clicked item
+  const items = document.querySelectorAll('.font-list li');
+  items.forEach(item => item.classList.remove('selected')); // Remove 'selected' from all items
+  event.target.classList.add('selected'); // Add 'selected' to the clicked item
+
+  // Hide the font container and dark overlay immediately
+  document.getElementById('font-container').style.display = 'none';
+  document.getElementById('dark-overlay').style.display = 'none';
+}
+
+// Close font container when clicking on the dark overlay
+document.getElementById('dark-overlay').addEventListener('click', function() {
+  document.getElementById('font-container').style.display = 'none';
+  document.getElementById('dark-overlay').style.display = 'none';
+});</script>
+
+
+
+
+            <div id="positionContent" class="content-section ">
+                <!-- Content for position icon -->
+         <div class="slider-container">
+      <div class="range-display">
+        <label class="slider-label" for="zoomRange">Zoom</label>
+        <input type="range" id="zoomRange" class="slider" min="1" max="3" step="0.1" value="1.5">
+        <span id="zoomValue" class="range-value">1.5</span>
+      </div>
+
+      <div class="range-display">
+        <label class="slider-label" for="moveX">Left | Right</label>
+        <input type="range" id="moveX" class="slider" min="-100" max="100" step="1" value="0">
+        <span id="moveXValue" class="range-value">0</span>
+      </div>
+
+      <div class="range-display">
+        <label class="slider-label" for="moveY">Up | Down</label>
+        <input type="range" id="moveY" class="slider" min="-100" max="100" step="1" value="0">
+        <span id="moveYValue" class="range-value">0</span>
+      </div>
+          <div class="range-display">
+          <label class="slider-label" for="rotateRange">Rotate</label>
+          <input type="range" id="rotateRange" class="slider" min="-180" max="180" step="1" value="0">
+          <span id="rotateValue" class="range-value">0</span>
+        </div>    
+    </div>
+      
+            </div>
+       
+      <div class="square-button" id="toggleItalicBtn"><em>T</em></div>
+    <div class="square-button" id="toggleBoldBtn">B</div>  
+   
+ 
+    </div>
+       
+  <div class="main-container">    
+  <a id="imageLink" target="_blank" style="display: contents;">
+
+            <div id="imageContainer">
+
+                <p id="uploadText" >                    <i class="fas fa-image"></i><br>Click here to upload photo</p>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            </div>
+                        </a> 
+     <div class="logo-container" id="logoContainer"></div>
+
+           
+      <div class="back">
+ 
+      <div class="overlay"></div>
+      <span id="logoTextPreview1" class="logo-text">Title of the song</span>
+      <span id="logoTextPreview2" class="logo-text2">Artist name</span>
+      <!-- Image container to upload an image by clicking -->
+
+    </div>
+
+
+
+  </div>
+       
+    </div>  
+     <div class="editor-container">
+ 
+  <div class="main-container">    
+
+      
+   </div>
+
+  </div>
+</div>
+
+       <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="logo">
+<i class="fas fa-gift" style="font-size: 3rem; color: floralwhite;"></i> Fumstudio
+        </div>
+        <div class="spinner"></div>
+
+    </div>
+<script>
+  function forceClickButton() {
+    let attemptCount = 0;
+    const maxAttempts = 50; // Adjust as needed
+    const interval = setInterval(() => {
+      let button = document.getElementById("autoBreakButton");
+
+      if (button) {
+        try {
+          console.log("Attempting to click the button...");
+          button.click();
+          console.log("Button clicked successfully!");
+          clearInterval(interval); // Stop trying after success
+        } catch (error) {
+          console.error("Error clicking button:", error);
+        }
+      } else {
+        console.warn(`Button not found, retrying... (${attemptCount + 1}/${maxAttempts})`);
+      }
+
+      attemptCount++;
+      if (attemptCount >= maxAttempts) {
+        console.error("Max attempts reached. Button not found.");
+        clearInterval(interval);
+      }
+    }, 500); // Check every 500ms
+  }
+
+  document.addEventListener("DOMContentLoaded", forceClickButton);
+</script>
+      
+
+
+ <div id="logosettings" class="logo-settings">               
+<input type="text" id="logoText" placeholder="First name" value="Nokwanda" oninput="updateLogo()" maxlength="20" />
+
+
+<input type="text" id="secondaryText" placeholder="Last name" value=" Nokwanda" oninput="updateLogo()" maxlength="25" />
+
+      </div>
+    <div id="buttonContainer";
+>                 
+    <button id="deleteButton">
+        <i class="fas fa-trash"></i>
+    </button>
+    <button id="reCropButton">
+        <i class="fas fa-crop"></i> Re-Crop
+    </button>
+       <button id="shareBtn" class="share-button" style="margin-top:20px;">            <i class="fab fa-whatsapp"></i>Submit</button> 
+    <button id="addToCartBtn" class="rectangle-button">
+        <i class="fas fa-cart-plus"></i> Add to Cart
+    </button>
+
+
+    </div>
+     
+
+  <div class="container">    
+
+
+
+          
+<div id="controls">
+ 
+
+</div>
+
+
+     
+ 
+
+    <!-- The link will be shown here -->
+<button id="shareButton" style="display:none;">Share Image</button>
+
+ 
+    <!-- Share Link Container -->
+    <div id="shareLinkContainer" style="display:none;">
+      <a id="shareLink" href="#" style="display:none;">Share this logo</a>
+    </div>
+
+
+  <!-- THE NAVBAR NER -->
+<script>
+  function forceClickButton() {
+    let attemptCount = 0;
+    const maxAttempts = 50; // Adjust as needed
+    const interval = setInterval(() => {
+      let button = document.getElementById("toggleBoldBtn");
+
+      if (button) {
+        try {
+          console.log("Attempting to click the button...");
+          button.click();
+          console.log("Button clicked successfully!");
+          clearInterval(interval); // Stop trying after success
+        } catch (error) {
+          console.error("Error clicking button:", error);
+        }
+      } else {
+        console.warn(`Button not found, retrying... (${attemptCount + 1}/${maxAttempts})`);
+      }
+
+      attemptCount++;
+      if (attemptCount >= maxAttempts) {
+        console.error("Max attempts reached. Button not found.");
+        clearInterval(interval);
+      }
+    }, 500); // Check every 500ms
+  }
+
+  document.addEventListener("DOMContentLoaded", forceClickButton);
+</script>
+
+        </div>
+        
+
+
+    <!-- Section 2 -->
+
+
+     <!-- JavaScript -->
+    <script>// Function to toggle visibility of content under each icon inside the navbar
+function toggleContent(iconId, contentId, event) {
+    event.preventDefault(); // Prevent default anchor behavior (scroll to top)
+
+    const contentSection = document.getElementById(contentId);
+    const icon = document.getElementById(iconId);
+
+    // If the clicked content is already visible, hide it and remove highlight
+    if (contentSection.classList.contains('active')) {
+        contentSection.classList.remove('active');
+        icon.classList.remove('active-icon'); // Remove highlight
+    } else {
+        // Hide all other content sections and remove highlight from other icons
+        const allSections = document.querySelectorAll('.content-section');
+        allSections.forEach(section => section.classList.remove('active'));
+
+        const allIcons = document.querySelectorAll('.bottom-navbar a');
+        allIcons.forEach(icon => icon.classList.remove('active-icon')); // Remove highlight from all icons
+
+        // Show the clicked content section and highlight the icon
+        contentSection.classList.add('active');
+        icon.classList.add('active-icon'); // Add highlight to the clicked icon
+
+        // Scroll the content section into view (only if needed)
+        contentSection.scrollIntoView({
+            behavior: 'smooth', // Smooth scroll
+            block: 'center',    // Center the element vertically
+            inline: 'center'    // Center the element horizontally (optional)
+        });
+    }
+}
+
+// Prevent the content from closing when clicking inside it (stop event propagation)
+document.querySelectorAll('.content-section').forEach(content => {
+    content.addEventListener('click', function(event) {
+        event.stopPropagation(); // Prevent the click from propagating to the parent icon
+    });
+});
+
+
+// Event listeners for each icon
+document.getElementById('colorIcon').addEventListener('click', function(event) {
+    toggleContent('colorIcon', 'colorContent', event);
+});
+
+      
+</script>
+    </div>
+  </div>
+</div>
+
+
+    </div>
+  </div>
+
+        <div class="overlay" id="overlay"></div>
+    <div id="cartAlert">
+        <p>Item added to cart!</p>
+
+    </div>
+ 
+    <div id="sharebuttons" class="share-buttons"style="display:none;">
+        <!-- Native Share API Button -->
+        
+
+        <button id="nativeShareBtn" class="share-btn native-share">
+            <i class="fas fa-share-alt"></i> Share
+        </button>
+ 
+        <!-- WhatsApp Share Button -->
+        <button id="whatsappShareBtn" class="share-btn whatsapp-share">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+        </button>
+        
+    <!-- HTML Button (add this to your HTML file) -->
+
+<button id="reAddToCartBtn" class="add-to-cart-btn">
+    <i class="fas fa-shopping-cart"></i> Re-Add to Cart
+</button>
+  </div> 
+  <div id="cropModal" style="display:none ;">
+        <div class="modal-content">
+            <img id="cropImage">
+            <div class="modal-buttons">
+
+                <button id="cropCancel">Cancel</button>
+                                <button id="cropConfirm">Crop</button>
+            </div>
+        </div>
+    </div>
+<!-- Processing Section -->
+<div id="processingOverlay" style="display: none;">
+    <div id="processingSection">
+        <p>Processing your image...</p>
+        <div id="progressBarContainer">
+            <div id="progressBar"></div>
+        </div>
+        <p id="progressText">0%</p>
+    </div>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+  
+ <script src="js/back_button.js"></script>
+ <script type="module" src="js/custom_1S_Sq_T.js"></script>
+   
+ <script src="js/custom_intro.js"></script>
+ <br><br><br><br><br><br><br>
+
+  <br><br><br><br><br><br><br>
+
+  
+</body>
+</html>

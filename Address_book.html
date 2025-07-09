@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" Experience high-quality personalized products that reflect your unique style. Start personalizing your items today with fum.studio!
+">
+<title>Product Catalog</title
+  <link rel="stylesheet" href="style.css
+    ">
+   <link rel="stylesheet" href="css/catalog.css">
+      <link rel="stylesheet" href="css/Product.css
+    ">
+          <link rel="stylesheet" href="css/Itempage.css">     
+   <link rel= "Shortcut icon" type="x-icon" href= "https://i.postimg.cc/XqrhcVpD/20240702-095704.png"> 
+   
+      <link rel="stylesheet" href="css/catalog.css
+    ">
+          <link rel="stylesheet" href="css/currency.css
+    ">
+        <link href="https://fonts.google.com/share?selection.family=Jersey+25|Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<link rel= "Shortcut icon" type="x-icon" href= "https://i.postimg.cc/XqrhcVpD/20240702-095704.png "> 
+
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9RJSDSSVMM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9RJSDSSVMM');
+</script>
+  
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MNW5B4W9');</script>
+<!-- End Google Tag Manager -->
+
+      <!-- link pages -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+          <script>
+        $(function(){
+            $("#navbar").load("navbar.html");
+        });
+    </script>
+    <script>
+        $(function(){
+            $("#footer").load("footer.html");
+        });
+    </script>
+ <script>
+        $(function(){
+            $("#Whatsapp_button").load("whatsApp_button.html");
+        });
+    </script>
+
+</head>
+<body>
+
+<div class="container">
+
+
+
+    <!-- Nav -->
+    <nav class="main-nav">
+<h1 alt="Microsoft" class="logo">
+<i class="fa fa-chevron-left back-button" aria-hidden="true" onclick="goBack()"></i>
+<script>
+
+function goBack() {
+    window.history.back();
+}
+
+</script>   &nbsp; Address Book</h1>
+         <div id="navbar"></div>
+                      <!-- Advertisement Section -->
+
+    
+    <a href="cart_page.html" id="cartLink">
+    <div class="cart-container">
+        <i class="fas fa-shopping-cart cart-icon"></i>
+        <span id="totalItemCount" class="item-count">0</span>
+    </div>
+    </a>
+
+      <div class="menu-btn">
+ 
+    <i class="fas fa-bars fa-2x"></i>
+  </div>
+        
+
+
+</div>
+
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
+  import { getAuth } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+  import { getDatabase, ref , onValue, set } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js';
+
+  const firebaseConfig = {
+  apiKey: "AIzaSyCg8WRJx4wu-kkynIIIiLbbU5GaTxU-E9s",
+  authDomain: "fumstudio-b6694.firebaseapp.com",
+  databaseURL: "https://fumstudio-b6694-default-rtdb.firebaseio.com",
+  projectId: "fumstudio-b6694",
+  storageBucket: "fumstudio-b6694.firebasestorage.app",
+  messagingSenderId: "505195774753",
+  appId: "1:505195774753:web:7b94be0cf52e52a22f7460",
+  measurementId: "G-E4LBX75DR0"
+};
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const database = getDatabase(app);
+
+  // Check if user is authenticated
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+      alert("You must be logged in to access your profile.");
+      window.location.href = 'login.html'; // Redirect to login page
+    } else {
+      fetchProfile(user.uid);
+      document.getElementById("email").value = user.email; // Show email
+    }
+  });
+
+
+// Fetch profile data from Firebase (Realtime Database)
+  // Fetch profile data from Firebase
+  function fetchProfile(userId) {
+    const profileRef = ref(database, 'profiles/' + userId);
+    onValue(profileRef, (snapshot) => {
+      const profile = snapshot.val();
+      if (profile) {
+        document.getElementById("first-name").value = profile.firstName || '';
+        document.getElementById("last-name").value = profile.lastName || '';
+        document.getElementById("email").value = profile.email || ''; // Ensure email is fetched
+
+        // Address fields
+        const address = profile.addresses ? profile.addresses.address1 : null; // Assuming address1 is being stored
+        if (address) {
+          document.getElementById("street").value = address.street || '';
+          document.getElementById("complex").value = address.complex || '';
+          document.getElementById("city").value = address.city || '';
+          document.getElementById("suburb").value = address.suburb || '';
+          document.getElementById("postal-code").value = address.postalCode || '';
+          document.getElementById("province").value = address.province || '';
+          document.getElementById("country").value = address.country || '';
+          document.getElementById("phone").value = address.phone || '';
+        } else {
+          // Clear the address fields if no address data exists
+          document.getElementById("street").value = '';
+          document.getElementById("complex").value = '';
+          document.getElementById("city").value = '';
+          document.getElementById("suburb").value = '';
+          document.getElementById("postal-code").value = '';
+          document.getElementById("province").value = '';
+          document.getElementById("country").value = '';
+          document.getElementById("phone").value = '';
+        }
+
+}
+});
+}
+document.getElementById("save-profile-btn").addEventListener("click", async () => {
+    const user = auth.currentUser;
+    if (!user) {
+        alert("You must be logged in to save your profile.");
+        return; 
+    }
+
+    const userId = user.uid;
+    const profileRef = ref(database, 'profiles/' + userId);
+    
+    // Collecting profile information including the email and address data
+    const profileData = {
+        firstName: document.getElementById("first-name").value,
+        lastName: document.getElementById("last-name").value,
+        email: user.email, // Save the email from the auth object
+        addresses: {
+            address1: {
+                street: document.getElementById("street").value,
+                complex: document.getElementById("complex").value,
+                city: document.getElementById("city").value,
+                suburb: document.getElementById("suburb").value,
+                postalCode: document.getElementById("postal-code").value,
+                province: document.getElementById("province").value,
+                country: document.getElementById("country").value,
+                phone: document.getElementById("phone").value,
+                items: [], // Initialize items array
+                lastChangedDate: new Date().toLocaleString(), // Add current date and time
+                addressChanged: true // Mark the address as changed
+            }
+        }
+    };
+
+    // Check if any input field is empty
+// Check if any input field is empty
+if (Object.values(profileData).some(value => {
+    // Check if the value is a nested object (like addresses)
+    if (typeof value === 'object') {
+        return Object.values(value.address1).some(val => {
+            return typeof val === 'string' && val.trim() === "";
+        });
+    }
+    return typeof value === 'string' && value.trim() === "";
+})) {
+    fieldsAlert('<i class="fas fa-times-circle red-icon"></i>Please fill in all the fields.');
+    return;  // Prevent saving if any field is empty
+}
+
+await set(profileRef, profileData);
+savedAlert('Profile updated successfully!<i class="fa fa-check-circle green-icon"></i>');
+fetchProfile(userId); // Refresh the profile view
+
+});
+  // Save profile data to Firebase
+  
+  // Open shipping modal
+  window.openShippingModal = function(link) {
+    const modal = document.getElementById('shippingModal');
+    const iframe = document.getElementById('shippingIframe');
+    iframe.src = link; // Set the iframe source to the shipping link
+    modal.style.display = 'block'; // Show the modal
+  };
+
+  // Open item modal
+  window.openItemModal = function(link) {
+    const modal = document.getElementById('itemModal');
+    const iframe = document.getElementById('itemIframe');
+    iframe.src = link; // Set the iframe source to the item link
+    modal.style.display = 'block'; // Show the modal
+  };
+
+  // Open design modal
+  window.openDesignModal = function(link) {
+    const modal = document.getElementById('designModal');
+    const iframe = document.getElementById('designIframe');
+    iframe.src = link; // Set the iframe source to the design link
+    modal.style.display = 'block'; // Show the modal
+  };
+
+  // Close shipping modal
+  window.closeShippingModal = function() {
+    const modal = document.getElementById('shippingModal');
+    const iframe = document.getElementById('shippingIframe');
+    iframe.src = ''; // Clear the iframe source
+    modal.style.display = 'none'; // Hide the modal
+  };
+
+  // Close item modal
+  window.closeItemModal = function() {
+    const modal = document.getElementById('itemModal');
+    const iframe = document.getElementById('itemIframe');
+    iframe.src = ''; // Clear the iframe source
+    modal.style.display = 'none'; // Hide the modal
+  };
+
+  // Close design modal
+  window.closeDesignModal = function() {
+    const modal = document.getElementById('designModal');
+    const iframe = document.getElementById('designIframe');
+    iframe.src = ''; // Clear the iframe source
+    modal.style.display = 'none'; // Hide the modal
+  };
+  
+  // Form references
+    const saveProfileBtn = document.getElementById('save-profile-btn');
+    const firstNameInput = document.getElementById('first-name');
+    const lastNameInput = document.getElementById('last-name');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const streetInput = document.getElementById('street');
+    const complexInput = document.getElementById('complex');
+    const cityInput = document.getElementById('city');
+    const suburbInput = document.getElementById('suburb');
+    const postalCodeInput = document.getElementById('postal-code');
+    const provinceInput = document.getElementById('province');
+    const countryInput = document.getElementById('country');
+  
+  
+  // Fetch profile data from Firebase (Realtime Database)
+    function fetchProfileData(userId) {
+        const profileRef = ref(database, 'profiles/' + userId);  // Database path
+        onValue(profileRef, (snapshot) => {
+            if (snapshot.exists()) {
+                const profileData = snapshot.val();
+                // Populate form fields with data from Firebase
+                firstNameInput.value = profileData.firstName || '';
+                lastNameInput.value = profileData.lastName || '';
+                emailInput.value = profileData.email || '';
+                phoneInput.value = profileData.phone || '';
+                streetInput.value = profileData.street || '';
+                complexInput.value = profileData.complex || '';
+                cityInput.value = profileData.city || '';
+                suburbInput.value = profileData.suburb || '';
+                postalCodeInput.value = profileData.postalCode || '';
+                provinceInput.value = profileData.province || '';
+                countryInput.value = profileData.country || '';
+            } else {
+                console.log('No profile data found');
+            }
+        });
+    }
+
+
+let alertTimeout;
+let alertStartTime;
+let alertTimeLeft = 5000; // Example: 5 seconds, adjust this time as needed.
+
+function fieldsAlert(message, iconClass = "") {
+  console.log('Displaying cart alert message:', message); // Debugging: Log when cart alert is triggered
+
+  const cartAlert = document.getElementById('Alert');
+  const overlay = document.getElementById('overlay');
+
+  if (cartAlert && overlay) {
+    // Add the icon to the message if an icon class is provided
+    const iconHtml = iconClass ? `<i class="${iconClass}"></i> ` : '';
+    cartAlert.innerHTML = iconHtml + message; // Set the message with the icon inside the cart alert
+    cartAlert.style.display = 'block'; // Show the cart alert
+    overlay.style.display = 'block'; // Show the overlay
+
+    // Start the countdown for hiding the alert
+    startAlertTimeout();
+
+    // Pause the countdown when the user interacts with the overlay or alert
+    overlay.addEventListener('mousedown', pauseAlertCountdown);
+    cartAlert.addEventListener('mousedown', pauseAlertCountdown);
+    overlay.addEventListener('touchstart', pauseAlertCountdown);
+    cartAlert.addEventListener('touchstart', pauseAlertCountdown);
+
+    // Cancel the alert and hide immediately when the user clicks on the alert or overlay
+    overlay.addEventListener('click', cancelAndHideAlert);
+    cartAlert.addEventListener('click', cancelAndHideAlert);
+
+    // Resume countdown after the user stops interacting
+    overlay.addEventListener('mouseup', resumeAlertCountdown);
+    cartAlert.addEventListener('mouseup', resumeAlertCountdown);
+    overlay.addEventListener('touchend', resumeAlertCountdown);
+    cartAlert.addEventListener('touchend', resumeAlertCountdown);
+  } else {
+    console.error('Cart alert or overlay element not found');
+  }
+}
+function savedAlert(message, iconClass = "") {
+  console.log('Displaying cart alert message:', message); // Debugging: Log when cart alert is triggered
+
+  const cartAlert = document.getElementById('Alert');
+  const overlay = document.getElementById('overlay');
+
+  if (cartAlert && overlay) {
+    // Add the icon to the message if an icon class is provided
+    const iconHtml = iconClass ? `<i class="${iconClass}"></i> ` : '';
+    cartAlert.innerHTML = iconHtml + message; // Set the message with the icon inside the cart alert
+    cartAlert.style.display = 'block'; // Show the cart alert
+    overlay.style.display = 'block'; // Show the overlay
+
+    // Start the countdown for hiding the alert
+    startAlertTimeout();
+
+    // Pause the countdown when the user interacts with the overlay or alert
+    overlay.addEventListener('mousedown', pauseAlertCountdown);
+    cartAlert.addEventListener('mousedown', pauseAlertCountdown);
+    overlay.addEventListener('touchstart', pauseAlertCountdown);
+    cartAlert.addEventListener('touchstart', pauseAlertCountdown);
+
+    // Cancel the alert and hide immediately when the user clicks on the alert or overlay
+    overlay.addEventListener('click', cancelAndHideAlert);
+    cartAlert.addEventListener('click', cancelAndHideAlert);
+
+    // Resume countdown after the user stops interacting
+    overlay.addEventListener('mouseup', resumeAlertCountdown);
+    cartAlert.addEventListener('mouseup', resumeAlertCountdown);
+    overlay.addEventListener('touchend', resumeAlertCountdown);
+    cartAlert.addEventListener('touchend', resumeAlertCountdown);
+  } else {
+    console.error('Cart alert or overlay element not found');
+  }
+}
+
+
+// Start the timeout to hide the alert after a certain time
+function startAlertTimeout() {
+  alertStartTime = Date.now();
+  clearTimeout(alertTimeout); // Clear any existing timeouts first
+  alertTimeout = setTimeout(() => {
+    const cartAlert = document.getElementById('Alert');
+    const overlay = document.getElementById('overlay');
+    if (cartAlert && overlay) {
+      console.log("Hiding alert after timeout"); // Debugging: Confirming that timeout is firing
+      cartAlert.style.display = 'none'; // Hide the cart alert
+      overlay.style.display = 'none'; // Hide the overlay
+    } else {
+      console.error('Cart alert or overlay not found during timeout.');
+    }
+    alertTimeLeft = 5000; // Reset time to 5000 after timeout
+  }, alertTimeLeft); // Use current alertTimeLeft
+}
+
+// Pause the countdown without hiding the alert or overlay
+function pauseAlertCountdown() {
+  clearTimeout(alertTimeout); // Stop the countdown
+  console.log("Alert paused, countdown stopped.");
+}
+
+// Cancel and hide the alert immediately when the user clicks or taps on it
+function cancelAndHideAlert(event) {
+  const cartAlert = document.getElementById('Alert');
+  const overlay = document.getElementById('overlay');
+
+  // Hide the alert and overlay immediately
+  if (cartAlert && overlay) {
+    cartAlert.style.display = 'none';
+    overlay.style.display = 'none';
+    console.log("Alert canceled and hidden immediately.");
+  } else {
+    console.error('Cart alert or overlay not found when canceling.');
+  }
+
+  // Reset the countdown immediately when canceled
+  alertTimeLeft = 5000;
+  clearTimeout(alertTimeout); // Clear the current timeout
+  console.log("Countdown reset to 5000.");
+}
+
+// Resume the countdown when the user releases the mouse or touch
+function resumeAlertCountdown() {
+  startAlertTimeout(); // Restart the countdown from the current time left
+  console.log("Alert resumed, countdown restarted.");
+}
+
+</script>
+<style>
+#Alert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            z-index: 200; 
+        }
+    #overlay {
+                  display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+    .profile-form {
+      margin-top: 20px;
+    }
+
+
+
+
+    #shippingModal, #itemModal, #designModal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    .modal-content {
+      margin: auto;
+      padding: 0;
+      width: 80%;
+      max-width: 600px; /* Set max width */
+      position: absolute; /* Center it */
+      left: 50%; /* Move it to the left */
+      transform: translate(-50%, -50%); /* Center it vertically and horizontally */
+      top: 50%; /* Start from the middle of the screen */
+    }
+    #shippingModal iframe, #itemModal iframe, #designModal iframe {
+      width: 100%;
+      height: 400px; /* Set height for the iframe */
+      border: none;
+    }
+    .close-button {
+      color: white; /* White color */
+      font-size: 24px; /* Larger size */
+      font-weight: bold; /* Make it bold */
+      cursor: pointer; /* Pointer cursor on hover */
+      position: absolute; /* Position it in the modal */
+      top: -50px; /* Distance from the top */
+      left: 1px; /* Distance from the right */
+    }
+
+        .profile-form {
+
+            margin-top: 60px;
+            padding: 20px;
+
+
+
+        }
+body {
+
+
+            background: #EBEBEB;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        #show-form-btn {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 16px;
+        }
+
+        #show-form-btn:hover {
+            background-color: #333;
+            transform: scale(1.05);
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #save-profile-btn {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 16px;
+            margin-left: 32vh;
+            margin-top:10px;
+        }
+
+        #save-profile-btn:hover {
+            background-color: #333;
+            transform: scale(1.05);
+        }
+        /* Red Icon for errors */
+.red-icon {
+  color: red;
+  margin-left: 5px; /* Optional: Adds space between the text and the icon */
+}
+
+/* Green Icon for success */
+.green-icon {
+  color: green;
+  margin-left: 5px; /* Optional: Adds space between the text and the icon */
+}
+
+</style>
+</head>
+<body>
+
+
+  <div class="profile-form" id="profile-form">
+    <input type="text" id="first-name" placeholder="First Name">
+    <input type="text" id="last-name" placeholder="Last Name">
+    <input type="email" id="email" placeholder="Email" disabled>
+    <input type="text" id="phone" placeholder="Phone Number">
+    <input type="text" id="street" placeholder="Street">
+    <input type="text" id="complex" placeholder="Complex/Building">
+    <input type="text" id="city" placeholder="City">
+    <input type="text" id="suburb" placeholder="Suburb">
+    <input type="text" id="postal-code" placeholder="Postal/Zip Code">
+    <input type="text" id="province" placeholder="Province/State">
+    <input type="text" id="country" placeholder="Country"><br>
+    <button id="save-profile-btn">Save</button>
+  </div>
+
+
+        <div class="overlay" id="overlay"></div>
+    <div id="Alert">
+
+
+    </div>
+
+
+  <div id="shippingModal">
+    <div class="modal-content">
+      <span onclick="closeShippingModal()" class="close-button">&times;</span>
+      <iframe id="shippingIframe" src=""></iframe>
+    </div>
+  </div>
+
+  <div id="itemModal">
+    <div class="modal-content">
+      <span onclick="closeItemModal()" class="close-button">&times;</span>
+      <iframe id="itemIframe" src=""></iframe>
+    </div>
+  </div>
+
+  <div id="designModal"> 
+    <div class="modal-content">
+      <span onclick="closeDesignModal()" class="close-button">&times;</span>
+      <iframe id="designIframe" src=""></iframe>
+    </div>
+  </div>
+<br><br>
+
+
+
+
+<script type="module" src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+ </body>
+</html>
