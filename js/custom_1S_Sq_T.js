@@ -849,7 +849,7 @@ async function uploadImageToFirebase(file, uniqueFileName) {
 
 
     // WhatsApp Configuration
-    const whatsappNumber = "0659860276"; // +27 65 986 0276 (South Africa)
+    const whatsappNumber = "0728662309"; // +27 0728662309 (South Africa)
 
     // Fetch product price from Firebase
 
