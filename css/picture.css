@@ -1,0 +1,74 @@
+.container5 {
+  position: relative;
+  
+  overflow: hidden;
+  text-align: center;
+  touch-action: pan-y;
+  margin-top: 60px;
+  margin-bottom: 32px;
+}
+    .images5 {
+      display: flex;
+      transition: transform 0.5s ease; /* Smooth sliding effect */
+    }
+
+    .image5 {
+      flex: 0 0 100%;
+      width: 100%;
+      text-align: center;
+      padding: 20px;
+    }
+    .image5 img {
+  width: 100%;
+  display: block;
+}
+@media (min-width: 768px) {
+   .image5 {
+       text-align: center; /* Center the content horizontally */
+   }
+
+   .image5 img {
+       display: block; /* Make the image a block element */
+       margin: 0 auto; /* Center the image horizontally within its container */
+       max-width: 100%; /* Ensure images don't exceed their container */
+       height: auto; /* Maintain aspect ratio */
+       max-width: 400px; /* Set a maximum width for the images on desktop */
+   }
+}
+
+.counter {
+  position: absolute;
+  top: 360px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+    z-index: 2;
+
+}
+@media (min-width: 768px) {
+   .counter{
+     top: 450px;
+   }
+}
+.arrow {
+ position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px; /* Adjust the width as needed */
+  height: 30px; /* Adjust the height as needed */
+  background-color: black;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 50%; /* Make the background round */
+  padding: 4px; /* Add padding to center the arrow icon */
+  opacity: 0.75;
+  color: white;
+}
+.arrow.left {
+  left: 20px;
+
+}
+.arrow.right {
+  right: 20px;
+  
+}

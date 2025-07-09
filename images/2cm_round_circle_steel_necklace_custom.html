@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <title>2cm_round_circle_steel_necklace_custom</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+                  body {
+
+            background-color: #f4f4f4;
+        }
+   html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+     
+        .scene {
+            width: 300px;
+            height: 400px;
+            perspective: 1000px;
+        }
+        .portrait-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease;
+            cursor: pointer;
+        }
+
+.editor-container {
+    width: 100%;
+    max-width: 400px; /* Adjust the max-width to your desired size */
+    margin: 0 auto; /* Centers the container horizontally */
+    padding: 20px; /* Adjust padding as needed */
+    box-sizing: border-box; /* Includes padding in width calculation */
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Remove padding if not needed */
+}
+
+
+#imageContainer {
+      
+
+  z-index:1000;
+       width: 135px;
+      height: 135px;
+      border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    cursor: pointer;
+    background-size: cover;
+    background-color: #D9D9D9;
+
+margin-top: -198px;
+
+margin-left: 40%; 
+}
+/* Adjust left for small screens */
+@media (max-width: 600px) { 
+    #imageContainer {
+        margin-left: -150px;
+
+
+    }
+}
+
+        #buttonContainer {
+            display: none;
+            margin-top: 50px;
+            z-index: 120;
+        }
+        /* Adjust left for small screens */
+@media (max-width: 600px) { 
+          #buttonContainer {
+        margin-left: 20px;
+    }
+}
+        #deleteButton, #reCropButton, #addToCartBtn {
+            padding: 10px;
+            margin: 5px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #deleteButton { background-color: #CF7070; }
+        #reCropButton { background-color: #AEB8FF; }
+
+/* Style for the modal container */
+#cropModal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0, 0, 0, 0.8); /* Black with opacity */
+    justify-content: center;
+    align-items: center;
+
+}
+
+/* Style for the modal content */
+#cropModal .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 90%; /* Limit the width of the modal */
+    max-height: 100vh; /* Limit the height of the modal */
+    width: auto; /* Allow the width to adjust based on content */
+    height: auto; /* Allow the height to adjust based on content */
+    text-align: center;
+    position: relative;
+    overflow: hidden; /* Ensure nothing overflows the container */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: -80px;
+}
+
+/* Style for the image inside the modal */
+#cropImage {
+    max-width: 100%; /* Ensure the image doesn't exceed the container's width */
+    max-height: 60vh; /* Limit the image height to 60% of the viewport height */
+    width: auto; /* Maintain aspect ratio */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+    margin: 0 auto 20px auto; /* Center the image and add space below */
+    border-radius: 4px;
+    object-fit: contain; /* Ensure the image fits within the container */
+}
+
+/* Style for the modal buttons container */
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between buttons */
+}
+
+/* Style for the buttons */
+#cropConfirm,
+#cropCancel {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#cropConfirm {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+#cropConfirm:hover {
+    background-color: #45a049; /* Darker green */
+}
+
+#cropCancel {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+
+#cropCancel:hover {
+    background-color: #d32f2f; /* Darker red */
+}
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        #cropConfirm, #cropCancel {
+            padding: 8px 15px;
+            background: gray;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+      /* Overlay and processing section styles */
+/* Overlay and processing section styles */
+#processingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#processingSection {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+}
+
+#progressBarContainer {
+    width: 100%;
+    height: 20px;
+    background-color: #e0e0e0;
+    margin: 20px 0;
+    border-radius: 10px;
+}
+
+#progressBar {
+    height: 100%;
+    background-color: #76c7c0;
+    width: 0%; /* Initial width */
+    border-radius: 10px;
+}
+
+#progressText {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Overlay and processing section styles */
+
+    </style>
+     <style>
+
+  
+
+        .scene {
+            width: 300px;
+            height: 400px;
+            perspective: 1000px; /* Creates 3D effect */
+            touch-action: none; /* Disable default touch behavior */
+
+        }
+.rectangle-button {
+  background-color: #757575; /* Vibrant orange */
+  color: #000000;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+  text-transform: uppercase;
+  margin-top: 10px;
+  margin-left: 34px;
+         margin-bottom: 300px;
+}
+nav{
+  
+ 
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+#uploadText{
+  color: gray;
+
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            margin: 0;
+
+  margin-left: 65px;
+}
+.fa-image{
+    color: gray;
+
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            margin: 0;
+            margin-top: 50%;
+  
+  font-size: 16px;
+}
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  width: 350px;
+  height: 350px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  position: relative;
+  padding: 10px;
+  background-image: url('https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2Fshopping.png?alt=media&token=efe764a1-4a88-4bc9-9aeb-2188432cccb4');
+  background-size: cover;
+  background-position: center;
+  transition: all 0.5s ease;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+  left: 40.7%;
+    z-index:1000;
+}
+
+@media (max-width: 768px) {
+  .logo-container {
+    left: auto;
+
+  }
+}
+
+    </style>
+   <link rel="stylesheet" href="css/catalog.css">
+      <link rel="stylesheet" href="css/Itempage.css">
+</head>
+ 
+<body>
+<div class="container2">
+
+
+    <!-- Nav -->
+    
+<nav class="main-nav">
+  <!-- Navigation content -->
+
+
+<i class="fa fa-chevron-left back-button" aria-hidden="true" onclick="goBack()"></i>
+<script>
+
+function goBack() {
+    window.history.back();
+}
+
+</script>
+ <h3 class="item-nam">2cm Round steel necklace custom</h3>
+</nav>             </div>
+
+<br><br><br><br><br><br>
+
+<div class="editor-container">
+  <div class="main-container">    
+    <div class="logo-container" id="logoContainer"></div>
+
+
+  
+
+
+            <div id="imageContainer">
+
+                <p id="uploadText" >                    <i class="fas fa-image"></i><br>Click here to upload photo</p>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            </div>
+    </div>  
+  </div>
+</div>
+<div id="buttonContainer">
+    <button id="deleteButton">
+        <i class="fas fa-trash"></i>
+    </button>
+    <button id="reCropButton">
+        <i class="fas fa-crop"></i> Re-Crop
+    </button>
+    <button id="addToCartBtn" class="rectangle-button">
+        <i class="fas fa-cart-plus"></i> Add to Cart
+    </button>
+    <a id="downloadButton" style="display: none; margin-top: 10px;" class="btn btn-primary" href="#" download>
+    Download Image
+</a>
+</div>
+    <div id="cropModal">
+        <div class="modal-content">
+            <img id="cropImage">
+            <div class="modal-buttons">
+
+                <button id="cropCancel">Cancel</button>
+                                <button id="cropConfirm">Crop</button>
+            </div>
+        </div>
+    </div>
+<!-- Processing Section -->
+<div id="processingOverlay" style="display: none;">
+    <div id="processingSection">
+        <p>Processing your image...</p>
+        <div id="progressBarContainer">
+            <div id="progressBar"></div>
+        </div>
+        <p id="progressText">0%</p>
+    </div>
+</div>
+
+
+   <style>
+
+   /* From Uiverse.io by vinodjangid07 */ 
+#Alert {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    color: black;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1001; 
+    width: 190px;
+
+    /* Center text and elements */
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    flex-wrap: wrap;
+    gap: 10px; /* Adds spacing between elements */
+}
+
+
+    #overlay {
+                  display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+.green-icon {
+  color: green;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  text-align: center; /* Ensures text inside is centered */
+  font-size: 34px;
+  
+
+}
+
+
+  </style>
+
+        <div class="overlay" id="overlay"></div>
+    <div id="Alert">
+
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+
+<script type="module">
+ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
+import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBDrzrgLslaJvnXbo1e90irCEtdcm9ZsCU",
+    authDomain: "logins-13661.firebaseapp.com",
+    databaseURL: "https://logins-13661-default-rtdb.firebaseio.com",
+    projectId: "logins-13661",
+    storageBucket: "logins-13661.appspot.com",
+    messagingSenderId: "451535349483",
+    appId: "1:451535349483:web:d3c9867fd2bffbbdca40ae",
+    measurementId: "G-EWZC4FFTTG"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+const database = getDatabase(app);
+const auth = getAuth(app);
+
+let uploadedImageUrl = ''; // Variable to store the uploaded image URL
+let cropper;
+
+// DOM Elements
+const fileInput = document.getElementById('fileInput');
+const portraitContainer = document.getElementById('portraitContainer');
+const imageContainer = document.getElementById('imageContainer');
+const cropModal = document.getElementById('cropModal');
+const cropImage = document.getElementById('cropImage');
+const cropConfirm = document.getElementById('cropConfirm');
+const cropCancel = document.getElementById('cropCancel');
+const buttonContainer = document.getElementById('buttonContainer');
+const deleteButton = document.getElementById('deleteButton');
+const reCropButton = document.getElementById('reCropButton');
+const addToCartBtn = document.getElementById('addToCartBtn');
+const uploadText = document.getElementById('uploadText');
+
+// Event Listeners
+imageContainer.addEventListener('click', () => {
+    if (!imageContainer.style.backgroundImage || imageContainer.style.backgroundImage === 'none') {
+        fileInput.click(); // Open file selector only if no image is present
+    }
+});
+    const itemNameHeading = document.querySelector('.item-nam'); // Get the heading element
+
+// Function to update heading text
+function updateHeadingText(isLoading) {
+    if (itemNameHeading) {
+        itemNameHeading.textContent = isLoading 
+            ? "Customized Round steel necklace" 
+            : "2cm Round steel necklace custom";
+    }
+}
+
+let originalImageBlob = null; // Store the original image blob
+    
+// Event listener for the delete button to clear the image and reset input
+deleteButton.addEventListener('click', () => {
+    // Clear the image container
+    imageContainer.style.backgroundImage = '';
+    buttonContainer.style.display = 'none'; // Hide the buttons
+    uploadText.style.display = 'block'; // Show the upload text
+    
+    // Reset the file input so that user can upload the image again
+    fileInput.value = ''; // Reset the file input field
+    uploadedImageUrl = ''; // Clear the uploaded image URL variable
+      originalImageBlob = null; // Clear original image  
+});
+
+
+
+
+    
+// Modified re-crop button to use original image
+reCropButton.addEventListener('click', () => {
+    if (originalImageBlob) {
+         showLoading();
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            cropImage.src = event.target.result;
+            cropModal.style.display = 'flex';
+            cropper = new Cropper(cropImage, {
+                aspectRatio: 1,
+                viewMode: 1,
+                autoCropArea: 1,
+            });
+        };
+        reader.readAsDataURL(originalImageBlob);
+    } else {
+        // Fallback to current image if original not available
+        const currentImage = imageContainer.style.backgroundImage.replace('url("', '').replace('")', '');
+        if (currentImage) {
+              showLoading();
+            cropImage.src = currentImage;
+            cropModal.style.display = 'flex';
+            cropper = new Cropper(cropImage, {
+                aspectRatio: 1,
+                viewMode: 1,
+                autoCropArea: 1,
+            });
+        }
+    }
+});
+
+// Modified file input to store original image
+fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+          showLoading();
+        originalImageBlob = file; // Store original file
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            cropImage.src = event.target.result;
+            cropModal.style.display = 'flex';
+            cropper = new Cropper(cropImage, {
+                aspectRatio: 1,
+                viewMode: 1,
+                autoCropArea: 1,
+            });
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+
+cropConfirm.addEventListener('click', () => {
+    const croppedCanvas = cropper.getCroppedCanvas();
+    const croppedImageUrl = croppedCanvas.toDataURL();
+    imageContainer.style.backgroundImage = `url(${croppedImageUrl})`;
+    cropModal.style.display = 'none';
+    cropper.destroy();
+    buttonContainer.style.display = 'block';
+    uploadText.style.display = 'none';
+
+    // Convert the cropped canvas to a Blob
+    croppedCanvas.toBlob((blob) => {
+        uploadedImageBlob = blob;
+        
+        // Zoom the cropped image by 10%
+        const zoomFactor = 1.1;
+        const zoomedCanvas = document.createElement('canvas');
+        const ctx = zoomedCanvas.getContext('2d');
+        zoomedCanvas.width = croppedCanvas.width * zoomFactor;
+        zoomedCanvas.height = croppedCanvas.height * zoomFactor;
+        ctx.drawImage(croppedCanvas, 0, 0, zoomedCanvas.width, zoomedCanvas.height);
+        imageContainer.style.backgroundImage = `url(${zoomedCanvas.toDataURL()})`;
+        imageContainer.style.backgroundSize = 'cover';
+        imageContainer.style.backgroundPosition = 'center';
+    });
+});
+cropCancel.addEventListener('click', () => {
+    cropModal.style.display = 'none';
+    cropper.destroy();
+    hideLoading(); // Call function to hide loading state
+    resetToUploadPrompt(); // Call function to reset to upload prompt
+});
+function hideLoading() {
+    if (uploadText) {
+        uploadText.style.display = 'none';
+        uploadText.style.visibility = 'hidden';
+    }
+    // Additional logic to reset heading text if needed
+    updateHeadingText(false);
+}
+// Function to show loading state
+function showLoading() {
+    console.log("Showing loading state"); // Debug log
+    if (uploadText) {
+        uploadText.style.display = 'block';
+        uploadText.style.visibility = 'visible'; // Ensure it's visible
+        uploadText.innerHTML = '<i class="fas fa-spinner fa-spin"></i><br>Loading photo...';
+    }
+    updateHeadingText(true);
+}
+
+// Function to reset to upload prompt
+function resetToUploadPrompt() {
+    console.log("Resetting to upload prompt"); // Debug log
+    if (uploadText) {
+        uploadText.style.display = 'block';
+        uploadText.style.visibility = 'visible'; // Ensure it's visible
+        uploadText.innerHTML = '<i class="fas fa-image"></i><br>Click here to upload photo';
+    }
+    updateHeadingText(false);
+}
+
+
+// Function to upload the image to Firebase with a custom name
+async function uploadImageToFirebase(file, uniqueFileName) {
+    const storageReference = storageRef(storage, 'images/' + uniqueFileName);
+    const uploadTask = uploadBytesResumable(storageReference, file);
+
+    return new Promise((resolve, reject) => {
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+            },
+            (error) => {
+                reject(error);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    resolve(downloadURL); // Return the download URL once the upload is complete
+                });
+            }
+        );
+    });
+}
+
+// Function to show the processing overlay
+function showProcessingOverlay() {
+    const processingOverlay = document.getElementById('processingOverlay');
+    processingOverlay.style.display = 'flex'; // Show the overlay
+    updateProgress(0); // Initialize the progress to 0%
+}
+
+// Function to hide the processing overlay
+function hideProcessingOverlay() {
+    const processingOverlay = document.getElementById('processingOverlay');
+    processingOverlay.style.display = 'none'; // Hide the overlay
+}
+
+// Function to update the progress bar
+function updateProgress(progress) {
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    progressBar.style.width = progress + '%'; // Update the width of the progress bar
+    progressText.textContent = progress + '%'; // Update the progress text
+}
+
+// Function to simulate image upload progress
+function simulateUploadProgress(uploadTask) {
+    return new Promise((resolve, reject) => {
+        let progress = 0;
+        const interval = setInterval(() => {
+            if (progress < 100) {
+                progress++;
+                updateProgress(progress); // Update the progress bar
+            } else {
+                clearInterval(interval);
+                resolve();
+            }
+        }, 50); // Update progress every 50ms to simulate a smooth upload
+    });
+}
+let alertTimeout;
+let alertStartTime = 0;
+let alertTimeLeft = 3000; // 3 seconds for the alert to auto-dismiss
+
+// Declare the variable to store the cropped image Blob
+let uploadedImageBlob = null; // Add this line at the top of your script
+
+// Start the timeout to hide the alert after a certain time
+function startAlertTimeout() {
+  alertStartTime = Date.now();
+  clearTimeout(alertTimeout); // Clear any existing timeouts first
+  alertTimeout = setTimeout(() => {
+    const cartAlert = document.getElementById('Alert');
+    const overlay = document.getElementById('overlay');
+    if (cartAlert && overlay) {
+      console.log("Hiding alert after timeout"); // Debugging: Confirming that timeout is firing
+      cartAlert.style.display = 'none'; // Hide the cart alert
+      overlay.style.display = 'none'; // Hide the overlay
+    } else {
+      console.error('Cart alert or overlay not found during timeout.');
+    }
+    alertTimeLeft = 3000; // Reset time to 5000 after timeout
+  }, alertTimeLeft); // Use current alertTimeLeft
+}
+
+// Pause the countdown without hiding the alert or overlay
+function pauseAlertCountdown() {
+  clearTimeout(alertTimeout); // Stop the countdown
+  console.log("Alert paused, countdown stopped.");
+}
+
+// Cancel and hide the alert immediately when the user clicks or taps on it
+function cancelAndHideAlert(event) {
+  const cartAlert = document.getElementById('Alert');
+  const overlay = document.getElementById('overlay');
+
+  // Hide the alert and overlay immediately
+  if (cartAlert && overlay) {
+    cartAlert.style.display = 'none';
+    overlay.style.display = 'none';
+    console.log("Alert canceled and hidden immediately.");
+  } else {
+    console.error('Cart alert or overlay not found when canceling.');
+  }
+
+  // Reset the countdown immediately when canceled
+  alertTimeLeft = 3000;
+  clearTimeout(alertTimeout); // Clear the current timeout
+  console.log("Countdown reset to 5000.");
+}
+
+// Resume the countdown when the user releases the mouse or touch
+function resumeAlertCountdown() {
+  startAlertTimeout(); // Restart the countdown from the current time left
+  console.log("Alert resumed, countdown restarted.");
+}
+
+function showCartAlert(message, iconClass = "") {
+  console.log('Displaying cart alert message:', message); // Debugging: Log when cart alert is triggered
+
+  const cartAlert = document.getElementById('Alert');
+  const overlay = document.getElementById('overlay');
+
+  if (cartAlert && overlay) {
+    // Add the icon to the message if an icon class is provided
+    const iconHtml = iconClass ? `<i class="${iconClass}"></i> ` : '';
+    cartAlert.innerHTML = iconHtml + message; // Set the message with the icon inside the cart alert
+    cartAlert.style.display = 'block'; // Show the cart alert
+    overlay.style.display = 'block'; // Show the overlay
+
+    // Start the countdown for hiding the alert
+    startAlertTimeout();
+
+    // Pause the countdown when the user interacts with the overlay or alert
+    overlay.addEventListener('mousedown', pauseAlertCountdown);
+    cartAlert.addEventListener('mousedown', pauseAlertCountdown);
+    overlay.addEventListener('touchstart', pauseAlertCountdown);
+    cartAlert.addEventListener('touchstart', pauseAlertCountdown);
+
+    // Cancel the alert and hide immediately when the user clicks on the alert or overlay
+    overlay.addEventListener('click', cancelAndHideAlert);
+    cartAlert.addEventListener('click', cancelAndHideAlert);
+
+    // Resume countdown after the user stops interacting
+    overlay.addEventListener('mouseup', resumeAlertCountdown);
+    cartAlert.addEventListener('mouseup', resumeAlertCountdown);
+    overlay.addEventListener('touchend', resumeAlertCountdown);
+    cartAlert.addEventListener('touchend', resumeAlertCountdown);
+  } else {
+    console.error('Cart alert or overlay element not found');
+  }
+}
+
+
+addToCartBtn.addEventListener('click', async () => {
+    // Check if the user is logged in
+    const user = auth.currentUser;
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    if (!imageContainer.style.backgroundImage || imageContainer.style.backgroundImage === 'none') {
+        alert("Please upload an image first.");
+        return;
+    }
+
+    // Check if the cropped image Blob is available
+    if (!uploadedImageBlob) {
+        alert("No cropped image available.");
+        return;
+    }
+
+    try {
+        // Show the processing overlay
+        showProcessingOverlay();
+
+        // Generate a unique name for the file before uploading
+        const uniqueFileName = `image_${Date.now()}_${Math.floor(Math.random() * 1000)}.png`;
+
+        // Upload the cropped image Blob
+        const imageRef = storageRef(storage, 'images/' + uniqueFileName);
+        const uploadTask = uploadBytesResumable(imageRef, uploadedImageBlob);
+
+        // Simulate upload progress
+        await simulateUploadProgress(uploadTask);
+
+        // Get the uploaded image URL
+        const uploadedImageUrl = await new Promise((resolve, reject) => {
+            uploadTask.on('state_changed',
+                null,
+                (error) => reject(error),
+                async () => {
+                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                    resolve(downloadURL);
+                }
+            );
+        });
+
+        console.log('Cropped image uploaded successfully:', uploadedImageUrl);
+
+        // Generate a unique imageId
+        const imageId = Date.now().toString();
+
+        // Generate shareable link
+        const shareableLink = `${window.location.origin}/2cm_round_circle_steel_necklace_custom.html?imageId=${imageId}`;
+        console.log('Shareable Link:', shareableLink);
+
+        // Save the image URL and shareable link to Firebase Realtime Database
+        await set(ref(database, 'sharedImages/' + imageId), {
+            url: uploadedImageUrl,
+            shareableLink: shareableLink
+        });
+
+        console.log('Image details saved to database.');
+
+        // Get the logged-in user's ID
+        const userId = user.uid;
+        const cartRef = ref(database, 'carts/' + userId);
+        const snapshot = await get(cartRef);
+        const cartItems = snapshot.exists() ? snapshot.val().cart : [];
+
+        const newItem = {
+            shareableLink: shareableLink,
+            quantity: 1,
+            title: "2cm Round Steel necklace",
+            cost: 135,
+            catalogUrl: 'https://fumstudio.shop/2cm_round_circle_steel_necklace.html',
+            designs: [
+                {
+                    itemImage: 'https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2FDSC09806%20(2)_075552.jpg?alt=media&token=b8f92ab4-a5e8-44c2-9a57-e5b469e2f8c9',
+                }
+            ]
+        };
+
+        cartItems.push(newItem);
+        await set(cartRef, { cart: cartItems });
+        
+// After successful upload and adding to cart, clear the inputs
+        function clearInputs() {
+            // Clear container 1
+            imageContainer.style.backgroundImage = '';
+            fileInput.value = '';
+            uploadedImageBlob = null;
+            if (uploadText) uploadText.style.display = 'block';
+            if (buttonContainer) buttonContainer.style.display = 'none';
+            
+        }
+        // Hide the processing overlay
+        hideProcessingOverlay();
+
+        showCartAlert('<i class="fa fa-check-circle green-icon"></i>Item added to cart');
+        window.location.href = "cart_page.html";           
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        hideProcessingOverlay();
+        alert("Failed to upload image.");
+    }
+});
+
+// Function to get URL parameters
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+// Get imageId from URL
+const imageId = getQueryParam("imageId");
+
+// Check if imageId is present
+if (imageId) {
+    loadImage(imageId);
+}
+
+async function loadImage(imageId) {
+    try {
+        console.log("Starting to load image");
+        showLoading();
+        const imageRef = ref(database, `sharedImages/${imageId}`);
+        const snapshot = await get(imageRef);
+
+        if (snapshot.exists()) {
+            const imageUrl = snapshot.val().url;
+            console.log("Image URL retrieved:", imageUrl);
+            imageContainer.style.backgroundImage = `url('${imageUrl}')`;
+            imageContainer.style.backgroundSize = "cover";
+            imageContainer.style.backgroundPosition = "center";
+            imageContainer.style.cursor = "pointer";
+            uploadText.style.display = "none";
+            updateHeadingText(true);
+
+            imageContainer.addEventListener("click", () => {
+                window.open(imageUrl, "_blank");
+            });
+        } else {
+            console.log("Image not found in database");
+            resetToUploadPrompt();
+            alert("Image not found.");
+        }
+    } catch (error) {
+        console.error("Error loading image:", error);
+        resetToUploadPrompt();
+    }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM fully loaded");
+    resetToUploadPrompt();
+    const imageId = new URLSearchParams(window.location.search).get("imageId");
+    if (imageId) {
+        console.log("Loading image with ID:", imageId);
+        loadImage(imageId);
+    }
+});
+
+// Check if Font Awesome is loaded
+function checkFontAwesome() {
+    if (typeof FontAwesome === 'undefined') {
+        console.warn("Font Awesome not loaded - loading spinner won't appear");
+        // Load Font Awesome dynamically if needed
+        const faScript = document.createElement('script');
+        faScript.src = 'https://kit.fontawesome.com/your-code.js';
+        faScript.crossOrigin = 'anonymous';
+        document.head.appendChild(faScript);
+    }
+}
+checkFontAwesome();
+
+
+</script>
+
+
+</body>
+</html>

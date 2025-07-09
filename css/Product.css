@@ -1,0 +1,331 @@
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+
+            overflow: hidden;
+            margin-top: -2rem;
+        position: relative;    
+        }
+
+.container3 {
+  max-width: 1000px;
+  width: 100%;
+  margin: 1px auto;
+  background: #fff;
+  border-radius: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 20px;
+              padding: 20px;
+  
+}
+
+  
+  .main-nav .logo {
+    font-size: 2.4em; /* Adjust the font size as needed */
+    color: #000000;
+  }
+
+.like {
+
+    margin-top: 30px;
+    
+}
+
+.product {
+  width: 47%;
+  
+  border: 1px solid #FBEFEF;
+  border-radius: 7px;
+  margin-top: -30px;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  position: relative;
+}
+
+.product img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.product h2 {
+  margin-top: 0px;
+  font-size: 1.2em;
+  color: #333;
+  text-align: left;
+}
+
+.product p {
+  
+  font-size: 15px;
+  text-align: left;
+}
+
+.product-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1px;
+}
+
+.price {
+  color: #333;
+  font-weight: bold;
+}
+
+.shipping {
+  color: #2ecc71; /* Green color for free shipping */
+}
+
+
+.products {
+  display: flex;
+  animation: scroll 10s linear infinite;
+}
+
+
+.price-container {
+  margin-top: -30px;
+}
+
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+   100% {
+    transform: translateX(-800px);
+  }
+}
+
+.product.active {
+  background-color: #EDEEFF;
+}
+
+
+.fab {
+    margin-right: 10px;
+    text-decoration: none; /* Remove underline from the icon */
+}
+
+.whatsapp-icon span {
+    text-decoration: none; /* Remove underline from the text */
+}
+@media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 0) {
+    .ads {
+        text-align: left;
+        margin-right: 80px; /* Move the element 10px to the left */
+    }
+}
+   
+
+.item {
+  z-index: 1000;
+}
+.like {
+           text-align: center;
+    color: gray; /* Text color */
+    font-family: Arial, sans-serif; /* Specify the font family */
+    /* Add any additional styling you desire */
+ 
+}
+  
+                       .cart-icon {
+            font-size: 20px;
+            color: #000000; /* Blue color */
+            margin-right: 45px; /* Add space to the right of the icon */
+            margin-top: 8px;
+        }
+.cart {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            margin: auto;
+        }
+        .cart h2 {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .cart-item span {
+            font-weight: 400;
+        }
+        .cart-total {
+            font-weight: 600;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            margin-top: 10px;
+            text-align: right;
+        }
+        /* Style for cart counter */
+        .cart-count {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 0px 5px;
+            font-size: 12px;
+            margin-right: 40px;
+            margin-top: 10px;
+
+        }
+        
+ /* share button*/
+         /* Style for the cart icon container */
+        .cart-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+
+        }
+
+        /* Style for the cart icon */
+        .cart-icon {
+            font-size: 20px;
+
+        }
+        /* Style for the notification bubble with the total item count */
+        .item-count {
+            position: absolute;
+            top: -1px;
+            left: 12px;
+            background-color: red;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+                .search input {
+            width: 300px;
+            padding: 8px;
+            margin: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .catalog {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .catalog .item {
+            background-color: #fff;
+            padding: 5px;
+            width: 23%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+            position: relative;
+            
+        }
+
+        .catalog .item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .catalog .item:hover {
+            transform: scale(1.05);
+        }
+
+        /* Green color for free shipping */
+        .free-shipping {
+            color: green;
+            font-weight: bold;
+        }
+
+        /* Red color for original price */
+        .original-price {
+            color: red;
+            text-decoration: line-through;
+            font-weight: bold;
+        }
+
+        /* Flex container to align price and original price side by side */
+        .price-container {
+            display: flex;
+            gap:2px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .price-container p {
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .catalog .item {
+                width: 45%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .catalog .item {
+                width: 45%;
+            }
+
+            .search input {
+                width: 80%;
+            }
+        }
+
+        /* Style for the link itself, remove default underline and color */
+        a.item-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit; /* Use the inherited color, no change in text color */
+            display: block; /* Make the link behave like a block-level element */
+            z-index: 1000px;
+        }
+
+        /* Ensure the content inside the link is styled as needed */
+        .item-link .item-content {
+            display: block;
+            background-color: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        /* Hover effect for the item container */
+        .item-link:hover .item-content {
+            transform: scale(1.05); /* Scale the item up on hover */
+        }
+
+        /* Styling for the item image */
+        .item-link img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .pricing{  
+    color:#E58A52 ;
+              font-weight: bold;
+     }
+        
