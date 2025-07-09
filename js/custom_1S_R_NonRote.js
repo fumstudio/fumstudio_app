@@ -553,7 +553,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
             });
 
             const userId = user.uid;
-            const cartRef = ref(database, `carts/${userId}/carts`);
+            const cartRef = ref(database, `carts/${userId}/cartItems`);
             const snapshot = await get(cartRef);
             let cartItems = snapshot.exists() ? snapshot.val() : [];
 
@@ -589,7 +589,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
 
             hideProcessingOverlay();
             showCartAlert('<i class="fa fa-check-circle green-icon"></i>Item added to cart');
-            window.location.href = "cart_page.html";
+            window.location.href = "cart.html";
         } catch (error) {
             console.error('Error uploading image:', error);
             hideProcessingOverlay();
@@ -676,7 +676,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
 
             hideProcessingOverlay();
             showCartAlert('<i class="fa fa-check-circle green-icon"></i>Item added to cart');
-            window.location.href = "cart_page.html";
+            window.location.href = "cart.html";
         } catch (error) {
             console.error('Error adding to cart:', error);
             hideProcessingOverlay();
