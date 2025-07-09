@@ -1000,13 +1000,15 @@ shareBtn.addEventListener('click', async () => {
         // Generate shareable URL
         const shareableLink = createShareableLink(designId);
         updateProgress(80);
-
+      
+   showCartAlert('<i class="fas fa-check-circle"></i> Design shared on WhatsApp!');
+      
         // Open WhatsApp with the shareable link
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Check out my design: ' + shareableLink)}`;
         window.open(whatsappUrl, '_blank');
         updateProgress(100);
 
-        showCartAlert('<i class="fas fa-check-circle"></i> Design shared on WhatsApp!');
+     
 
     } catch (error) {
         console.error('Share error:', error);
@@ -1099,7 +1101,7 @@ addToCartBtn.addEventListener('click', async () => {
         updateProgress(100);
 
             showCartAlert('<i class="fa fa-check-circle green-icon"></i>Item added to cart');
-            window.location.href = "cart_page.html";
+            window.location.href = "cart.html";
       
 
         // Clear inputs after successful add to cart
@@ -1208,11 +1210,8 @@ reAddToCartBtn.addEventListener('click', async () => {
         await set(cartRef, cartItems);
 
         // Show success message with options
-        showCartAlert(`
-            <i class="fas fa-check-circle"></i> Item re-added to cart!<br>
-            <a href="cart.html" style="color: white; text-decoration: underline;">View Cart</a> | 
-            <a href="${shareableLink}" style="color: white; text-decoration: underline;">Share Design</a>
-        `);
+   showCartAlert('<i class="fa fa-check-circle green-icon"></i>Item added to cart');
+            window.location.href = "cart_page.html";  
 
         // Redirect to cart after delay
         setTimeout(() => {
