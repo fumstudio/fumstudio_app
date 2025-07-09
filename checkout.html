@@ -1480,8 +1480,8 @@ function createCartItemHTML({cartKey, mainImage, cartItem, displayPrice, origina
     // Get the image index from the cart item
     const imageIndex = getImageIndex(cartItem);
     
-// Construct the view item URL (relative path)
-const viewItemUrl = `/view-item.html?itemId=${cartItem.itemID}` +
+// Construct the view item URL with all necessary parameters including hostname
+const viewItemUrl = `${window.location.protocol}//${window.location.hostname}/view-item.html?itemId=${cartItem.itemID}` +
     (imageIndex ? `&image=${encodeURIComponent(imageIndex)}` : '') +
     (cartItem.selectedSize ? `&size=${encodeURIComponent(cartItem.selectedSize)}` : '');
     
