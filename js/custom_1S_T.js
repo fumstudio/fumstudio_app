@@ -667,18 +667,29 @@ shareBtn.addEventListener('click', async () => {
         const shareableLink = createShareableLink(designId);
         updateProgress(80);
 
-        // Open WhatsApp with the shareable link
-        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Check out my design: ' + shareableLink)}`;
-        window.open(whatsappUrl, '_blank');
+  
+        // 2. Prepare WhatsApp (90-100%)
+        const whatsappNumber = "27728662309";
+        const shareableLink = createShareableLink(designId);
+        const message = `Check out my design: ${window.location.origin}${shareableLink}`;
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        
         updateProgress(100);
-
-        showCartAlert('<i class="fas fa-check-circle"></i> Design shared on WhatsApp!');
+  hideProcessingOverlay();
+           showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
+        // Open WhatsApp
+        window.location.href = whatsappUrl;
+        setTimeout(() => {
+            if (window.location.href !== whatsappUrl) {
+                window.open(whatsappUrl, '_blank');
+            }
+        }, 1000);
 
     } catch (error) {
         console.error('Share error:', error);
-        showCartAlert(`Error: ${error.message}`, 'fas fa-exclamation-circle');
+        showCartAlert(`<i class="fas fa-exclamation-circle"></i> ${error.message || 'Sharing failed'}`);
     } finally {
-        hideProcessingOverlay();
+        setTimeout(hideProcessingOverlay, 2000);
     }
 });
 
