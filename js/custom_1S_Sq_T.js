@@ -1033,7 +1033,7 @@ shareBtn.addEventListener('click', async () => {
   
 
         // 3. Open WhatsApp directly
-        const whatsappNumber = "0728662309"; // International format without +
+        const whatsappNumber = "27728662309"; // International format without +
         const message = `Check out my design: ${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         
