@@ -612,8 +612,8 @@ function updateProgress(progress) {
 async function generateAndStoreLogoData() {
 
     // Get current values from input fields
-    const currentText = document.getElementById('logoText').value || 'Your Logo';
-    const secondaryText = document.getElementById('secondaryText').value || 'Secondary Text';
+    const currentText = document.getElementById('logoText').value || '';
+    const secondaryText = document.getElementById('secondaryText').value || '';
 
     // Upload image if new blob exists
 
