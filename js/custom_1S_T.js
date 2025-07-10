@@ -589,10 +589,6 @@ function hideProcessingOverlay() {
 // Function to update the progress bar
 
 
-// Function to create shareable link
-function createShareableLink(designId) {
-    return `/glass_music.html?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
-}
 
 // Function to update the progress bar with smooth counting
 function updateProgress(progress) {
@@ -651,9 +647,10 @@ async function generateAndStoreLogoData() {
     };
 }
 
-// Function to create shareable link
+
+// Keep your original shareable link function
 function createShareableLink(designId) {
-    return `/glass_music.html?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
+    return `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
 }
 
 // Share Button Click Handler
