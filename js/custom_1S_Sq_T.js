@@ -982,11 +982,11 @@ async function generateAndStoreLogoData() {
     };
 }
 
-// Function to create shareablelink
+// Keep your original shareable link function
 function createShareableLink(designId) {
     return `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
 }
-  
+
 shareBtn.addEventListener('click', async () => {
     // Validate image exists
     if (!imageContainer.style.backgroundImage || imageContainer.style.backgroundImage === 'none') {
@@ -1003,52 +1003,52 @@ shareBtn.addEventListener('click', async () => {
         showProcessingOverlay();
         updateProgress(0);
 
-        // 1. Upload image to storage
+        // 1. Upload image to storage (0-70%)
         const uniqueFileName = `image_${Date.now()}_${Math.floor(Math.random() * 1000)}.png`;
         const imageRef = storageRef(storage, 'images/' + uniqueFileName);
         const uploadTask = uploadBytesResumable(imageRef, uploadedImageBlob);
         
-        // Simulate progress updates
-        uploadTask.on('state_changed', 
-            (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                updateProgress(progress);
-            }
-        );
+        // Get download URL after upload completes
+        const uploadedImageUrl = await new Promise((resolve, reject) => {
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 70; // Scales to 70% max
+                    updateProgress(progress);
+                },
+                (error) => reject(error),
+                async () => {
+                    const url = await getDownloadURL(uploadTask.snapshot.ref);
+                    resolve(url);
+                }
+            );
+        });
 
-        // Wait for upload to complete
-        await uploadTask;
-        const uploadedImageUrl = await getDownloadURL(uploadTask.snapshot.ref);
-  
-
-        // 2. Save to database
-        const imageId = Date.now().toString();
-        const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
+        // 2. Save to database (70-90%)
+        const designId = Date.now().toString();
+        const shareableLink = createShareableLink(designId); // Using your original function
         
-        await set(ref(database, 'sharedImages/' + imageId), {
+        await set(ref(database, 'sharedImages/' + designId), {
             url: uploadedImageUrl,
             shareableLink: shareableLink,
             createdAt: new Date().toISOString()
         });
-  
+        updateProgress(90);
 
-        // 3. Open WhatsApp directly
-        const whatsappNumber = "27728662309"; // International format without +
-        const message = `Check out my design: ${shareableLink}`;
+        // 3. Prepare WhatsApp (90-100%)
+        const whatsappNumber = "27728662309";
+        const message = `Check out my design: ${window.location.origin}${shareableLink}`; // Add origin here
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         
-        // Try to open in current tab first
-        window.location.href = whatsappUrl;
+        updateProgress(100);
+        showCartAlert('<i class="fas fa-check-circle"></i> Opening WhatsApp...');
         
-        // Fallback if not redirected after 1 second
+        // Open WhatsApp
+        window.location.href = whatsappUrl;
         setTimeout(() => {
             if (window.location.href !== whatsappUrl) {
                 window.open(whatsappUrl, '_blank');
             }
         }, 1000);
-
-        updateProgress(100);
-        showCartAlert('<i class="fas fa-check-circle"></i> Opening WhatsApp...');
 
     } catch (error) {
         console.error('Share error:', error);
