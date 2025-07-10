@@ -1016,8 +1016,8 @@ shareBtn.addEventListener('click', async () => {
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         
         updateProgress(100);
-        showCartAlert('<i class="fas fa-check-circle"></i> Opening WhatsApp...');
-        
+  hideProcessingOverlay();
+           showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
         // Open WhatsApp
         window.location.href = whatsappUrl;
         setTimeout(() => {
