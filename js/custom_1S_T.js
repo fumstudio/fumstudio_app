@@ -197,11 +197,11 @@ function breakTextByWords(text, breakSize) {
   let currentChunk = '';
 
   for (let word of words) {
-    if (word.length >= 12) {
+    if (word.length >= 13) {
       // If word has 13 or more letters, break it into smaller chunks
-      while (word.length >= 8) {
-        chunks.push(word.substring(0, 8)); // Take the first 13 letters
-        word = word.substring(8); // Take the remaining part of the word
+      while (word.length >= 13) {
+        chunks.push(word.substring(0, 13)); // Take the first 13 letters
+        word = word.substring(13); // Take the remaining part of the word
       }
       if (word.length > 0) {
         currentChunk += word; // Add the remainder of the word
