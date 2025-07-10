@@ -989,12 +989,14 @@ function createShareableLink(designId) {
 
 shareBtn.addEventListener('click', async () => {
     // Validate image exists
+    const imageContainer = document.getElementById('imageContainer');
     if (!imageContainer.style.backgroundImage || imageContainer.style.backgroundImage === 'none') {
         showCartAlert('<i class="fas fa-exclamation-circle"></i> Please upload an image first');
         return;
     }
 
-    if (!uploadedImageBlob) {
+    if (!uploadedImageBlob && (!imageContainer.style.backgroundImage || 
+        imageContainer.style.backgroundImage === 'none')) {
         showCartAlert('<i class="fas fa-exclamation-circle"></i> Please crop your image first');
         return;
     }
@@ -1003,40 +1005,14 @@ shareBtn.addEventListener('click', async () => {
         showProcessingOverlay();
         updateProgress(0);
 
-        // 1. Upload image to storage (0-70%)
-        const uniqueFileName = `image_${Date.now()}_${Math.floor(Math.random() * 1000)}.png`;
-        const imageRef = storageRef(storage, 'images/' + uniqueFileName);
-        const uploadTask = uploadBytesResumable(imageRef, uploadedImageBlob);
-        
-        // Get download URL after upload completes
-        const uploadedImageUrl = await new Promise((resolve, reject) => {
-            uploadTask.on('state_changed',
-                (snapshot) => {
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 70; // Scales to 70% max
-                    updateProgress(progress);
-                },
-                (error) => reject(error),
-                async () => {
-                    const url = await getDownloadURL(uploadTask.snapshot.ref);
-                    resolve(url);
-                }
-            );
-        });
-
-        // 2. Save to database (70-90%)
-        const designId = Date.now().toString();
-        const shareableLink = createShareableLink(designId); // Using your original function
-        
-        await set(ref(database, 'sharedImages/' + designId), {
-            url: uploadedImageUrl,
-            shareableLink: shareableLink,
-            createdAt: new Date().toISOString()
-        });
+        // 1. Generate and store logo data (0-90%)
+        const { logoData, designId, imageUrl } = await generateAndStoreLogoData();
         updateProgress(90);
 
-        // 3. Prepare WhatsApp (90-100%)
+        // 2. Prepare WhatsApp (90-100%)
         const whatsappNumber = "27728662309";
-        const message = `Check out my design: ${window.location.origin}${shareableLink}`; // Add origin here
+        const shareableLink = createShareableLink(designId);
+        const message = `Check out my design: ${window.location.origin}${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         
         updateProgress(100);
