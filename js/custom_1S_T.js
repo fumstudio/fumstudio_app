@@ -670,7 +670,7 @@ shareBtn.addEventListener('click', async () => {
   
         // 2. Prepare WhatsApp (90-100%)
         const whatsappNumber = "27728662309";
-        const shareableLink = createShareableLink(designId);
+       
         const message = `Check out my design: ${window.location.origin}${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         
