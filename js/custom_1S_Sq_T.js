@@ -987,57 +987,74 @@ function createShareableLink(designId) {
     return `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${designId}`;
 }
   
-// Improved WhatsApp Share Button Click Handler
 shareBtn.addEventListener('click', async () => {
+    // Validate image exists
+    if (!imageContainer.style.backgroundImage || imageContainer.style.backgroundImage === 'none') {
+        showCartAlert('<i class="fas fa-exclamation-circle"></i> Please upload an image first');
+        return;
+    }
+
+    if (!uploadedImageBlob) {
+        showCartAlert('<i class="fas fa-exclamation-circle"></i> Please crop your image first');
+        return;
+    }
+
     try {
         showProcessingOverlay();
         updateProgress(0);
 
-        // Generate and store logo data
-        const { designId } = await generateAndStoreLogoData();
-        updateProgress(60);
+        // 1. Upload image to storage
+        const uniqueFileName = `image_${Date.now()}_${Math.floor(Math.random() * 1000)}.png`;
+        const imageRef = storageRef(storage, 'images/' + uniqueFileName);
+        const uploadTask = uploadBytesResumable(imageRef, uploadedImageBlob);
+        
+        // Simulate progress updates
+        uploadTask.on('state_changed', 
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                updateProgress(progress);
+            }
+        );
 
-        // Generate complete shareable URL
-        const shareableLink = createShareableLink(designId);
-        updateProgress(80);
-      
-        // Create WhatsApp message
+        // Wait for upload to complete
+        await uploadTask;
+        const uploadedImageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+        updateProgress(70);
+
+        // 2. Save to database
+        const imageId = Date.now().toString();
+        const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${imageId}`;
+        
+        await set(ref(database, 'sharedImages/' + imageId), {
+            url: uploadedImageUrl,
+            shareableLink: shareableLink,
+            createdAt: new Date().toISOString()
+        });
+        updateProgress(90);
+
+        // 3. Open WhatsApp directly
+        const whatsappNumber = "0659860276"; // International format without +
         const message = `Check out my design: ${shareableLink}`;
-        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         
-        // Improved WhatsApp URL with international number format
-        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+        // Try to open in current tab first
+        window.location.href = whatsappUrl;
         
-        // More reliable window opening method
-        const newWindow = window.open('', '_blank');
-        if (newWindow) {
-            newWindow.location.href = whatsappUrl;
-            setTimeout(() => {
-                if (newWindow.closed || newWindow.location.href === 'about:blank') {
-                    // Fallback if window was blocked
-                    window.location.href = whatsappUrl;
-                }
-            }, 500);
-        } else {
-            // Direct fallback
-            window.location.href = whatsappUrl;
-        }
-        
+        // Fallback if not redirected after 1 second
+        setTimeout(() => {
+            if (window.location.href !== whatsappUrl) {
+                window.open(whatsappUrl, '_blank');
+            }
+        }, 1000);
+
         updateProgress(100);
-        showCartAlert('<i class="fas fa-check-circle"></i> Design shared on WhatsApp!');
-        
+        showCartAlert('<i class="fas fa-check-circle"></i> Opening WhatsApp...');
+
     } catch (error) {
         console.error('Share error:', error);
-        // More user-friendly error messages
-        let errorMessage = 'Error sharing design';
-        if (error.message.includes("user is not authenticated")) {
-            errorMessage = 'Please log in to share designs';
-        } else if (error.message.includes("upload and crop")) {
-            errorMessage = 'Please complete your design first';
-        }
-        showCartAlert(`<i class="fas fa-exclamation-circle"></i> ${errorMessage}`);
+        showCartAlert(`<i class="fas fa-exclamation-circle"></i> ${error.message || 'Sharing failed'}`);
     } finally {
-        setTimeout(hideProcessingOverlay, 1000); // Give time for user to see completion
+        setTimeout(hideProcessingOverlay, 2000);
     }
 });
 
