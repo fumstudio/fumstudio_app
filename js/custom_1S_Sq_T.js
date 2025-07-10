@@ -1023,7 +1023,7 @@ shareBtn.addEventListener('click', async () => {
 
         // 2. Save to database
         const imageId = Date.now().toString();
-        const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${imageId}`;
+        const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
         
         await set(ref(database, 'sharedImages/' + imageId), {
             url: uploadedImageUrl,
