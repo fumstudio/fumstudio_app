@@ -1008,58 +1008,55 @@ shareBtn.addEventListener('click', async () => {
         const imageRef = storageRef(storage, 'images/' + uniqueFileName);
         const uploadTask = uploadBytesResumable(imageRef, uploadedImageBlob);
         
-        // Wait for upload to complete and track progress
-        const uploadedImageUrl = await new Promise((resolve, reject) => {
-            uploadTask.on('state_changed',
-                (snapshot) => {
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    updateProgress(Math.min(progress, 70)); // Cap at 70% for upload
-                },
-                (error) => reject(error),
-                async () => {
-                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                    resolve(downloadURL);
-                }
-            );
-        });
+        // Simulate progress updates
+        uploadTask.on('state_changed', 
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                updateProgress(progress);
+            }
+        );
+
+        // Wait for upload to complete
+        await uploadTask;
+        const uploadedImageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+  
 
         // 2. Save to database
-        const designId = Date.now().toString();
-        const shareableLink = createShareableLink(designId);
+        const imageId = Date.now().toString();
+        const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${imageId}`;
         
-        await set(ref(database, 'sharedImages/' + designId), {
+        await set(ref(database, 'sharedImages/' + imageId), {
             url: uploadedImageUrl,
             shareableLink: shareableLink,
             createdAt: new Date().toISOString()
         });
-        updateProgress(90);
+  
 
         // 3. Open WhatsApp directly
-        const whatsappNumber = "27659860276";
+        const whatsappNumber = "0728662309"; // International format without +
         const message = `Check out my design: ${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         
-        updateProgress(100);
-        showCartAlert('<i class="fas fa-check-circle"></i> Opening WhatsApp...');
-        
-        // Try to open in current tab
+        // Try to open in current tab first
         window.location.href = whatsappUrl;
         
-        // Fallback if blocked
+        // Fallback if not redirected after 1 second
         setTimeout(() => {
             if (window.location.href !== whatsappUrl) {
                 window.open(whatsappUrl, '_blank');
             }
         }, 1000);
 
+        updateProgress(100);
+        showCartAlert('<i class="fas fa-check-circle"></i> Opening WhatsApp...');
+
     } catch (error) {
         console.error('Share error:', error);
-        showCartAlert(`<i class="fas fa-exclamation-circle"></i> ${error.message || 'Sharing failed. Please try again.'}`);
+        showCartAlert(`<i class="fas fa-exclamation-circle"></i> ${error.message || 'Sharing failed'}`);
     } finally {
         setTimeout(hideProcessingOverlay, 2000);
     }
 });
-
 // Add to Cart Button Click Handler
 addToCartBtn.addEventListener('click', async () => {
     try {
