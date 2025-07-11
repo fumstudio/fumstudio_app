@@ -803,7 +803,7 @@ addToCartBtn.addEventListener('click', async () => {
 
         // Prepare cart item data
         const now = new Date();
-        const cartRef = ref(database, `carts/${userId}/carts`);
+        const cartRef = ref(database, `carts/${userId}/cartItems`);
         
         // Get existing cart items
         const snapshot = await get(cartRef);
@@ -901,7 +901,7 @@ reAddToCartBtn.addEventListener('click', async () => {
         updateProgress(100);
 
         const now = new Date();
-        const cartRef = ref(database, `carts/${user.uid}/carts`);
+        const cartRef = ref(database, `carts/${user.uid}/cartItems`);
         const snapshot = await get(cartRef);
         let cartItems = snapshot.exists() ? snapshot.val() : [];
 
