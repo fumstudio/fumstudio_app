@@ -323,20 +323,93 @@ function breakTextByCharacters(text, breakSize) {
 
 
 
+function setupDetailsButton(logoId, logoData) {
+  const showDetailsBtn = document.getElementById('showDetailsBtn');
+  const detailsModal = document.getElementById('detailsModal');
+  const modalContent = document.getElementById('modalContent');
+  const closeDetailsBtn = document.getElementById('closeDetailsBtn');
+  
+  if (!showDetailsBtn || !detailsModal || !modalContent || !closeDetailsBtn) return;
+
+  const tableHTML = `
+    <table class="logo-data-table">
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="display:none;">
+          <th>autoBreakEnabled</th>
+          <td>${logoData.autoBreakEnabled}</td>
+        </tr>
+        <tr style="display:none;">
+          <th>breakSize</th>
+          <td>${logoData.breakSize}</td>
+        </tr>
+        <tr>
+          <th>Color</th>
+          <td>${logoData.color}</td>
+        </tr>
+        <tr>
+          <th>Font</th>
+          <td>${logoData.font}</td>
+        </tr>
+        <tr>
+          <th>Bold</th>
+          <td class="boolean-${logoData.isBold ? 'true' : 'false'}">
+            ${logoData.isBold ? 'Yes' : 'No'}
+          </td>
+        </tr>
+        <tr>
+          <th>Italic</th>
+          <td class="boolean-${logoData.isItalic ? 'true' : 'false'}">
+            ${logoData.isItalic ? 'Yes' : 'No'}
+          </td>
+        </tr>
+        <tr>
+          <th>FirstText</th>
+          <td>${logoData.text}</td>
+        </tr>
+        <tr>
+          <th>SecondaryText</th>
+          <td>${logoData.secondaryText}</td>
+        </tr>
+        <tr>
+          <th>logoId</th>
+          <td>${logoId}</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+
+  modalContent.innerHTML = tableHTML;
+
+  showDetailsBtn.style.display = 'block';
+  
+  showDetailsBtn.addEventListener('click', () => {
+    detailsModal.style.display = 'block';
+  });
+  
+  closeDetailsBtn.addEventListener('click', () => {
+    detailsModal.style.display = 'none';
+  });
+}
 window.onload = function() {
   // Get the URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const logoId = urlParams.get('logoId');
-
   const logosettings = document.querySelector('.logo-settings');
 
   try {
-    // If logoId is present, load the logo data (text, font, color, etc.)
+    // If logoId is present, load the logo data
     if (logoId) {
       const dbRef = ref(database, 'logos/' + logoId);
       get(dbRef).then((snapshot) => {
         if (snapshot.exists()) {
           const logoData = snapshot.val();
+          
           // Set the logo text and settings
           document.getElementById('logoText').value = logoData.text;
           document.getElementById('secondaryText').value = logoData.secondaryText;
@@ -349,8 +422,12 @@ window.onload = function() {
           updateLogo();
 
           // Remove image and load styles
-          logosettings.style.display = 'none';
-          document.querySelector('.bottom-navbar').style.display = 'none';
+          if (logosettings) logosettings.style.display = 'none';
+          const bottomNavbar = document.querySelector('.bottom-navbar');
+          if (bottomNavbar) bottomNavbar.style.display = 'none';
+
+          // Setup the details button with Firebase data
+          setupDetailsButton(logoId, logoData);
         } else {
           alert("Logo ID not found.");
         }
@@ -359,10 +436,10 @@ window.onload = function() {
         alert("Error loading logo data. Please try again.");
       }).finally(() => {
         const sharebuttons = document.getElementById('sharebuttons');
-        sharebuttons.style.display = 'block';
-        addToCartBtn.style.display = 'none';
-        shareBtn.style.display = 'none';
-
+        if (sharebuttons) sharebuttons.style.display = 'block';
+     if (showDetailsBtn) showDetailsBtn.style.display = 'block';
+        if (addToCartBtn) addToCartBtn.style.display = 'none';
+        if (shareBtn) shareBtn.style.display = 'none';
       });
     }
   } catch (error) {
