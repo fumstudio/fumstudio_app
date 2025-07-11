@@ -322,174 +322,46 @@ function breakTextByCharacters(text, breakSize) {
   };
 
 
-    const showDetailsBtn = document.getElementById('showDetailsBtn');
 function setupDetailsButton(logoId, logoData) {
-  // Wait for DOM to be fully ready
-  document.addEventListener('DOMContentLoaded', function() {
-    const showDetailsBtn = document.getElementById('showDetailsBtn');
-    const detailsModal = document.getElementById('detailsModal');
-    const modalContent = document.getElementById('modalContent');
-    const closeDetailsBtn = document.getElementById('closeDetailsBtn');
-    
-    // Debug: Check if elements exist
-    if (!showDetailsBtn) console.error('Show Details button not found');
-    if (!detailsModal) console.error('Details modal not found');
-    if (!modalContent) console.error('Modal content not found');
-    if (!closeDetailsBtn) console.error('Close button not found');
-    
-    if (!showDetailsBtn || !detailsModal || !modalContent || !closeDetailsBtn) {
-      console.error('Required elements missing - cannot setup details button');
-      return;
-    }
+  const showDetailsBtn = document.getElementById('showDetailsBtn');
+  const detailsModal = document.getElementById('detailsModal');
+  const closeDetailsBtn = document.getElementById('closeDetailsBtn');
+  
+  if (!showDetailsBtn || !detailsModal || !closeDetailsBtn) return;
 
-    // Create table HTML with all data (including hidden fields)
-    const tableHTML = `
-      <table class="logo-data-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="display:none;">
-            <th>autoBreakEnabled</th>
-            <td>${logoData.autoBreakEnabled}</td>
-          </tr>
-          <tr style="display:none;">
-            <th>breakSize</th>
-            <td>${logoData.breakSize}</td>
-          </tr>
-          <tr>
-            <th>Color</th>
-            <td>${logoData.color}</td>
-          </tr>
-          <tr>
-            <th>Font</th>
-            <td>${logoData.font}</td>
-          </tr>
-          <tr>
-            <th>Bold</th>
-            <td class="boolean-${logoData.isBold ? 'true' : 'false'}">
-              ${logoData.isBold ? 'Yes' : 'No'}
-            </td>
-          </tr>
-          <tr>
-            <th>Italic</th>
-            <td class="boolean-${logoData.isItalic ? 'true' : 'false'}">
-              ${logoData.isItalic ? 'Yes' : 'No'}
-            </td>
-          </tr>
-          <tr>
-            <th>Primary Text</th>
-            <td>${logoData.text}</td>
-          </tr>
-          <tr>
-            <th>Secondary Text</th>
-            <td>${logoData.secondaryText}</td>
-          </tr>
-          <tr>
-            <th>Logo ID</th>
-            <td>${logoId}</td>
-          </tr>
-        </tbody>
-      </table>
-    `;
+  // Create formatted text with line breaks for each property
+  const formattedData = `
+    autoBreakEnabled:<br>${logoData.autoBreakEnabled}<br><br>
+    breakSize:<br>${logoData.breakSize}<br><br>
+    color:<br>${logoData.color}<br><br>
+    font:<br>${logoData.font}<br><br>
+    isBold:<br>${logoData.isBold}<br><br>
+    isItalic:<br>${logoData.isItalic}<br><br>
+    secondaryText:<br>"${logoData.secondaryText}"<br><br>
+    text:<br>"${logoData.text}"<br><br>
+    logoId:<br>${logoId}
+  `;
 
-    // Set modal content
-    modalContent.innerHTML = tableHTML;
+  // Set the formatted content
+  const detailContent = document.getElementById('detailContent');
+  if (detailContent) {
+    detailContent.innerHTML = formattedData;
+    // Apply the logo's font to the display
+    detailContent.style.fontFamily = logoData.font;
+    detailContent.style.color = logoData.color;
+  }
 
-    // Force show the button with multiple methods
-    showDetailsBtn.style.display = 'block';
-    showDetailsBtn.style.visibility = 'visible';
-    showDetailsBtn.style.opacity = '1';
-    
-    // Add click handlers
-    showDetailsBtn.addEventListener('click', function() {
-      detailsModal.style.display = 'block';
-      console.log('Details modal opened');
-    });
-    
-    closeDetailsBtn.addEventListener('click', function() {
-      detailsModal.style.display = 'none';
-      console.log('Details modal closed');
-    });
-
-    // Debug confirmation
-    console.log('Details button setup complete', showDetailsBtn);
+  // Show the button and setup events
+  showDetailsBtn.style.display = 'block';
+  
+  showDetailsBtn.addEventListener('click', () => {
+    detailsModal.style.display = 'block';
+  });
+  
+  closeDetailsBtn.addEventListener('click', () => {
+    detailsModal.style.display = 'none';
   });
 }
-
-// Enhanced window.onload with error handling
-window.onload = function() {
-  try {
-    const urlParams = new URLSearchParams(window.location.search);
-    const logoId = urlParams.get('logoId');
-    
-    if (!logoId) {
-      console.log('No logoId parameter found in URL');
-      return;
-    }
-
-    const dbRef = ref(database, 'logos/' + logoId);
-    
-    get(dbRef).then((snapshot) => {
-      if (!snapshot.exists()) {
-        console.error('Logo not found in database');
-        alert('Logo not found!');
-        return;
-      }
-
-      const logoData = snapshot.val();
-      console.log('Loaded logo data:', logoData);
-
-      // Update UI elements
-      document.getElementById('logoText').value = logoData.text || '';
-      document.getElementById('secondaryText').value = logoData.secondaryText || '';
-      
-      // Update global variables
-      currentFont = logoData.font || 'Roboto';
-      currentColor = logoData.color || '#000000';
-      autoBreakEnabled = logoData.autoBreakEnabled || 'word';
-      breakSize = logoData.breakSize || 'words';
-      isItalic = Boolean(logoData.isItalic);
-      isBold = Boolean(logoData.isBold);
-      
-      updateLogo();
-
-      // Hide unnecessary elements
-      const logosettings = document.getElementById('logosettings');
-      if (logosettings) logosettings.style.display = 'none';
-      
-      const bottomNavbar = document.querySelector('.bottom-navbar');
-      if (bottomNavbar) bottomNavbar.style.display = 'none';
-
-      // Setup details button
-      setupDetailsButton(logoId, logoData);
-      
-    }).catch((error) => {
-      console.error('Error loading logo:', error);
-      alert('Error loading logo data');
-      
-    }).finally(() => {
-      // Update UI visibility
-      const sharebuttons = document.getElementById('sharebuttons');
-      if (sharebuttons) sharebuttons.style.display = 'block';
-      
-      const showDetailsBtn = document.getElementById('showDetailsBtn');
-      if (showDetailsBtn) {
-        showDetailsBtn.style.display = 'block';
-        console.log('Details button should be visible now');
-      }
-      
-      if (addToCartBtn) addToCartBtn.style.display = 'none';
-      if (shareBtn) shareBtn.style.display = 'none';
-    });
-
-  } catch (error) {
-    console.error('Error in window.onload:', error);
-  }
-};
 const shareLink = document.getElementById('shareLink');
 const shareLinkContainer = document.getElementById('shareLinkContainer');
 
