@@ -322,7 +322,7 @@ function breakTextByCharacters(text, breakSize) {
   };
 
 
-
+    const showDetailsBtn = document.getElementById('showDetailsBtn');
 function setupDetailsButton(logoId, logoData) {
   const showDetailsBtn = document.getElementById('showDetailsBtn');
   const detailsModal = document.getElementById('detailsModal');
