@@ -437,7 +437,10 @@ window.onload = function() {
       }).finally(() => {
         const sharebuttons = document.getElementById('sharebuttons');
         if (sharebuttons) sharebuttons.style.display = 'block';
-     if (showDetailsBtn) showDetailsBtn.style.display = 'block';
+   console.log('Button element:', showDetailsBtn);
+console.log('Current display:', window.getComputedStyle(showDetailsBtn).display);
+showDetailsBtn.style.display = 'block';
+console.log('New display:', window.getComputedStyle(showDetailsBtn).display);
         if (addToCartBtn) addToCartBtn.style.display = 'none';
         if (shareBtn) shareBtn.style.display = 'none';
       });
