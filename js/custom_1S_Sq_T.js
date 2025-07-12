@@ -465,9 +465,9 @@ window.onload = function() {
             updateLogo();
             
             // Setup details button for text logos
-            setupDetailsButton(logoId, logoData);
+
           }
-          
+                     setupDetailsButton(logoId, logoData); 
           // Common UI updates for both types
           if (logosettings) logosettings.style.display = 'none';
           if (document.querySelector('.bottom-navbar')) {
