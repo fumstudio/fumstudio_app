@@ -659,7 +659,7 @@ function showCartAlert(message, iconClass = "") {
 
 
     // WhatsApp Configuration
-    const whatsappNumber = "0659860276"; // +27 65 986 0276 (South Africa)
+    const whatsappNumber = "27728662309"; // +27 65 986 0276 (South Africa)
 
     // Fetch product price from Firebase
 
