@@ -334,7 +334,85 @@ function showLoading() {
     }
     updateHeadingText(true);
 }
+function setupDetailsButton(logoId, logoData) {
+  const showDetailsBtn = document.getElementById('showDetailsBtn');
+  const detailsModal = document.getElementById('detailsModal');
+  const modalContent = document.getElementById('modalContent');
+  const closeDetailsBtn = document.getElementById('closeDetailsBtn');
+  
+  if (!showDetailsBtn || !detailsModal || !modalContent || !closeDetailsBtn) return;
 
+  // Handle cases where text or secondaryText might be empty or undefined
+  const firstText = logoData.text ? logoData.text : 'none';
+  const secondaryText = logoData.secondaryText ? logoData.secondaryText : 'none';
+
+  const tableHTML = `
+    <table class="logo-data-table">
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="display:none;">
+          <th>autoBreakEnabled</th>
+          <td>${logoData.autoBreakEnabled}</td>
+        </tr>
+        <tr style="display:none;">
+          <th>breakSize</th>
+          <td>${logoData.breakSize}</td>
+        </tr>
+        <tr>
+          <th>Color</th>
+          <td>${logoData.color}</td>
+        </tr>
+        <tr>
+          <th>Font</th>
+          <td>${logoData.font}</td>
+        </tr>
+        <tr>
+          <th>Bold</th>
+          <td class="boolean-${logoData.isBold ? 'true' : 'false'}">
+            ${logoData.isBold ? 'Yes' : 'No'}
+          </td>
+        </tr>
+        <tr>
+          <th>Italic</th>
+          <td class="boolean-${logoData.isItalic ? 'true' : 'false'}">
+            ${logoData.isItalic ? 'Yes' : 'No'}
+          </td>
+        </tr>
+        <tr>
+          <th>FirstText</th>
+          <td>${firstText}</td>
+        </tr>
+        <tr>
+          <th>SecondaryText</th>
+          <td>${secondaryText}</td>
+        </tr>
+        <tr>
+          <th>logoId</th>
+          <td>${logoId}</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+
+  modalContent.innerHTML = tableHTML;
+
+  showDetailsBtn.style.display = 'block';
+  
+  showDetailsBtn.addEventListener('click', () => {
+    detailsModal.style.display = 'block';
+  });
+  
+  closeDetailsBtn.addEventListener('click', () => {
+    detailsModal.style.display = 'none';
+  });
+}
+
+  
 window.onload = function() {
   showLoading();
   
@@ -380,6 +458,10 @@ sharebuttons.style.display = 'block';
 logosettings.style.display = 'none';
      document.querySelector('.bottom-navbar').style.display = 'none';             
           hideLoading();
+      // Setup the details button with Firebase data
+          setupDetailsButton(logoId, logoData);
+        if (showDetailsBtn) showDetailsBtn.style.display = 'block';
+  
         }
       });
     }
