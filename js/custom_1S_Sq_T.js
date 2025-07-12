@@ -412,14 +412,13 @@ function setupDetailsButton(logoId, logoData) {
   });
 }
   
-
-  window.onload = function() {
+window.onload = function() {
   showLoading();
   
   // Get the URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const logoId = urlParams.get('logoId');
-  const imageId = urlParams.get('logoId');
+  const imageId = urlParams.get('logoId'); // Note: This is the same as logoId - is this intentional?
   const imageLink = document.getElementById('imageLink');
   const imageContainer = document.getElementById('imageContainer');
 
@@ -441,7 +440,7 @@ function setupDetailsButton(logoId, logoData) {
           isBold = logoData.isBold || false;
           updateLogo();
           imageLink.href = logoData.url;
-         // Setup the details button immediately after we have the data
+          // Setup the details button immediately after we have the data
           setupDetailsButton(logoId, logoData);
         } else {
           alert("Logo ID not found.");
@@ -453,16 +452,14 @@ function setupDetailsButton(logoId, logoData) {
         hideLoading();
       }).finally(() => {
         if (!imageId) {
-const sharebuttons = document.getElementById('sharebuttons');
-sharebuttons.style.display = 'block';
+          const sharebuttons = document.getElementById('sharebuttons');
+          sharebuttons.style.display = 'block';
           sharebuttons.style.marginTop = '100px'; 
-logosettings.style.display = 'none';
-     document.querySelector('.bottom-navbar').style.display = 'none';             
+          logosettings.style.display = 'none';
+          document.querySelector('.bottom-navbar').style.display = 'none';             
           hideLoading();
-      // Setup the details button with Firebase data
-      
-        if (showDetailsBtn) showDetailsBtn.style.display = 'block';
-  
+          // Setup the details button with Firebase data
+          if (showDetailsBtn) showDetailsBtn.style.display = 'block';
         }
       });
     }
@@ -488,11 +485,12 @@ logosettings.style.display = 'none';
           const sharebuttons = document.getElementById('sharebuttons');
           sharebuttons.style.display = 'block';
           sharebuttons.style.marginTop = '100px'; 
-      if (showDetailsBtn) {
+          if (showDetailsBtn) {
             showDetailsBtn.style.display = 'block';
             logosettings.style.display = 'none';
-      document.querySelector('.bottom-navbar').style.display = 'none';        
-          } else {
+            document.querySelector('.bottom-navbar').style.display = 'none';        
+          }
+        } else {
           alert("Image not found.");
         }
       }).catch((error) => {
@@ -503,7 +501,6 @@ logosettings.style.display = 'none';
         resetToUploadPrompt();
       });
     } else if (!logoId) {
-
       hideLoading();
       resetToUploadPrompt();
     }
@@ -515,7 +512,7 @@ logosettings.style.display = 'none';
     hideLoading();
     resetToUploadPrompt();
   }
-}; 
+};
 const shareLink = document.getElementById('shareLink');
 const shareLinkContainer = document.getElementById('shareLinkContainer');
 
