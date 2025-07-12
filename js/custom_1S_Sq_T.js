@@ -411,7 +411,6 @@ function setupDetailsButton(logoId, logoData) {
     detailsModal.style.display = 'none';
   });
 }
-
   
 window.onload = function() {
   showLoading();
@@ -419,9 +418,12 @@ window.onload = function() {
   // Get the URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const logoId = urlParams.get('logoId');
-  const imageId = urlParams.get('logoId');
+  const imageId = urlParams.get('logoId'); // Note: same as logoId?
   const imageLink = document.getElementById('imageLink');
   const imageContainer = document.getElementById('imageContainer');
+  const logosettings = document.querySelector('.logo-settings');
+  const sharebuttons = document.getElementById('sharebuttons');
+  const showDetailsBtn = document.getElementById('showDetailsBtn');
 
   try {
     // If logoId is present, load the logo data (text, font, color, etc.)
@@ -440,57 +442,72 @@ window.onload = function() {
           isItalic = logoData.isItalic || false;
           isBold = logoData.isBold || false;
           updateLogo();
-          imageLink.href = logoData.url;
-        
+          
+          if (imageLink) imageLink.href = logoData.url;
+          
+          // Setup the details button immediately after we have the data
+          setupDetailsButton(logoId, logoData);
+          
+          // Hide unnecessary elements
+          if (logosettings) logosettings.style.display = 'none';
+          if (document.querySelector('.bottom-navbar')) {
+            document.querySelector('.bottom-navbar').style.display = 'none';
+          }
+          
+          // Show share buttons
+          if (sharebuttons) {
+            sharebuttons.style.display = 'block';
+            sharebuttons.style.marginTop = '100px'; 
+          }
+          
+          if (showDetailsBtn) {
+            showDetailsBtn.style.display = 'block';
+          }
         } else {
           alert("Logo ID not found.");
-          hideLoading();
         }
       }).catch((error) => {
         console.error("Error loading logo data:", error);
         alert("Error loading logo data. Please try again.");
-        hideLoading();
       }).finally(() => {
-        if (!imageId) {
-const sharebuttons = document.getElementById('sharebuttons');
-sharebuttons.style.display = 'block';
-          sharebuttons.style.marginTop = '100px'; 
-logosettings.style.display = 'none';
-     document.querySelector('.bottom-navbar').style.display = 'none';             
-          hideLoading();
-      // Setup the details button with Firebase data
-          setupDetailsButton(logoId, logoData);
-        if (showDetailsBtn) showDetailsBtn.style.display = 'block';
-  
-        }
+        hideLoading();
       });
     }
 
     // If imageId is present, load the image and transformations (zoom, move, etc.)
-    if (imageId) {
+    if (imageId && imageId !== logoId) { // Only run if imageId is different from logoId
       const imageRef = ref(database, 'logos/' + imageId);
       get(imageRef).then((snapshot) => {
         if (snapshot.exists()) {
           const logoData = snapshot.val();
           const imgElement = document.createElement('img');
           imgElement.src = logoData.url;
-          imageContainer.innerHTML = '';
-          imageContainer.appendChild(imgElement);
+          if (imageContainer) {
+            imageContainer.innerHTML = '';
+            imageContainer.appendChild(imgElement);
+          }
           isImageLoaded = true;
           updateHeadingText();
-          imageLink.href = logoData.url;
-          imageContainer.addEventListener('click', function() {
-            if (imageLink.href) {
-              window.open(imageLink.href, '_blank');
-            }
-          });
-          const sharebuttons = document.getElementById('sharebuttons');
-          sharebuttons.style.display = 'block';
-          sharebuttons.style.marginTop = '100px'; 
+          if (imageLink) imageLink.href = logoData.url;
+          
+          if (imageContainer) {
+            imageContainer.addEventListener('click', function() {
+              if (imageLink.href) {
+                window.open(imageLink.href, '_blank');
+              }
+            });
+          }
+          
+          if (sharebuttons) {
+            sharebuttons.style.display = 'block';
+            sharebuttons.style.marginTop = '100px'; 
+          }
 
-            logosettings.style.display = 'none';
-      document.querySelector('.bottom-navbar').style.display = 'none';        
-          } else {
+          if (logosettings) logosettings.style.display = 'none';
+          if (document.querySelector('.bottom-navbar')) {
+            document.querySelector('.bottom-navbar').style.display = 'none';
+          }
+        } else {
           alert("Image not found.");
         }
       }).catch((error) => {
@@ -501,7 +518,6 @@ logosettings.style.display = 'none';
         resetToUploadPrompt();
       });
     } else if (!logoId) {
-
       hideLoading();
       resetToUploadPrompt();
     }
@@ -514,7 +530,6 @@ logosettings.style.display = 'none';
     resetToUploadPrompt();
   }
 };
-
 const shareLink = document.getElementById('shareLink');
 const shareLinkContainer = document.getElementById('shareLinkContainer');
 
