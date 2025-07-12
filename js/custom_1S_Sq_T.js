@@ -418,94 +418,86 @@ window.onload = function() {
   // Get the URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const logoId = urlParams.get('logoId');
-  const imageId = urlParams.get('logoId'); // Note: This is the same as logoId - is this intentional?
   const imageLink = document.getElementById('imageLink');
   const imageContainer = document.getElementById('imageContainer');
+  const logosettings = document.querySelector('.logo-settings');
+  const sharebuttons = document.getElementById('sharebuttons');
+  const showDetailsBtn = document.getElementById('showDetailsBtn');
 
   try {
-    // If logoId is present, load the logo data (text, font, color, etc.)
+    // If logoId is present, load either the text logo or image logo
     if (logoId) {
       const dbRef = ref(database, 'logos/' + logoId);
       get(dbRef).then((snapshot) => {
         if (snapshot.exists()) {
           const logoData = snapshot.val();
-          // Set the logo text and settings
-          document.getElementById('logoText').value = logoData.text;
-          document.getElementById('secondaryText').value = logoData.secondaryText;
-          currentFont = logoData.font || 'Roboto';
-          currentColor = logoData.color;
-          autoBreakEnabled = logoData.autoBreakEnabled;
-          breakSize = logoData.breakSize;
-          isItalic = logoData.isItalic || false;
-          isBold = logoData.isBold || false;
-          updateLogo();
-          imageLink.href = logoData.url;
-          // Setup the details button immediately after we have the data
-          setupDetailsButton(logoId, logoData);
+          
+          // Check if this is a text logo or image logo
+          if (logoData.url) {
+            // This is an image logo
+            const imgElement = document.createElement('img');
+            imgElement.src = logoData.url;
+            if (imageContainer) {
+              imageContainer.innerHTML = '';
+              imageContainer.appendChild(imgElement);
+            }
+            isImageLoaded = true;
+            updateHeadingText();
+            if (imageLink) imageLink.href = logoData.url;
+            
+            if (imageContainer) {
+              imageContainer.addEventListener('click', function() {
+                if (imageLink.href) {
+                  window.open(imageLink.href, '_blank');
+                }
+              });
+            }
+          } else {
+            // This is a text logo
+            document.getElementById('logoText').value = logoData.text || '';
+            document.getElementById('secondaryText').value = logoData.secondaryText || '';
+            currentFont = logoData.font || 'Roboto';
+            currentColor = logoData.color;
+            autoBreakEnabled = logoData.autoBreakEnabled;
+            breakSize = logoData.breakSize;
+            isItalic = logoData.isItalic || false;
+            isBold = logoData.isBold || false;
+            updateLogo();
+            
+            // Setup details button for text logos
+            setupDetailsButton(logoId, logoData);
+          }
+          
+          // Common UI updates for both types
+          if (logosettings) logosettings.style.display = 'none';
+          if (document.querySelector('.bottom-navbar')) {
+            document.querySelector('.bottom-navbar').style.display = 'none';
+          }
+          
+          if (sharebuttons) {
+            sharebuttons.style.display = 'block';
+            sharebuttons.style.marginTop = '100px'; 
+          }
+          
+          if (showDetailsBtn) {
+            showDetailsBtn.style.display = logoData.url ? 'none' : 'block';
+          }
         } else {
           alert("Logo ID not found.");
-          hideLoading();
         }
       }).catch((error) => {
         console.error("Error loading logo data:", error);
         alert("Error loading logo data. Please try again.");
-        hideLoading();
-      }).finally(() => {
-        if (!imageId) {
-          const sharebuttons = document.getElementById('sharebuttons');
-          sharebuttons.style.display = 'block';
-          sharebuttons.style.marginTop = '100px'; 
-          logosettings.style.display = 'none';
-          document.querySelector('.bottom-navbar').style.display = 'none';             
-          hideLoading();
-          // Setup the details button with Firebase data
-          if (showDetailsBtn) showDetailsBtn.style.display = 'block';
-        }
-      });
-    }
-
-    // If imageId is present, load the image and transformations (zoom, move, etc.)
-    if (imageId) {
-      const imageRef = ref(database, 'logos/' + imageId);
-      get(imageRef).then((snapshot) => {
-        if (snapshot.exists()) {
-          const logoData = snapshot.val();
-          const imgElement = document.createElement('img');
-          imgElement.src = logoData.url;
-          imageContainer.innerHTML = '';
-          imageContainer.appendChild(imgElement);
-          isImageLoaded = true;
-          updateHeadingText();
-          imageLink.href = logoData.url;
-          imageContainer.addEventListener('click', function() {
-            if (imageLink.href) {
-              window.open(imageLink.href, '_blank');
-            }
-          });
-          const sharebuttons = document.getElementById('sharebuttons');
-          sharebuttons.style.display = 'block';
-          sharebuttons.style.marginTop = '100px'; 
-          if (showDetailsBtn) {
-            showDetailsBtn.style.display = 'block';
-            logosettings.style.display = 'none';
-            document.querySelector('.bottom-navbar').style.display = 'none';        
-          }
-        } else {
-          alert("Image not found.");
-        }
-      }).catch((error) => {
-        console.error("Error loading image:", error);
-        alert("Error loading image. Please try again.");
       }).finally(() => {
         hideLoading();
-        resetToUploadPrompt();
       });
-    } else if (!logoId) {
+    } else {
+      // No logoId parameter
       hideLoading();
       resetToUploadPrompt();
     }
   } catch (error) {
-    console.error("Error loading image:", error);
+    console.error("Error:", error);
     alert("An error occurred. Please try again.");
     isImageLoaded = false;
     updateHeadingText();
