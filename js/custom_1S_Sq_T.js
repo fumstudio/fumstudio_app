@@ -479,8 +479,8 @@ window.onload = function() {
             sharebuttons.style.marginTop = '100px'; 
           }
           
-          if (showDetailsBtn) {
-            showDetailsBtn.style.display = logoData.url ? 'none' : 'block';
+            if (showDetailsBtn) {
+            showDetailsBtn.style.display = 'block';
           }
         } else {
           alert("Logo ID not found.");
