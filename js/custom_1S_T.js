@@ -394,7 +394,24 @@ function setupDetailsButton(logoId, logoData) {
     detailsModal.style.display = 'none';
   });
 }
+const itemNameHeading = document.querySelector('.item-nam');
+  function updateHeadingText() {
+  
+  if (!itemNameHeading) {
+    console.error('itemNameHeading element not found!');
+    return;
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const logoId = urlParams.get('logoId');
+  
+  itemNameHeading.textContent = logoId ? "Customized" : "Custom";
+}
+  document.addEventListener('DOMContentLoaded', function() {
+  updateHeadingText();
+});
 window.onload = function() {
+  
   // Get the URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const logoId = urlParams.get('logoId');
@@ -438,6 +455,7 @@ window.onload = function() {
      if (showDetailsBtn) showDetailsBtn.style.display = 'block';
         if (addToCartBtn) addToCartBtn.style.display = 'none';
         if (shareBtn) shareBtn.style.display = 'none';
+        updateHeadingText();
       });
     }
   } catch (error) {
