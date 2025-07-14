@@ -634,76 +634,65 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
 const shareBtn = document.getElementById('shareBtn');
 shareBtn.addEventListener('click', async () => {
   // Check both containers for images
-  if ((!imageContainer.style.backgroundImage || imageContainer.style.backgroundImage === 'none') && (!imageContainer2.style.backgroundImage || imageContainer2.style.backgroundImage === 'none')) {
-    alert("Please upload at least one image first.");
+  const hasImage1 = imageContainer.style.backgroundImage && imageContainer.style.backgroundImage !== 'none';
+  const hasImage2 = imageContainer2.style.backgroundImage && imageContainer2.style.backgroundImage !== 'none';
+
+  if (!(hasImage1 && hasImage2)) {
+    alert("Please upload 2 images first.");
     return;
   }
 
-  if ((!uploadedImageBlob && !uploadedImageBlob2)) {
-    alert("No cropped images available.");
+  if (!(uploadedImageBlob && uploadedImageBlob2)) {
+    alert("Please crop both images.");
     return;
   }
 
   try {
     showProcessingOverlay();
     updateProgress(0); // Initialize progress bar
-
     let totalProgress = 0;
-    let imagesToUpload = 0;
+    let imagesToUpload = 2;
     let imagesUploaded = 0;
-
-    if (uploadedImageBlob) imagesToUpload++;
-    if (uploadedImageBlob2) imagesToUpload++;
 
     const updateCombinedProgress = (individualProgress) => {
       totalProgress = Math.floor((imagesUploaded * 50) + (individualProgress * 0.5));
       updateProgress(totalProgress);
     };
 
-    // Upload both images if they exist
-    let imageUrl1 = null;
-    let imageUrl2 = null;
+    // Upload both images
+    const uniqueFileName1 = `image1_${Date.now()}_${Math.floor(Math.random() * 1000)}.png`;
+    const imageRef1 = storageRef(storage, 'images/' + uniqueFileName1);
+    const uploadTask1 = uploadBytesResumable(imageRef1, uploadedImageBlob);
+    uploadTask1.on('state_changed', (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      updateCombinedProgress(progress);
+    }, (error) => {
+      console.error('Error uploading image 1:', error);
+      throw error;
+    });
+    await uploadTask1;
+    const imageUrl1 = await getDownloadURL(uploadTask1.snapshot.ref);
+    imagesUploaded++;
 
-    if (uploadedImageBlob) {
-      const uniqueFileName1 = `image1_${Date.now()}_${Math.floor(Math.random() * 1000)}.png`;
-      const imageRef1 = storageRef(storage, 'images/' + uniqueFileName1);
-      const uploadTask1 = uploadBytesResumable(imageRef1, uploadedImageBlob);
+    const uniqueFileName2 = `image2_${Date.now()}_${Math.floor(Math.random() * 1000)}.png`;
+    const imageRef2 = storageRef(storage, 'images/' + uniqueFileName2);
+    const uploadTask2 = uploadBytesResumable(imageRef2, uploadedImageBlob2);
+    uploadTask2.on('state_changed', (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      updateCombinedProgress(progress);
+    }, (error) => {
+      console.error('Error uploading image 2:', error);
+      throw error;
+    });
+    await uploadTask2;
+    const imageUrl2 = await getDownloadURL(uploadTask2.snapshot.ref);
+    imagesUploaded++;
 
-      uploadTask1.on('state_changed', (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        updateCombinedProgress(progress);
-      }, (error) => {
-        console.error('Error uploading image 1:', error);
-        throw error;
-      });
-
-      await uploadTask1;
-      imageUrl1 = await getDownloadURL(uploadTask1.snapshot.ref);
-      imagesUploaded++;
-      updateCombinedProgress(100);
-    }
-
-    if (uploadedImageBlob2) {
-      const uniqueFileName2 = `image2_${Date.now()}_${Math.floor(Math.random() * 1000)}.png`;
-      const imageRef2 = storageRef(storage, 'images/' + uniqueFileName2);
-      const uploadTask2 = uploadBytesResumable(imageRef2, uploadedImageBlob2);
-
-      uploadTask2.on('state_changed', (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        updateCombinedProgress(50 + (progress * 0.5));
-      }, (error) => {
-        console.error('Error uploading image 2:', error);
-        throw error;
-      });
-
-      await uploadTask2;
-      imageUrl2 = await getDownloadURL(uploadTask2.snapshot.ref);
-      imagesUploaded++;
-      updateProgress(100);
-    }
-
+    // Generate unique ID for this shared image set
     const imageId = Date.now().toString();
-const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${imageId}`;
+    const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${imageId}`;
+
+    // Save to database
     await set(ref(database, 'sharedImages/' + imageId), {
       url: imageUrl1,
       url2: imageUrl2,
@@ -711,24 +700,33 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
 
     });
 
-    // Proper WhatsApp sharing with URL encoding
-    const whatsappNumber = "0659860276";
-    const productName = "Custom Necklace";
-    const message = `Check out my custom ${productName}: ${shareableLink}`;
-    const encodedMessage = encodeURIComponent(message);
-const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+    // Prepare WhatsApp sharing
+    const whatsappNumber = "27728662309";
+    const whatsappMessage = `Check out my design: ${shareableLink}`;
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
-    setTimeout(() => {
-      hideProcessingOverlay();
-      showCartAlert('<i class="fa fa-check-circle green-icon"></i>Upload successful! Sharing to WhatsApp...');
-      window.location.href = whatsappUrl;
-    }, 500);
-  } catch (error) {
-    console.error('Error uploading image:', error);
+    // Complete progress and show success
+    updateProgress(100);
     hideProcessingOverlay();
-    alert("Failed to upload image. Please try again.");
+    showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
+    
+    // Open WhatsApp with fallback
+    window.location.href = whatsappUrl;
+    setTimeout(() => {
+      if (window.location.href !== whatsappUrl) {
+        window.open(whatsappUrl, '_blank');
+      }
+    }, 1000);
+
+  } catch (error) {
+    console.error('Share error:', error);
+    showCartAlert(`<i class="fas fa-exclamation-circle"></i> ${error.message || 'Sharing failed'}`);
+    updateProgress(0);
+  } finally {
+    setTimeout(hideProcessingOverlay, 2000);
   }
 });
+  
 // Native share and WhatsApp share functions remain the same
 const nativeShareBtn = document.getElementById('nativeShareBtn');
 const whatsappShareBtn = document.getElementById('whatsappShareBtn');
