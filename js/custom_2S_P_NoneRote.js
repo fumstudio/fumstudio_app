@@ -695,7 +695,7 @@ shareBtn.addEventListener('click', async () => {
     const uploadTask2 = uploadBytesResumable(imageRef2, uploadedImageBlob2);
     uploadTask2.on('state_changed', (snapshot) => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      updateCombinedProgress(50 + (progress * 0.5));
+      updateCombinedProgress(progress);
     }, (error) => {
       console.error('Error uploading image 2:', error);
       throw error;
@@ -703,40 +703,47 @@ shareBtn.addEventListener('click', async () => {
     await uploadTask2;
     const imageUrl2 = await getDownloadURL(uploadTask2.snapshot.ref);
     imagesUploaded++;
-    updateProgress(100);
 
+    // Generate unique ID for this shared image set
     const imageId = Date.now().toString();
     const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${imageId}`;
+
+    // Save to database
     await set(ref(database, 'sharedImages/' + imageId), {
       url: imageUrl1,
       url2: imageUrl2,
       shareableLink: shareableLink,
+      createdAt: serverTimestamp()
     });
 
-// 2. Prepare WhatsApp (90-100%)
-        const whatsappNumber = "27728662309";
-        const shareableLink = createShareableLink(designId);
-        const message = Check out my design: ${window.location.origin}${shareableLink};
-        const whatsappUrl = https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)};
-        
-        updateProgress(100);
-  hideProcessingOverlay();
-           showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
-        // Open WhatsApp
-        window.location.href = whatsappUrl;
-        setTimeout(() => {
-            if (window.location.href !== whatsappUrl) {
-                window.open(whatsappUrl, '_blank');
-            }
-        }, 1000);
+    // Prepare WhatsApp sharing
+    const whatsappNumber = "27728662309";
+    const whatsappMessage = `Check out my design: ${shareableLink}`;
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
-    } catch (error) {
-        console.error('Share error:', error);
-        showCartAlert(<i class="fas fa-exclamation-circle"></i> ${error.message || 'Sharing failed'});
-    } finally {
-        setTimeout(hideProcessingOverlay, 2000);
-    }
+    // Complete progress and show success
+    updateProgress(100);
+    hideProcessingOverlay();
+    showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
+    
+    // Open WhatsApp with fallback
+    window.location.href = whatsappUrl;
+    setTimeout(() => {
+      if (window.location.href !== whatsappUrl) {
+        window.open(whatsappUrl, '_blank');
+      }
+    }, 1000);
+
+  } catch (error) {
+    console.error('Share error:', error);
+    showCartAlert(`<i class="fas fa-exclamation-circle"></i> ${error.message || 'Sharing failed'}`);
+    updateProgress(0);
+  } finally {
+    setTimeout(hideProcessingOverlay, 2000);
+  }
 });
+
+
 // Native share and WhatsApp share functions remain the same
 const nativeShareBtn = document.getElementById('nativeShareBtn');
 const whatsappShareBtn = document.getElementById('whatsappShareBtn');
