@@ -713,23 +713,29 @@ shareBtn.addEventListener('click', async () => {
       shareableLink: shareableLink,
     });
 
-    // Proper WhatsApp sharing with URL encoding
-    const whatsappNumber = "0659860276";
+// 2. Prepare WhatsApp (90-100%)
+        const whatsappNumber = "27728662309";
+        const shareableLink = createShareableLink(designId);
+        const message = Check out my design: ${window.location.origin}${shareableLink};
+        const whatsappUrl = https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)};
+        
+        updateProgress(100);
+  hideProcessingOverlay();
+           showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
+        // Open WhatsApp
+        window.location.href = whatsappUrl;
+        setTimeout(() => {
+            if (window.location.href !== whatsappUrl) {
+                window.open(whatsappUrl, '_blank');
+            }
+        }, 1000);
 
-    const message = `Check out my custom: ${shareableLink}`;
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
-
-    setTimeout(() => {
-      hideProcessingOverlay();
-       showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
-      window.location.href = whatsappUrl;
-    }, 500);
-  } catch (error) {
-    console.error('Error uploading image:', error);
-    hideProcessingOverlay();
-    alert("Failed to upload image. Please try again.");
-  }
+    } catch (error) {
+        console.error('Share error:', error);
+        showCartAlert(<i class="fas fa-exclamation-circle"></i> ${error.message || 'Sharing failed'});
+    } finally {
+        setTimeout(hideProcessingOverlay, 2000);
+    }
 });
 // Native share and WhatsApp share functions remain the same
 const nativeShareBtn = document.getElementById('nativeShareBtn');
