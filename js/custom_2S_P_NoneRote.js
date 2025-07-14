@@ -714,7 +714,7 @@ shareBtn.addEventListener('click', async () => {
     });
 
     // Proper WhatsApp sharing with URL encoding
-    const whatsappNumber = "0728662309";
+    const whatsappNumber = "0659860276";
 
     const message = `Check out my custom: ${shareableLink}`;
     const encodedMessage = encodeURIComponent(message);
