@@ -714,7 +714,7 @@ shareBtn.addEventListener('click', async () => {
     });
 
     // Proper WhatsApp sharing with URL encoding
-    const whatsappNumber = "27728662309";
+    const whatsappNumber = "0728662309";
 
     const message = `Check out my custom: ${shareableLink}`;
     const encodedMessage = encodeURIComponent(message);
@@ -722,7 +722,7 @@ shareBtn.addEventListener('click', async () => {
 
     setTimeout(() => {
       hideProcessingOverlay();
-      showCartAlert('<i class="fa fa-check-circle green-icon"></i>Upload successful! Sharing to WhatsApp...');
+       showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
       window.location.href = whatsappUrl;
     }, 500);
   } catch (error) {
