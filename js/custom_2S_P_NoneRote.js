@@ -499,7 +499,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
             price: productPrice, // Now using the dynamically fetched price
             quantity: 1,
             selectedSize: selectedSize,
-            title: "Double Exposure Necklace",
+           
             isCustom: true,
             shareableLink: shareableLink,
             addedAtISO: now.toISOString(),
