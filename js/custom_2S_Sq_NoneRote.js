@@ -481,7 +481,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
             shareableLink:shareableLink,   });
 
         const userId = user.uid;
-        const cartRef = ref(database, `carts/${userId}/carts`);
+        const cartRef = ref(database, `carts/${userId}/cartItems`);
         const snapshot = await get(cartRef);
         let cartItems = snapshot.exists() ? snapshot.val() : [];
 
@@ -499,7 +499,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
             price: productPrice, // Now using the dynamically fetched price
             quantity: 1,
             selectedSize: selectedSize,
-            title: "Double Exposure Necklace",
+          
             isCustom: true,
             shareableLink: shareableLink,
             addedAtISO: now.toISOString(),
@@ -605,7 +605,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
 
         // Add to user's cart
         const userId = user.uid;
-        const cartRef = ref(database, `carts/${userId}/carts`);
+        const cartRef = ref(database, `carts/${userId}/cartItems`);
         const snapshot = await get(cartRef);
         let cartItems = snapshot.exists() ? snapshot.val() : [];
 
