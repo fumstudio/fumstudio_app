@@ -1030,7 +1030,7 @@ async function loadImage(imageId) {
 
             // Update item name if any images loaded
             if (imagesLoaded > 0 && itemName) {
-                itemName.textContent = 'Customized Necklace';
+                itemName.textContent = 'Customized';
             }
 
         } else {
