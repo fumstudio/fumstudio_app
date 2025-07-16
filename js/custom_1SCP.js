@@ -726,7 +726,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
 
             hideProcessingOverlay();
             showCartAlert('<i class="fa fa-check-circle green-icon"></i>Item added to cart');
-            window.location.href = "cart_page.html";
+            window.location.href = "cart.html";
         } catch (error) {
             console.error('Error uploading image:', error);
             hideProcessingOverlay();
@@ -794,7 +794,6 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
                 price: productPrice,
                 quantity: 1,
                 selectedSize: selectedSize,
-                title: "Custom Necklace",
                 isCustom: true,
                 shareableLink: shareableLink,
                 addedAtISO: now.toISOString(),
@@ -813,7 +812,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
 
             hideProcessingOverlay();
             showCartAlert('<i class="fa fa-check-circle green-icon"></i>Item added to cart');
-            window.location.href = "cart_page.html";
+            window.location.href = "cart.html";
         } catch (error) {
             console.error('Error adding to cart:', error);
             hideProcessingOverlay();
