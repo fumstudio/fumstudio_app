@@ -738,14 +738,6 @@ button {
   opacity: 0.8;
 }
 
-    .main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  margin-top:-90px;
-}
 #video-alert {
     display: none;
     position: fixed;
