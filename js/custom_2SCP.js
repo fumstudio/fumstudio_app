@@ -886,7 +886,8 @@ shareBtn.addEventListener('click', async () => {
       url: imageUrl1,
       url2: imageUrl2,
       shareableLink: shareableLink,
-
+            rotation1: rotationState.container1.angle,
+            rotation2: rotationState.container2.angle
     });
 
     // Prepare WhatsApp sharing
