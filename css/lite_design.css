@@ -30,7 +30,7 @@
             cursor: pointer;
     
         }
-        #deleteButton, #deleteButton2  { background-color: blue;
+        #deleteButton, #deleteButton2  { background-color:  #CF7070;
         
 
         }
@@ -130,7 +130,7 @@
 
 #cropCancel, #cropCancel2 {
     background-color: rgba(255, 255, 255, 0.9);
-    color: #1a2639;
+    color: red;
     border: 1px solid #1a2639;
     margin-left: auto; /* Pushes to right */
 }
