@@ -68,17 +68,17 @@
   border-radius: 4px;
 }
 
-/* Optional: Add some additional styles for small screens */
-@media (max-width: 768px) {
-  #cropModal .modal-content, #cropModal2 .modal-content2 {
-    padding: 10px;
-    max-width: 95%;
-    max-height: 95vh;
-  }
-  #cropImage, #cropImage2 {
-    max-height: 60vh;
-  }
-}
+
+       .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+  
+            border-radius: 5px;
+            text-align: center;
+
+        }
 /* Style for the modal buttons container */
 .modal-buttons button, .modal-buttons2 button {
     margin-top: 20px;
