@@ -307,17 +307,7 @@
             height: 100%; /* Full height */
             background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
         }
-        .modal-content2 {
-            background-color: white; /* White background */
-            margin: 15% auto; /* 15% from the top and centered */
-            padding: 20px; /* Padding */
-            border: 1px solid #888; /* Border */
-            width: 80%; /* Width of the modal */
-            max-width: 400px; /* Max width */
-            border-radius: 5px; /* Rounded corners */
-            text-align: center; /* Center text */
-        }
-                .close-button {
+             .close-button {
             background-color: black; /* Black background */
             color: white; /* White text */
             border: 2px solid white; /* White border */
@@ -529,7 +519,7 @@
       justify-content: center; 
       align-items: center;
     }
-    #modal-content, #alert-modal-content, #edit-modal-content {
+ #alert-modal-content, #edit-modal-content {
       background-color: white;
       padding: 20px;
       border-radius: 5px;
