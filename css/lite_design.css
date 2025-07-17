@@ -77,7 +77,18 @@
   align-items: center;
   justify-content: center;
 }
+       .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 5px;
+            text-align: center;
 
+        }
+        
 #cropImage, #cropImage2 {
   max-width: 100%;
   max-height: 70vh;
