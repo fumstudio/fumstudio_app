@@ -479,16 +479,6 @@ nav{
   box-sizing: border-box;
 }
 
-#modalContent {
-  
-  background: white;
-  max-width: 95%; /* More screen utilization on mobile */
-  margin: 50px auto; /* Reduced margin */
-  padding: 15px; /* Reduced padding */
-  border-radius: 5px;
-  overflow-x: auto; /* Allows horizontal scrolling if needed */
-}
-
 /* Rest of your existing CSS remains exactly the same */
 #closeDetailsBtn {
   position: absolute;
