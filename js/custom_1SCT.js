@@ -932,36 +932,21 @@ function createShareableLink(designId) {
 
 // Share Button Click Handler
 shareBtn.addEventListener('click', async () => {
-    if (!imageContainer.style.backgroundImage || imageContainer.style.backgroundImage === 'none') {
-        alert("Please upload an image first.");
-        return;
-    }
-
-    if (!uploadedImageBlob) {
-        alert("No cropped image available.");
-        return;
-    }
-
-    try {
+try {
         showProcessingOverlay();
-        const uniqueFileName = `image_${Date.now()}_${Math.floor(Math.random() * 1000)}.png`;
-        const imageRef = storageRef(storage, 'images/' + uniqueFileName);
-        const uploadTask = uploadBytesResumable(imageRef, uploadedImageBlob);
-        await simulateUploadProgress(uploadTask);
-        const uploadedImageUrl = await new Promise((resolve, reject) => {
-            uploadTask.on('state_changed', null, (error) => reject(error), async () => {
-                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                resolve(downloadURL);
-            });
-        });
+        updateProgress(0);
+  
+   // Generate and store logo data
+        const { designId } = await generateAndStoreLogoData();
+        updateProgress(60);
 
-        const imageId = Date.now().toString();
-const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${imageId}`;
+        // Generate shareable URL
+      const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${designId}`;
         await set(ref(database, 'sharedImages/' + imageId), {
             url: uploadedImageUrl,
             shareableLink: shareableLink,
-            rotation1: rotationState.container1.angle, // Store rotation for container 1
         });
+        updateProgress(80);   
 
         const whatsappNumber = "0659860276";
         const message = `Check out this item: ${shareableLink}`;
