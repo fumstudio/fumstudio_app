@@ -1047,8 +1047,8 @@ addToCartBtn.addEventListener('click', async () => {
             <a href="cart.html" style="color: white; text-decoration: underline;">View Cart</a> | 
             <a href="${shareableLink}" style="color: white; text-decoration: underline;">Share Design</a>
         `);
-
-        // Clear inputs after successful add to cart
+   window.location.href = "cart.html";
+    
     } catch (error) {
         console.error("Add to cart error:", error);
         showCartAlert(`Error: ${error.message}`, 'fas fa-exclamation-circle');
