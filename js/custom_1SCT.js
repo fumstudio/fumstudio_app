@@ -927,35 +927,52 @@ async function generateAndStoreLogoData() {
 
 // Function to create shareable link
 function createShareableLink(designId) {
-    return `/glass_music.html?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
+    return `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
 }
 
 // Share Button Click Handler
 shareBtn.addEventListener('click', async () => {
+    if (!imageContainer.style.backgroundImage || imageContainer.style.backgroundImage === 'none') {
+        alert("Please upload an image first.");
+        return;
+    }
+
+    if (!uploadedImageBlob) {
+        alert("No cropped image available.");
+        return;
+    }
+
     try {
         showProcessingOverlay();
-        updateProgress(0);
+        const uniqueFileName = `image_${Date.now()}_${Math.floor(Math.random() * 1000)}.png`;
+        const imageRef = storageRef(storage, 'images/' + uniqueFileName);
+        const uploadTask = uploadBytesResumable(imageRef, uploadedImageBlob);
+        await simulateUploadProgress(uploadTask);
+        const uploadedImageUrl = await new Promise((resolve, reject) => {
+            uploadTask.on('state_changed', null, (error) => reject(error), async () => {
+                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                resolve(downloadURL);
+            });
+        });
 
-        // Generate and store logo data
-        const { designId } = await generateAndStoreLogoData();
-        updateProgress(60);
+        const imageId = Date.now().toString();
+const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${imageId}`;
+        await set(ref(database, 'sharedImages/' + imageId), {
+            url: uploadedImageUrl,
+            shareableLink: shareableLink,
+            rotation1: rotationState.container1.angle, // Store rotation for container 1
+        });
 
-        // Generate shareable URL
-        const shareableLink = createShareableLink(designId);
-        updateProgress(80);
-
-        // Open WhatsApp with the shareable link
-        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Check out my design: ' + shareableLink)}`;
-        window.open(whatsappUrl, '_blank');
-        updateProgress(100);
-
-        showCartAlert('<i class="fas fa-check-circle"></i> Design shared on WhatsApp!');
-
-    } catch (error) {
-        console.error('Share error:', error);
-        showCartAlert(`Error: ${error.message}`, 'fas fa-exclamation-circle');
-    } finally {
+        const whatsappNumber = "0659860276";
+        const message = `Check out this item: ${shareableLink}`;
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, "_self");
+            showCartAlert('<i class="fa fa-check-circle green-icon"></i>Upload successful!');
         hideProcessingOverlay();
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        hideProcessingOverlay();
+        alert("Failed to upload image. Please try again.");
     }
 });
 
@@ -1042,11 +1059,7 @@ addToCartBtn.addEventListener('click', async () => {
         updateProgress(100);
 
         // Show success message with links
-        showCartAlert(`
-            <i class="fas fa-check-circle"></i> Added to cart!<br>
-            <a href="cart.html" style="color: white; text-decoration: underline;">View Cart</a> | 
-            <a href="${shareableLink}" style="color: white; text-decoration: underline;">Share Design</a>
-        `);
+            showCartAlert('<i class="fa fa-check-circle green-icon"></i>Item added to cart');
    window.location.href = "cart.html";
     
     } catch (error) {
@@ -1153,12 +1166,7 @@ reAddToCartBtn.addEventListener('click', async () => {
         cartItems.push(newItem);
         await set(cartRef, cartItems);
 
-        // Show success message with options
-        showCartAlert(`
-            <i class="fas fa-check-circle"></i> Item re-added to cart!<br>
-            <a href="cart.html" style="color: white; text-decoration: underline;">View Cart</a> | 
-            <a href="${shareableLink}" style="color: white; text-decoration: underline;">Share Design</a>
-        `);
+    showCartAlert('<i class="fa fa-check-circle green-icon"></i>Item added to cart');
 
         // Redirect to cart after delay
         setTimeout(() => {
