@@ -947,13 +947,18 @@ try {
             shareableLink: shareableLink,
         });
         updateProgress(80);   
-
-        const whatsappNumber = "0659860276";
-        const message = `Check out this item: ${shareableLink}`;
+  
+     // 2. Prepare WhatsApp (90-100%)
+        const whatsappNumber = "27728662309";
+        const shareableLink = createShareableLink(designId);
+        const message = `Check out my design: ${window.location.origin}${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, "_self");
-            showCartAlert('<i class="fa fa-check-circle green-icon"></i>Upload successful!');
-        hideProcessingOverlay();
+        
+        updateProgress(100);
+  hideProcessingOverlay();
+           showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
+        // Open WhatsApp
+        window.location.href = whatsappUrl;
     } catch (error) {
         console.error('Error uploading image:', error);
         hideProcessingOverlay();
