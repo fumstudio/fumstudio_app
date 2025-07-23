@@ -948,7 +948,8 @@ try {
         });
         updateProgress(80);   
   
-     // 2. Prepare WhatsApp (90-100%)
+
+        // 2. Prepare WhatsApp (90-100%)
         const whatsappNumber = "27728662309";
         const shareableLink = createShareableLink(designId);
         const message = `Check out my design: ${window.location.origin}${shareableLink}`;
@@ -959,6 +960,12 @@ try {
            showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
         // Open WhatsApp
         window.location.href = whatsappUrl;
+        setTimeout(() => {
+            if (window.location.href !== whatsappUrl) {
+                window.open(whatsappUrl, '_blank');
+            }
+        }, 1000);
+
     } catch (error) {
         console.error('Error uploading image:', error);
         hideProcessingOverlay();
