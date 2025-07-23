@@ -566,8 +566,8 @@ imageContainer.addEventListener('click', function() {
 function updateHeadingText() {
   if (itemNameHeading) {
     itemNameHeading.textContent = isImageLoaded 
-      ? "Customized Music plaque" 
-      : "Custom Music plaque";
+      ? "Customized" 
+      : "Custom";
   }
 }
 
@@ -1143,7 +1143,7 @@ addToCartBtn.addEventListener('click', async () => {
 
         // Show success message with links
             showCartAlert('<i class="fa fa-check-circle green-icon"></i>Item added to cart');
-            window.location.href = "cart_page.html";
+            window.location.href = "cart.html";
       
         // Clear inputs after successful add to cart
     } catch (error) {
