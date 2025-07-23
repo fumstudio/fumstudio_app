@@ -1029,7 +1029,7 @@ shareBtn.addEventListener('click', async () => {
         updateProgress(60);
 
         // 2. Generate shareable URL (make sure itemId, imageIndex, selectedSize are defined)
-        const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${designId}&image=${imageIndex}&size=${selectedSize}&imageId=${designId}`;
+        const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${designId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
   
         updateProgress(80);   
   
