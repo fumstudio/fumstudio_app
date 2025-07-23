@@ -857,7 +857,7 @@ const shareableLink = `${window.location.origin}${window.location.pathname}?item
         const message = `Check out this item: ${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_self");
-            showCartAlert('<i class="fa fa-check-circle green-icon"></i>Upload successful!');
+         showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
         hideProcessingOverlay();
     } catch (error) {
         console.error('Error uploading image:', error);
