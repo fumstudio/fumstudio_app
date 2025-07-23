@@ -1017,35 +1017,48 @@ async function generateAndStoreLogoData() {
 function createShareableLink(designId) {
   return `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
 }
+
 // Share Button Click Handler
 shareBtn.addEventListener('click', async () => {
     try {
         showProcessingOverlay();
         updateProgress(0);
-
-        // Generate and store logo data
+  
+        // 1. Generate and store logo data
         const { designId } = await generateAndStoreLogoData();
         updateProgress(60);
 
-        // Generate shareable URL
-        const shareableLink = createShareableLink(designId);
-        updateProgress(80);
-
-        // Open WhatsApp with the shareable link
-        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Check out my design: ' + shareableLink)}`;
-        window.open(whatsappUrl, '_blank');
+        // 2. Generate shareable URL (make sure itemId, imageIndex, selectedSize are defined)
+        const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${designId}&image=${imageIndex}&size=${selectedSize}&imageId=${designId}`;
+        
+        // 3. Save to database (ensure uploadedImageUrl is defined)
+        await set(ref(database, 'sharedImages/' + designId), {
+            url: uploadedImageUrl,
+            shareableLink: shareableLink,
+        });
+        updateProgress(80);   
+  
+        // 4. Prepare WhatsApp message
+        const whatsappNumber = "27728662309";
+        const message = `Check out my design: ${shareableLink}`;
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        
         updateProgress(100);
-
-        showCartAlert('<i class="fas fa-check-circle"></i> Design shared on WhatsApp!');
-
-    } catch (error) {
-        console.error('Share error:', error);
-        showCartAlert(`Error: ${error.message}`, 'fas fa-exclamation-circle');
-    } finally {
         hideProcessingOverlay();
+        showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
+        
+        // 5. Open WhatsApp (fallback to new tab if blocked)
+        const newWindow = window.open(whatsappUrl, '_blank');
+        if (!newWindow || newWindow.closed) {
+            window.location.href = whatsappUrl;
+        }
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        hideProcessingOverlay();
+        alert("Failed to upload image. Please try again.");
     }
 });
-
+  
 // Add to Cart Button Click Handler
 addToCartBtn.addEventListener('click', async () => {
     try {
