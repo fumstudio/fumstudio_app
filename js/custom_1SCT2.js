@@ -1033,20 +1033,16 @@ shareBtn.addEventListener('click', async () => {
   
         updateProgress(80);   
   
-        // 4. Prepare WhatsApp message
-        const whatsappNumber = "27728662309";
-        const message = `Check out my design: ${shareableLink}`;
+
+        const whatsappNumber = "0659860276";
+        const message = `Check out this item: ${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-        
-        updateProgress(100);
+        window.open(whatsappUrl, "_self");
+       updateProgress(100);   
+  
         hideProcessingOverlay();
-        showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
-        
-        // 5. Open WhatsApp (fallback to new tab if blocked)
-        const newWindow = window.open(whatsappUrl, '_blank');
-        if (!newWindow || newWindow.closed) {
-            window.location.href = whatsappUrl;
-        }
+         showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
+      
     } catch (error) {
         console.error('Error uploading image:', error);
         hideProcessingOverlay();
