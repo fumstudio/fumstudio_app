@@ -1030,12 +1030,7 @@ shareBtn.addEventListener('click', async () => {
 
         // 2. Generate shareable URL (make sure itemId, imageIndex, selectedSize are defined)
         const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${designId}&image=${imageIndex}&size=${selectedSize}&imageId=${designId}`;
-        
-        // 3. Save to database (ensure uploadedImageUrl is defined)
-        await set(ref(database, 'sharedImages/' + designId), {
-            url: uploadedImageUrl,
-            shareableLink: shareableLink,
-        });
+  
         updateProgress(80);   
   
         // 4. Prepare WhatsApp message
