@@ -932,40 +932,38 @@ function createShareableLink(designId) {
 
 // Share Button Click Handler
 shareBtn.addEventListener('click', async () => {
-try {
+    try {
         showProcessingOverlay();
         updateProgress(0);
   
-   // Generate and store logo data
+        // 1. Generate and store logo data
         const { designId } = await generateAndStoreLogoData();
         updateProgress(60);
 
-        // Generate shareable URL
-      const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${designId}`;
-        await set(ref(database, 'sharedImages/' + imageId), {
+        // 2. Generate shareable URL (make sure itemId, imageIndex, selectedSize are defined)
+        const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${designId}&image=${imageIndex}&size=${selectedSize}&imageId=${designId}`;
+        
+        // 3. Save to database (ensure uploadedImageUrl is defined)
+        await set(ref(database, 'sharedImages/' + designId), {
             url: uploadedImageUrl,
             shareableLink: shareableLink,
         });
         updateProgress(80);   
   
-
-        // 2. Prepare WhatsApp (90-100%)
+        // 4. Prepare WhatsApp message
         const whatsappNumber = "27728662309";
-        const shareableLink = createShareableLink(designId);
-        const message = `Check out my design: ${window.location.origin}${shareableLink}`;
+        const message = `Check out my design: ${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         
         updateProgress(100);
-  hideProcessingOverlay();
-           showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
-        // Open WhatsApp
-        window.location.href = whatsappUrl;
-        setTimeout(() => {
-            if (window.location.href !== whatsappUrl) {
-                window.open(whatsappUrl, '_blank');
-            }
-        }, 1000);
-
+        hideProcessingOverlay();
+        showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
+        
+        // 5. Open WhatsApp (fallback to new tab if blocked)
+        const newWindow = window.open(whatsappUrl, '_blank');
+        if (!newWindow || newWindow.closed) {
+            window.location.href = whatsappUrl;
+        }
     } catch (error) {
         console.error('Error uploading image:', error);
         hideProcessingOverlay();
