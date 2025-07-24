@@ -365,7 +365,7 @@ function showLoading() {
 function setupDetailsButton(logoId, logoData) {
   const showDetailsBtn = document.getElementById('showDetailsBtn');
   const detailsModal = document.getElementById('detailsModal');
-  const modalContent = document.getElementById('modalContent');
+ const detailContent = document.getElementById('detailContent'); // Fixed ID
   const closeDetailsBtn = document.getElementById('closeDetailsBtn');
   
   if (!showDetailsBtn || !detailsModal || !modalContent || !closeDetailsBtn) return;
