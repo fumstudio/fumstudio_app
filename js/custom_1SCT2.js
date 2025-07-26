@@ -950,8 +950,6 @@ async function uploadImageToFirebase(file, uniqueFileName) {
 
 
 
-    // WhatsApp Configuration
-    const whatsappNumber = "0659860276"; // +27 65 986 0276 (South Africa)
 
     // Fetch product price from Firebase
 
@@ -1106,7 +1104,7 @@ shareBtn.addEventListener('click', async () => {
         updateProgress(80);   
   
 
-        const whatsappNumber = "0659860276";
+        const whatsappNumber = "27728662309";
         const message = `Check out this item: ${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_self");
@@ -1166,7 +1164,7 @@ addToCartBtn.addEventListener('click', async () => {
 
         // Prepare cart item data
         const now = new Date();
-        const cartRef = ref(database, `carts/${userId}/carts`);
+        const cartRef = ref(database, `carts/${userId}/cartItems`);
         
         // Get existing cart items
         const snapshot = await get(cartRef);
@@ -1280,7 +1278,7 @@ reAddToCartBtn.addEventListener('click', async () => {
         updateProgress(100);
 
         const now = new Date();
-        const cartRef = ref(database, `carts/${user.uid}/carts`);
+        const cartRef = ref(database, `carts/${user.uid}/cartItems`);
         const snapshot = await get(cartRef);
         let cartItems = snapshot.exists() ? snapshot.val() : [];
 
