@@ -716,476 +716,469 @@ body {
     <div id="update-notification" class="update-notification">
         <i class="fas fa-sync-alt"></i> Items updated
     </div>
+  <script>
+import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+import { getDatabase, ref, onValue, get } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
-<script type="module">
-    import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-    import { getDatabase, ref, onValue, get } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+const firebaseConfig = {
+    apiKey: "AIzaSyCg8WRJx4wu-kkynIIIiLbbU5GaTxU-E9s",
+    authDomain: "fumstudio-b6694.firebaseapp.com",
+    databaseURL: "https://fumstudio-b6694-default-rtdb.firebaseio.com",
+    projectId: "fumstudio-b6694",
+    storageBucket: "fumstudio-b6694.firebasestorage.app",
+    messagingSenderId: "505195774753",
+    appId: "1:505195774753:web:7b94be0cf52e52a22f7460",
+    measurementId: "G-E4LBX75DR0"
+};
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCg8WRJx4wu-kkynIIIiLbbU5GaTxU-E9s",
-        authDomain: "fumstudio-b6694.firebaseapp.com",
-        databaseURL: "https://fumstudio-b6694-default-rtdb.firebaseio.com",
-        projectId: "fumstudio-b6694",
-        storageBucket: "fumstudio-b6694.firebasestorage.app",
-        messagingSenderId: "505195774753",
-        appId: "1:505195774753:web:7b94be0cf52e52a22f7460",
-        measurementId: "G-E4LBX75DR0"
-    };
+// Initialize Firebase
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const database = getDatabase(app);
+const auth = getAuth(app);
 
-    const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-    const database = getDatabase(app);
-    const auth = getAuth(app);
+// Local storage keys
+const LOCAL_STORAGE_ITEMS_KEY = 'fumstudio_items_cache';
+const LOCAL_STORAGE_LAST_UPDATE_KEY = 'fumstudio_last_update';
+const LOCAL_STORAGE_SHUFFLE_SEED_KEY = 'fumstudio_shuffle_seed';
 
-    // Local storage keys
-    const LOCAL_STORAGE_ITEMS_KEY = 'fumstudio_items_cache';
-    const LOCAL_STORAGE_LAST_UPDATE_KEY = 'fumstudio_last_update';
-    const LOCAL_STORAGE_SHUFFLE_DATE_KEY = 'fumstudio_shuffle_date';
-    const LOCAL_STORAGE_SHUFFLED_ITEMS_KEY = 'fumstudio_shuffled_items';
+// DOM elements
+const itemsContainer = document.getElementById('items-container');
+const loadingOverlay = document.getElementById('loading-overlay');
+const searchInput = document.getElementById('search-input');
+const categoriesNav = document.getElementById('categories-nav');
+const moreCategoriesBtn = document.getElementById('more-categories-btn');
+const categoriesPanel = document.getElementById('categories-panel');
+const closePanelBtn = document.getElementById('close-panel');
+const panelCategories = document.getElementById('panel-categories');
+const updateNotification = document.getElementById('update-notification');
+
+// App state
+let allItems = {};
+let allCategories = new Set(['all']);
+let activeCategory = 'all';
+let searchQuery = '';
+let visibleCategories = 5;
+let lastUpdateTime = Date.now();
+let updateTimeout = null;
+let categoryImages = {};
+let selectedCurrency = 'ZAR';
+
+const conversionRates = {
+    'USD': 0.054,
+    'EUR': 0.050,
+    'ZAR': 1
+};
+
+// Seeded shuffle function for consistent daily shuffling
+function seededShuffle(array, seed) {
+    let currentSeed = seed;
+    const shuffled = [...array];
     
-    const itemsContainer = document.getElementById('items-container');
-    const loadingOverlay = document.getElementById('loading-overlay');
-    const searchInput = document.getElementById('search-input');
-    const categoriesNav = document.getElementById('categories-nav');
-    const moreCategoriesBtn = document.getElementById('more-categories-btn');
-    const categoriesPanel = document.getElementById('categories-panel');
-    const closePanelBtn = document.getElementById('close-panel');
-    const panelCategories = document.getElementById('panel-categories');
-    const updateNotification = document.getElementById('update-notification');
+    function random() {
+        const x = Math.sin(currentSeed++) * 10000;
+        return x - Math.floor(x);
+    }
     
-    let allItems = {};
-    let allCategories = new Set(['all']);
-    let activeCategory = 'all';
-    let searchQuery = '';
-    let visibleCategories = 5;
-    let lastUpdateTime = Date.now();
-    let updateTimeout = null;
-    let categoryImages = {};
-    let selectedCurrency = 'ZAR';
-
-    const conversionRates = {
-        'USD': 0.054,
-        'EUR': 0.050,
-        'ZAR': 1
-    };
-
-    // Check if cached data exists and is still valid
-    function getCachedItems() {
-        const cachedData = localStorage.getItem(LOCAL_STORAGE_ITEMS_KEY);
-        const lastUpdate = localStorage.getItem(LOCAL_STORAGE_LAST_UPDATE_KEY);
-        
-        if (cachedData && lastUpdate) {
-            try {
-                return {
-                    items: JSON.parse(cachedData),
-                    lastUpdate: parseInt(lastUpdate)
-                };
-            } catch (e) {
-                console.error("Error parsing cached data", e);
-                return null;
-            }
-        }
-        return null;
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
+    
+    return shuffled;
+}
 
-    // Save items to local storage
-    function cacheItems(items, timestamp) {
-        try {
-            localStorage.setItem(LOCAL_STORAGE_ITEMS_KEY, JSON.stringify(items));
-            localStorage.setItem(LOCAL_STORAGE_LAST_UPDATE_KEY, timestamp.toString());
-        } catch (e) {
-            console.error("Error caching data", e);
+// Get or create a daily seed for shuffling
+function getDailySeed() {
+    const today = new Date().toDateString();
+    const storedSeed = localStorage.getItem(LOCAL_STORAGE_SHUFFLE_SEED_KEY);
+    
+    if (storedSeed) {
+        const { date, seed } = JSON.parse(storedSeed);
+        if (date === today) {
+            return seed;
         }
     }
+    
+    // Create a new seed for today
+    const newSeed = Math.floor(Math.random() * 1000000);
+    localStorage.setItem(LOCAL_STORAGE_SHUFFLE_SEED_KEY, 
+        JSON.stringify({ date: today, seed: newSeed }));
+    return newSeed;
+}
 
-    // Calculate a simple hash of the items data to detect changes
-    function calculateDataHash(items) {
-        let hash = 0;
-        const str = JSON.stringify(items);
-        for (let i = 0; i < str.length; i++) {
-            const char = str.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        return hash;
+// Price conversion and formatting
+function convertPrice(price, currency) {
+    if (!price) return 'Price not available';
+    
+    const numericPrice = parseFloat(price);
+    if (isNaN(numericPrice)) return price;
+    
+    if (currency === 'ZAR') {
+        return `R ${numericPrice.toFixed(2)}`;
+    } else if (conversionRates[currency]) {
+        const convertedPrice = numericPrice * conversionRates[currency];
+        return `${currency} ${convertedPrice.toFixed(2)}`;
     }
+    return `$${numericPrice.toFixed(2)}`;
+}
 
-    // Get today's date string in YYYY-MM-DD format
-    function getTodayDateString() {
-        const today = new Date();
-        return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-    }
-
-    // Shuffle array using Fisher-Yates algorithm
-    function shuffleArray(array) {
-        const newArray = [...array];
-        for (let i = newArray.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-        }
-        return newArray;
-    }
-
-    // Get shuffled items (only shuffles once per day)
-    function getDailyShuffledItems(items) {
-        const today = getTodayDateString();
-        const lastShuffleDate = localStorage.getItem(LOCAL_STORAGE_SHUFFLE_DATE_KEY);
-        const cachedShuffledItems = localStorage.getItem(LOCAL_STORAGE_SHUFFLED_ITEMS_KEY);
+function updateAllPrices(currency) {
+    const priceElements = document.querySelectorAll('.price-container');
+    priceElements.forEach(container => {
+        const originalPrice = container.dataset.originalPrice;
+        const displayPrice = container.dataset.displayPrice;
         
-        // If we already shuffled today, return cached shuffled items
-        if (lastShuffleDate === today && cachedShuffledItems) {
-            try {
-                return JSON.parse(cachedShuffledItems);
-            } catch (e) {
-                console.error("Error parsing cached shuffled items", e);
-            }
-        }
+        const priceToShow = originalPrice || displayPrice;
+        const formattedPrice = convertPrice(priceToShow, currency);
         
-        // Otherwise, shuffle and cache for today
-        const shuffledItems = shuffleArray(items);
-        localStorage.setItem(LOCAL_STORAGE_SHUFFLED_ITEMS_KEY, JSON.stringify(shuffledItems));
-        localStorage.setItem(LOCAL_STORAGE_SHUFFLE_DATE_KEY, today);
-        return shuffledItems;
-    }
-
-    function convertPrice(price, currency) {
-        if (!price) return 'Price not available';
-        
-        const numericPrice = parseFloat(price);
-        if (isNaN(numericPrice)) return price;
-        
-        if (currency === 'ZAR') {
-            return `R ${numericPrice.toFixed(2)}`;
-        } else if (conversionRates[currency]) {
-            const convertedPrice = numericPrice * conversionRates[currency];
-            return `${currency} ${convertedPrice.toFixed(2)}`;
-        }
-        return `$${numericPrice.toFixed(2)}`; // Default to USD format
-    }
-
-    function updateAllPrices(currency) {
-        const priceElements = document.querySelectorAll('.price-container');
-        priceElements.forEach(container => {
-            const originalPrice = container.dataset.originalPrice;
-            const displayPrice = container.dataset.displayPrice;
-            
-            const priceToShow = originalPrice || displayPrice;
-            const formattedPrice = convertPrice(priceToShow, currency);
-            
-            if (originalPrice && displayPrice && originalPrice !== displayPrice) {
-                container.innerHTML = `
-                    <span class="original-price">${convertPrice(originalPrice, currency)}</span>
-                    <span class="item-price">${convertPrice(displayPrice, currency)}</span>
-                `;
-            } else {
-                container.innerHTML = `<span class="item-price">${formattedPrice}</span>`;
-            }
-        });
-    }
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const userId = user.uid;
-            const userRef = ref(database, `users/${userId}/selectedCurrency`);
-            
-            get(userRef).then((snapshot) => {
-                const currency = snapshot.exists() ? snapshot.val() : 'ZAR';
-                selectedCurrency = currency;
-                updateAllPrices(currency);
-            }).catch((error) => {
-                console.error("Error fetching currency:", error);
-                selectedCurrency = 'ZAR';
-                updateAllPrices('ZAR');
-            });
-        } else {
-            selectedCurrency = 'ZAR';
-            updateAllPrices('ZAR');
-        }
-    });
-
-    searchInput.addEventListener('input', (e) => {
-        searchQuery = e.target.value.toLowerCase();
-        filterItems();
-    });
-
-    moreCategoriesBtn.addEventListener('click', () => {
-        categoriesPanel.classList.add('open');
-    });
-
-    closePanelBtn.addEventListener('click', () => {
-        categoriesPanel.classList.remove('open');
-    });
-
-    function showUpdateNotification() {
-        updateNotification.classList.add('show');
-        clearTimeout(updateTimeout);
-        updateTimeout = setTimeout(() => {
-            updateNotification.classList.remove('show');
-        }, 3000);
-    }
-
-    function loadAllItems() {
-        const cached = getCachedItems();
-        const currentTime = Date.now();
-        
-        // Show cached data immediately if available
-        if (cached) {
-            allItems = cached.items;
-            updateCategories();
-            filterItems();
-            loadingOverlay.style.display = 'none';
-        }
-
-        // Always check for updates from Firebase
-        const itemsRef = ref(database, 'items');
-        
-        onValue(itemsRef, (snapshot) => {
-            const newItems = snapshot.val() || {};
-            const newHash = calculateDataHash(newItems);
-            const oldHash = calculateDataHash(allItems);
-            
-            // Only update if there are actual changes
-            if (newHash !== oldHash) {
-                allItems = newItems;
-                cacheItems(allItems, currentTime);
-                
-                updateCategories();
-                filterItems();
-                
-                if (!cached) {
-                    loadingOverlay.style.display = 'none';
-                }
-                
-                if (cached && currentTime - lastUpdateTime > 1000) {
-                    showUpdateNotification();
-                }
-                
-                lastUpdateTime = currentTime;
-            } else if (!cached) {
-                // If no cached data and no changes, still hide loader
-                loadingOverlay.style.display = 'none';
-            }
-        }, {
-            onlyOnce: false
-        });
-    }
-
-    function updateCategories() {
-        allCategories = new Set(['all']);
-        categoryImages = {};
-        
-        Object.values(allItems).forEach(item => {
-            if (item.categories) {
-                item.categories.forEach(cat => {
-                    allCategories.add(cat);
-                    if (!categoryImages[cat] && item.images) {
-                        const firstImage = Object.values(item.images)[0]?.mainImage;
-                        if (firstImage?.url) {
-                            categoryImages[cat] = firstImage.url;
-                        }
-                    }
-                });
-            }
-        });
-        
-        Array.from(allCategories).forEach(cat => {
-            if (cat !== 'all' && !categoryImages[cat]) {
-                for (const item of Object.values(allItems)) {
-                    if (item.categories?.includes(cat) && item.images) {
-                        const firstImage = Object.values(item.images)[0]?.mainImage;
-                        if (firstImage?.url) {
-                            categoryImages[cat] = firstImage.url;
-                            break;
-                        }
-                    }
-                }
-            }
-        });
-        
-        updateCategoriesNav();
-        updatePanelCategories();
-    }
-
-    function updateCategoriesNav() {
-        const existingButtons = categoriesNav.querySelectorAll('.category-btn');
-        existingButtons.forEach(btn => btn.remove());
-        
-        const allBtn = document.createElement('button');
-        allBtn.className = `category-btn ${activeCategory === 'all' ? 'active' : ''}`;
-        allBtn.textContent = 'All';
-        allBtn.dataset.category = 'all';
-        allBtn.addEventListener('click', () => {
-            setActiveCategory('all');
-        });
-        categoriesNav.insertBefore(allBtn, categoriesNav.querySelector('.more-btn'));
-        
-        const categoriesArray = Array.from(allCategories).filter(cat => cat !== 'all');
-        const visibleCats = categoriesArray.slice(0, visibleCategories);
-        
-        visibleCats.forEach(category => {
-            const btn = document.createElement('button');
-            btn.className = `category-btn ${activeCategory === category ? 'active' : ''}`;
-            btn.textContent = category;
-            btn.dataset.category = category;
-            btn.addEventListener('click', () => {
-                setActiveCategory(category);
-            });
-            categoriesNav.insertBefore(btn, categoriesNav.querySelector('.more-btn'));
-        });
-        
-        moreCategoriesBtn.style.display = categoriesArray.length > visibleCategories ? 'block' : 'none';
-    }
-
-    function updatePanelCategories() {
-        panelCategories.innerHTML = '';
-        const categoriesArray = Array.from(allCategories).filter(cat => cat !== 'all');
-        
-        categoriesArray.forEach(category => {
-            const card = document.createElement('div');
-            card.className = 'category-card';
-            card.dataset.category = category;
-            card.addEventListener('click', () => {
-                setActiveCategory(category);
-                categoriesPanel.classList.remove('open');
-            });
-            
-            const imageUrl = categoryImages[category] || '';
-            
-            card.innerHTML = `
-                <div class="category-image-container">
-                    ${imageUrl ? 
-                        `<img src="${imageUrl}" alt="${category}" class="category-image">` : 
-                        `<div style="background: #f5f5f5; height: 100%; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-tag" style="color: #8a2be2; font-size: 2rem;"></i>
-                        </div>`
-                    }
-                </div>
-                <div class="category-name">${category}</div>
+        if (originalPrice && displayPrice && originalPrice !== displayPrice) {
+            container.innerHTML = `
+                <span class="original-price">${convertPrice(originalPrice, currency)}</span>
+                <span class="item-price">${convertPrice(displayPrice, currency)}</span>
             `;
-            
-            panelCategories.appendChild(card);
-        });
-    }
-
-    function setActiveCategory(category) {
-        activeCategory = category;
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.category === category);
-        });
-        filterItems();
-    }
-
-    function filterItems() {
-        itemsContainer.innerHTML = '';
-        
-        if (Object.keys(allItems).length === 0) {
-            itemsContainer.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;">No items found</div>';
-            return;
+        } else {
+            container.innerHTML = `<span class="item-price">${formattedPrice}</span>`;
         }
-        
-        const now = new Date();
-        const fiveDaysAgo = new Date(now.getTime() - (5 * 24 * 60 * 60 * 1000));
-        
-        let allCards = [];
-        
-        Object.entries(allItems).forEach(([itemId, itemData]) => {
-            if (activeCategory !== 'all' && 
-                (!itemData.categories || !itemData.categories.includes(activeCategory))) {
-                return;
-            }
-            
-            if (!itemData.images) return;
-            
-            const createdAt = itemData.createdAt ? new Date(itemData.createdAt) : new Date(0);
-            const isNew = createdAt > fiveDaysAgo;
-            
-            Object.entries(itemData.images).forEach(([imageIndex, imageData]) => {
-                const mainImage = imageData.mainImage;
-                if (!mainImage) return;
-                
-                const title = itemData.title?.toLowerCase() || '';
-                const description = mainImage.description?.toLowerCase() || '';
-                
-                if (searchQuery && 
-                    !title.includes(searchQuery) && 
-                    !description.includes(searchQuery)) {
-                    return;
+    });
+}
+
+// Category management
+function updateCategories() {
+    allCategories = new Set(['all']);
+    categoryImages = {};
+    
+    Object.values(allItems).forEach(item => {
+        if (item.categories) {
+            item.categories.forEach(cat => {
+                allCategories.add(cat);
+                if (!categoryImages[cat] && item.images) {
+                    const firstImage = Object.values(item.images)[0]?.mainImage;
+                    if (firstImage?.url) {
+                        categoryImages[cat] = firstImage.url;
+                    }
                 }
-                
-                allCards.push({
-                    itemId,
-                    itemData,
-                    mainImage,
-                    imageIndex,
-                    isNew,
-                    createdAt: createdAt.getTime()
-                });
             });
-        });
-        
-        // Use daily shuffled items instead of shuffling every time
-        allCards = getDailyShuffledItems(allCards);
-        
-        allCards.forEach(card => {
-            createItemCard(card.itemId, card.itemData, card.mainImage, card.imageIndex, card.isNew);
-        });
-        
-        if (itemsContainer.innerHTML === '') {
-            itemsContainer.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;">No matching items found</div>';
         }
-    }
+    });
+    
+    updateCategoriesNav();
+    updatePanelCategories();
+}
 
-    function createItemCard(itemId, itemData, mainImage, imageIndex, isNew) {
-        const itemCard = document.createElement('div');
-        itemCard.className = 'item-card';
+function updateCategoriesNav() {
+    const existingButtons = categoriesNav.querySelectorAll('.category-btn');
+    existingButtons.forEach(btn => btn.remove());
+    
+    const allBtn = document.createElement('button');
+    allBtn.className = `category-btn ${activeCategory === 'all' ? 'active' : ''}`;
+    allBtn.textContent = 'All';
+    allBtn.dataset.category = 'all';
+    allBtn.addEventListener('click', () => {
+        setActiveCategory('all');
+    });
+    categoriesNav.insertBefore(allBtn, categoriesNav.querySelector('.more-btn'));
+    
+    const categoriesArray = Array.from(allCategories).filter(cat => cat !== 'all');
+    const visibleCats = categoriesArray.slice(0, visibleCategories);
+    
+    visibleCats.forEach(category => {
+        const btn = document.createElement('button');
+        btn.className = `category-btn ${activeCategory === category ? 'active' : ''}`;
+        btn.textContent = category;
+        btn.dataset.category = category;
+        btn.addEventListener('click', () => {
+            setActiveCategory(category);
+        });
+        categoriesNav.insertBefore(btn, categoriesNav.querySelector('.more-btn'));
+    });
+    
+    moreCategoriesBtn.style.display = categoriesArray.length > visibleCategories ? 'block' : 'none';
+}
+
+function updatePanelCategories() {
+    panelCategories.innerHTML = '';
+    const categoriesArray = Array.from(allCategories).filter(cat => cat !== 'all');
+    
+    categoriesArray.forEach(category => {
+        const card = document.createElement('div');
+        card.className = 'category-card';
+        card.dataset.category = category;
+        card.addEventListener('click', () => {
+            setActiveCategory(category);
+            categoriesPanel.classList.remove('open');
+        });
         
-        const imageUrl = mainImage?.url || '';
-        const originalPrice = mainImage?.originalPrice;
-        const displayPrice = mainImage?.displayPrice;
-        const description = mainImage?.description || 'No description available';
-        const likes = mainImage?.likes || 0;
-        const title = itemData.title || 'Untitled Item';
+        const imageUrl = categoryImages[category] || '';
         
-        const formattedLikes = likes >= 1000 
-            ? (likes % 1000 === 0 
-                ? `${likes / 1000}k` 
-                : `${(Math.round(likes / 100) / 10).toFixed(1)}k`
-              ) 
-            : likes;
-        
-        itemCard.innerHTML = `
-            <div class="item-image-container">
+        card.innerHTML = `
+            <div class="category-image-container">
                 ${imageUrl ? 
-                    `<img src="${imageUrl}" alt="${title}" class="item-image">` : 
-                    `<div style="background: #f8f8f8; height: 100%; display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-gem" style="color: #8a2be2; font-size: 2rem;"></i>
+                    `<img src="${imageUrl}" alt="${category}" class="category-image">` : 
+                    `<div style="background: #f5f5f5; height: 100%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-tag" style="color: #8a2be2; font-size: 2rem;"></i>
                     </div>`
                 }
             </div>
-            <div class="item-details">
-                <div class="item-title" title="${title}">${title}</div>
-                <div class="item-description" title="${description}">${description}</div>
-                <div class="price-container" 
-                     data-original-price="${originalPrice || ''}" 
-                     data-display-price="${displayPrice || ''}">
-                    ${originalPrice && originalPrice !== displayPrice ? 
-                        `<span class="original-price">${convertPrice(originalPrice, selectedCurrency)}</span>` : ''}
-                    <span class="item-price">${convertPrice(displayPrice || originalPrice, selectedCurrency)}</span>
-                </div>
-                <div class="item-like">
-                    <i class="fas fa-heart"></i>
-                    <span>${formattedLikes} likes</span>
-                    ${isNew ? '<span class="new-badge">New</span>' : ''}
-                </div>
-            </div>
-            <a href="view-item.html?itemId=${itemId}&image=${imageIndex}" style="position: absolute; inset: 0; z-index: 1;"></a>
+            <div class="category-name">${category}</div>
         `;
         
-        itemsContainer.appendChild(itemCard);
+        panelCategories.appendChild(card);
+    });
+}
+
+function setActiveCategory(category) {
+    activeCategory = category;
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.category === category);
+    });
+    filterItems();
+}
+
+// Item filtering and display
+function filterItems() {
+    console.log("Filtering items - Category:", activeCategory, "Search:", searchQuery);
+    
+    itemsContainer.innerHTML = '';
+    
+    if (Object.keys(allItems).length === 0) {
+        itemsContainer.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;">No items found</div>';
+        return;
+    }
+    
+    const now = new Date();
+    const fiveDaysAgo = new Date(now.getTime() - (5 * 24 * 60 * 60 * 1000));
+    
+    // First filter by category and search
+    let filteredCards = [];
+    
+    Object.entries(allItems).forEach(([itemId, itemData]) => {
+        // Category filter
+        if (activeCategory !== 'all' && 
+            (!itemData.categories || !itemData.categories.includes(activeCategory))) {
+            return;
+        }
+        
+        if (!itemData.images) return;
+        
+        const createdAt = itemData.createdAt ? new Date(itemData.createdAt) : new Date(0);
+        const isNew = createdAt > fiveDaysAgo;
+        
+        Object.entries(itemData.images).forEach(([imageIndex, imageData]) => {
+            const mainImage = imageData.mainImage;
+            if (!mainImage) return;
+            
+            const title = itemData.title?.toLowerCase() || '';
+            const description = mainImage.description?.toLowerCase() || '';
+            
+            // Search filter
+            if (searchQuery && 
+                !title.includes(searchQuery) && 
+                !description.includes(searchQuery)) {
+                return;
+            }
+            
+            filteredCards.push({
+                itemId,
+                itemData,
+                mainImage,
+                imageIndex,
+                isNew,
+                createdAt: createdAt.getTime()
+            });
+        });
+    });
+    
+    console.log("Filtered items count:", filteredCards.length);
+    
+    // Apply daily shuffle only to the filtered results
+    const dailySeed = getDailySeed();
+    const shuffledCards = seededShuffle(filteredCards, dailySeed);
+    
+    // Display the shuffled but properly filtered items
+    shuffledCards.forEach(card => {
+        createItemCard(card.itemId, card.itemData, card.mainImage, card.imageIndex, card.isNew);
+    });
+    
+    if (itemsContainer.innerHTML === '') {
+        itemsContainer.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;">No matching items found</div>';
+    }
+}
+
+function createItemCard(itemId, itemData, mainImage, imageIndex, isNew) {
+    const itemCard = document.createElement('div');
+    itemCard.className = 'item-card';
+    
+    const imageUrl = mainImage?.url || '';
+    const originalPrice = mainImage?.originalPrice;
+    const displayPrice = mainImage?.displayPrice;
+    const description = mainImage?.description || 'No description available';
+    const likes = mainImage?.likes || 0;
+    const title = itemData.title || 'Untitled Item';
+    
+    const formattedLikes = likes >= 1000 
+        ? (likes % 1000 === 0 
+            ? `${likes / 1000}k` 
+            : `${(Math.round(likes / 100) / 10).toFixed(1)}k`
+          ) 
+        : likes;
+    
+    itemCard.innerHTML = `
+        <div class="item-image-container">
+            ${imageUrl ? 
+                `<img src="${imageUrl}" alt="${title}" class="item-image">` : 
+                `<div style="background: #f8f8f8; height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-gem" style="color: #8a2be2; font-size: 2rem;"></i>
+                </div>`
+            }
+        </div>
+        <div class="item-details">
+            <div class="item-title" title="${title}">${title}</div>
+            <div class="item-description" title="${description}">${description}</div>
+            <div class="price-container" 
+                 data-original-price="${originalPrice || ''}" 
+                 data-display-price="${displayPrice || ''}">
+                ${originalPrice && originalPrice !== displayPrice ? 
+                    `<span class="original-price">${convertPrice(originalPrice, selectedCurrency)}</span>` : ''}
+                <span class="item-price">${convertPrice(displayPrice || originalPrice, selectedCurrency)}</span>
+            </div>
+            <div class="item-like">
+                <i class="fas fa-heart"></i>
+                <span>${formattedLikes} likes</span>
+                ${isNew ? '<span class="new-badge">New</span>' : ''}
+            </div>
+        </div>
+        <a href="view-item.html?itemId=${itemId}&image=${imageIndex}" style="position: absolute; inset: 0; z-index: 1;"></a>
+    `;
+    
+    itemsContainer.appendChild(itemCard);
+}
+
+// Data loading and caching
+function getCachedItems() {
+    const cachedData = localStorage.getItem(LOCAL_STORAGE_ITEMS_KEY);
+    const lastUpdate = localStorage.getItem(LOCAL_STORAGE_LAST_UPDATE_KEY);
+    
+    if (cachedData && lastUpdate) {
+        try {
+            return {
+                items: JSON.parse(cachedData),
+                lastUpdate: parseInt(lastUpdate)
+            };
+        } catch (e) {
+            console.error("Error parsing cached data", e);
+            return null;
+        }
+    }
+    return null;
+}
+
+function cacheItems(items, timestamp) {
+    try {
+        localStorage.setItem(LOCAL_STORAGE_ITEMS_KEY, JSON.stringify(items));
+        localStorage.setItem(LOCAL_STORAGE_LAST_UPDATE_KEY, timestamp.toString());
+    } catch (e) {
+        console.error("Error caching data", e);
+    }
+}
+
+function calculateDataHash(items) {
+    let hash = 0;
+    const str = JSON.stringify(items);
+    for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+    }
+    return hash;
+}
+
+function loadAllItems() {
+    const cached = getCachedItems();
+    const currentTime = Date.now();
+    
+    if (cached) {
+        allItems = cached.items;
+        updateCategories();
+        filterItems();
+        loadingOverlay.style.display = 'none';
     }
 
-    // Initialize the page
-    loadAllItems();
+    const itemsRef = ref(database, 'items');
+    
+    onValue(itemsRef, (snapshot) => {
+        const newItems = snapshot.val() || {};
+        const newHash = calculateDataHash(newItems);
+        const oldHash = calculateDataHash(allItems);
+        
+        if (newHash !== oldHash) {
+            allItems = newItems;
+            cacheItems(allItems, currentTime);
+            
+            updateCategories();
+            filterItems();
+            
+            if (!cached) {
+                loadingOverlay.style.display = 'none';
+            }
+            
+            if (cached && currentTime - lastUpdateTime > 1000) {
+                showUpdateNotification();
+            }
+            
+            lastUpdateTime = currentTime;
+        } else if (!cached) {
+            loadingOverlay.style.display = 'none';
+        }
+    }, {
+        onlyOnce: false
+    });
+}
+
+// Event listeners and initialization
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        const userId = user.uid;
+        const userRef = ref(database, `users/${userId}/selectedCurrency`);
+        
+        get(userRef).then((snapshot) => {
+            const currency = snapshot.exists() ? snapshot.val() : 'ZAR';
+            selectedCurrency = currency;
+            updateAllPrices(currency);
+        }).catch((error) => {
+            console.error("Error fetching currency:", error);
+            selectedCurrency = 'ZAR';
+            updateAllPrices('ZAR');
+        });
+    } else {
+        selectedCurrency = 'ZAR';
+        updateAllPrices('ZAR');
+    }
+});
+
+searchInput.addEventListener('input', (e) => {
+    searchQuery = e.target.value.toLowerCase();
+    filterItems();
+});
+
+moreCategoriesBtn.addEventListener('click', () => {
+    categoriesPanel.classList.add('open');
+});
+
+closePanelBtn.addEventListener('click', () => {
+    categoriesPanel.classList.remove('open');
+});
+
+function showUpdateNotification() {
+    updateNotification.classList.add('show');
+    clearTimeout(updateTimeout);
+    updateTimeout = setTimeout(() => {
+        updateNotification.classList.remove('show');
+    }, 3000);
+}
+
+// Initialize the app
+loadAllItems();
     </script>
 
     
