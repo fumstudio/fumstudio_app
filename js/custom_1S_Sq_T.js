@@ -1218,8 +1218,8 @@ reAddToCartBtn.addEventListener('click', async () => {
         updateProgress(0);
 
 
-        const currentText = document.getElementById('logoText').value || 'Your Logo';
-        const secondaryText = document.getElementById('secondaryText').value || 'Secondary Text';
+        const currentText = document.getElementById('logoText').value || '';
+        const secondaryText = document.getElementById('secondaryText').value || '';
 
         const logoData = {
             text: currentText,
