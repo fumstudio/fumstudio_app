@@ -324,10 +324,10 @@ function breakTextByCharacters(text, breakSize) {
 function setupDetailsButton(logoId, logoData) {
   const showDetailsBtn = document.getElementById('showDetailsBtn');
   const detailsModal = document.getElementById('detailsModal');
-  const modalContent = document.getElementById('modalContent');
+  const modalContent = document.getElementById('detailContent');
   const closeDetailsBtn = document.getElementById('closeDetailsBtn');
   
-  if (!showDetailsBtn || !detailsModal || !modalContent || !closeDetailsBtn) return;
+  if (!showDetailsBtn || !detailsModal || !detailContent || !closeDetailsBtn) return;
 
   const tableHTML = `
     <table class="logo-data-table">
@@ -382,7 +382,7 @@ function setupDetailsButton(logoId, logoData) {
     </table>
   `;
 
-  modalContent.innerHTML = tableHTML;
+  detailContent.innerHTML = tableHTML;
 
   showDetailsBtn.style.display = 'block';
   
