@@ -458,7 +458,7 @@ nav{
   padding: 10px; /* Reduced padding on mobile */
   box-sizing: border-box;
 }
-#modalContent {
+.detailContent {
   
   background: white;
   max-width: 95%; /* More screen utilization on mobile */
