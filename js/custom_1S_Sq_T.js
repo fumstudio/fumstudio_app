@@ -1053,52 +1053,39 @@ function createShareableLink(designId) {
     return `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
 }
 
+
+// Share Button Click Handler
 shareBtn.addEventListener('click', async () => {
-    // Validate image exists
-    const imageContainer = document.getElementById('imageContainer');
-    if (!imageContainer.style.backgroundImage || imageContainer.style.backgroundImage === 'none') {
-        showCartAlert('<i class="fas fa-exclamation-circle"></i> Please upload an image first');
-        return;
-    }
-
-    if (!uploadedImageBlob && (!imageContainer.style.backgroundImage || 
-        imageContainer.style.backgroundImage === 'none')) {
-        showCartAlert('<i class="fas fa-exclamation-circle"></i> Please crop your image first');
-        return;
-    }
-
     try {
         showProcessingOverlay();
         updateProgress(0);
+  
+        // 1. Generate and store logo data
+        const { designId } = await generateAndStoreLogoData();
+        updateProgress(60);
 
-        // 1. Generate and store logo data (0-90%)
-        const { logoData, designId, imageUrl } = await generateAndStoreLogoData();
-        updateProgress(90);
+        // 2. Generate shareable URL (make sure itemId, imageIndex, selectedSize are defined)
+        const shareableLink = `${window.location.origin}${window.location.pathname}?itemId=${designId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
+  
+        updateProgress(80);   
+  
 
-        // 2. Prepare WhatsApp (90-100%)
         const whatsappNumber = "27728662309";
-        const shareableLink = createShareableLink(designId);
-        const message = `Check out my design: ${window.location.origin}${shareableLink}`;
+        const message = `Check out this item: ${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-        
-        updateProgress(100);
-  hideProcessingOverlay();
-           showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
-        // Open WhatsApp
-        window.location.href = whatsappUrl;
-        setTimeout(() => {
-            if (window.location.href !== whatsappUrl) {
-                window.open(whatsappUrl, '_blank');
-            }
-        }, 1000);
-
+        window.open(whatsappUrl, "_self");
+       updateProgress(100);   
+  
+        hideProcessingOverlay();
+         showCartAlert('<i class="fab fa-whatsapp green-icon"></i> Opening WhatsApp...');
+      
     } catch (error) {
-        console.error('Share error:', error);
-        showCartAlert(`<i class="fas fa-exclamation-circle"></i> ${error.message || 'Sharing failed'}`);
-    } finally {
-        setTimeout(hideProcessingOverlay, 2000);
+        console.error('Error uploading image:', error);
+        hideProcessingOverlay();
+        alert("Failed to upload image. Please try again.");
     }
 });
+  
 // Add to Cart Button Click Handler
 addToCartBtn.addEventListener('click', async () => {
     try {
