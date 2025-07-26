@@ -361,14 +361,13 @@ function showLoading() {
     }
     updateHeadingText(true);
 }
-
 function setupDetailsButton(logoId, logoData) {
   const showDetailsBtn = document.getElementById('showDetailsBtn');
   const detailsModal = document.getElementById('detailsModal');
-  const modalContent = document.getElementById('modalContent');
+  const detailContent = document.getElementById('detailContent');
   const closeDetailsBtn = document.getElementById('closeDetailsBtn');
   
-  if (!showDetailsBtn || !detailsModal || !modalContent || !closeDetailsBtn) return;
+  if (!showDetailsBtn || !detailsModal || !detailContent || !closeDetailsBtn) return;
 
   // Handle cases where text or secondaryText might be empty or undefined
   const firstText = logoData.text ? logoData.text : 'none';
@@ -427,7 +426,7 @@ function setupDetailsButton(logoId, logoData) {
     </table>
   `;
 
-  modalContent.innerHTML = tableHTML;
+  detailContent.innerHTML = tableHTML;
 
   showDetailsBtn.style.display = 'block';
   
