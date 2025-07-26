@@ -836,9 +836,11 @@ async function uploadImageToFirebase(file, uniqueFileName) {
     // Fetch product price from Firebase
 
     // Create shareable link
+// Keep your original shareable link function
 function createShareableLink(designId) {
-  return `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
+    return `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
 }
+
 function showProcessingOverlay() {
     const processingOverlay = document.getElementById('processingOverlay');
     processingOverlay.style.display = 'flex'; // Show the overlay
