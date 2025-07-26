@@ -211,7 +211,7 @@
 #imageContainer {
   width: 170px;
   height: 190px;
-  border-radius: 8px;
+  border-radius: 8px; /* Rounded corners */
   background-color: #000000;
   display: flex;
   justify-content: center;
@@ -222,9 +222,10 @@
   margin-top: 5%;
   z-index: 1;
   margin-right: 28%;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
-   position: relative; /* Add this */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden; /* THIS IS THE KEY FIX */
 }
+
 
     #imageContainerNew img {
       max-width: 100%;
