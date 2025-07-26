@@ -295,13 +295,7 @@
     
     
     
-    
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
             --primary-color: #1a2639;
@@ -331,7 +325,7 @@
             display: flex;
             gap: 10px;
             margin-bottom: 15px;
-          
+            display: none;
         }
         
         .search-input {
@@ -690,8 +684,7 @@
             }
         }
     </style>
-</head>
-<body>
+
     <div id="loading-overlay" class="loading-overlay">
         <div class="loading-brand"></div>
         <div class="loading-spinner"></div>
@@ -751,6 +744,8 @@
     // Local storage keys
     const LOCAL_STORAGE_ITEMS_KEY = 'fumstudio_items_cache';
     const LOCAL_STORAGE_LAST_UPDATE_KEY = 'fumstudio_last_update';
+    const LOCAL_STORAGE_SHUFFLE_DATE_KEY = 'fumstudio_shuffle_date';
+    const LOCAL_STORAGE_SHUFFLED_ITEMS_KEY = 'fumstudio_shuffled_items';
     
     const itemsContainer = document.getElementById('items-container');
     const loadingOverlay = document.getElementById('loading-overlay');
@@ -817,6 +812,44 @@
             hash = hash & hash; // Convert to 32bit integer
         }
         return hash;
+    }
+
+    // Get today's date string in YYYY-MM-DD format
+    function getTodayDateString() {
+        const today = new Date();
+        return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    }
+
+    // Shuffle array using Fisher-Yates algorithm
+    function shuffleArray(array) {
+        const newArray = [...array];
+        for (let i = newArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+    }
+
+    // Get shuffled items (only shuffles once per day)
+    function getDailyShuffledItems(items) {
+        const today = getTodayDateString();
+        const lastShuffleDate = localStorage.getItem(LOCAL_STORAGE_SHUFFLE_DATE_KEY);
+        const cachedShuffledItems = localStorage.getItem(LOCAL_STORAGE_SHUFFLED_ITEMS_KEY);
+        
+        // If we already shuffled today, return cached shuffled items
+        if (lastShuffleDate === today && cachedShuffledItems) {
+            try {
+                return JSON.parse(cachedShuffledItems);
+            } catch (e) {
+                console.error("Error parsing cached shuffled items", e);
+            }
+        }
+        
+        // Otherwise, shuffle and cache for today
+        const shuffledItems = shuffleArray(items);
+        localStorage.setItem(LOCAL_STORAGE_SHUFFLED_ITEMS_KEY, JSON.stringify(shuffledItems));
+        localStorage.setItem(LOCAL_STORAGE_SHUFFLE_DATE_KEY, today);
+        return shuffledItems;
     }
 
     function convertPrice(price, currency) {
@@ -1046,15 +1079,6 @@
         filterItems();
     }
 
-    function shuffleArray(array) {
-        const newArray = [...array];
-        for (let i = newArray.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-        }
-        return newArray;
-    }
-
     function filterItems() {
         itemsContainer.innerHTML = '';
         
@@ -1103,7 +1127,8 @@
             });
         });
         
-        allCards = shuffleArray(allCards);
+        // Use daily shuffled items instead of shuffling every time
+        allCards = getDailyShuffledItems(allCards);
         
         allCards.forEach(card => {
             createItemCard(card.itemId, card.itemData, card.mainImage, card.imageIndex, card.isNew);
@@ -1165,9 +1190,8 @@
 
     // Initialize the page
     loadAllItems();
-</script>
-</body>
-</html>
+    </script>
+
     
   </div>
 
@@ -1290,4 +1314,4 @@
     updateCartCount(0);
   </script>
 </body>
-</htm
+</html>
