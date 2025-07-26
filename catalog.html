@@ -716,8 +716,7 @@ body {
     <div id="update-notification" class="update-notification">
         <i class="fas fa-sync-alt"></i> Items updated
     </div>
-  <script>
-import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+ <script type="module">import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { getDatabase, ref, onValue, get } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
@@ -1177,11 +1176,8 @@ function showUpdateNotification() {
     }, 3000);
 }
 
-// Initialize the app
-loadAllItems();
-    </script>
-
-    
+// Initialize the ap
+loadAllItems();</script>   
   </div>
 
   <script>
