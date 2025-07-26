@@ -5,15 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Loading Page</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f4f4;
-      display: flex;
-      min-height: 100vh;
-    }
+ html {
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  width: 100%;
+}
 
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; /* Ensure no horizontal overflow */
+  position: relative;
+}
     /* Desktop Sidebar */
     .sidebar {
       width: 250px;
@@ -304,13 +306,7 @@
             background-color:#EFEFEF ;
         }
         
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: white;
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-        }
+    
         
         .header {
             padding: 15px;
