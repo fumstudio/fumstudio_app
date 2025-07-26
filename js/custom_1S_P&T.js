@@ -830,16 +830,10 @@ async function uploadImageToFirebase(file, uniqueFileName) {
 
 
 
-    // WhatsApp Configuration
-    const whatsappNumber = "0659860276"; // +27 65 986 0276 (South Africa)
-
     // Fetch product price from Firebase
 
     // Create shareable link
 // Keep your original shareable link function
-function createShareableLink(designId) {
-    return `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
-}
 
 function showProcessingOverlay() {
     const processingOverlay = document.getElementById('processingOverlay');
@@ -963,9 +957,8 @@ async function generateAndStoreLogoData() {
     };
 }
 
-// Function to create shareable link
 function createShareableLink(designId) {
-    return `${window.location.origin}/glass_music.html?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
+    return `${window.location.pathname}?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&logoId=${designId}`;
 }
 
  // Share Button Click Handler
