@@ -343,8 +343,7 @@ margin-bottom: 50px;
   max-width: 80%;
 
 }
-
-.imageContainer2 {  /* Changed from #imageContainer to match HTML */
+#imageContainer {
   width: 170px;
   height: 190px;
   border-radius: 8px;
@@ -358,10 +357,9 @@ margin-bottom: 50px;
   margin-top: 5%;
   z-index: 1;
   margin-right: 28%;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  overflow: hidden; /* Add this to prevent any overflow */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
+    position: relative; /* Add this */
 }
-
 #imageContainer img {
   position: absolute;
   top: 0;
@@ -369,6 +367,7 @@ margin-bottom: 50px;
   width: 100%;
   height: 100%;
   object-fit: cover;
+    border-radius: 8px;
 }
 
 </style>
