@@ -1185,11 +1185,8 @@ reAddToCartBtn.addEventListener('click', async () => {
         await set(cartRef, cartItems);
 
         // Show success message with options
-        showCartAlert(`
-            <i class="fas fa-check-circle"></i> Item re-added to cart!<br>
-            <a href="cart.html" style="color: white; text-decoration: underline;">View Cart</a> | 
-            <a href="${shareableLink}" style="color: white; text-decoration: underline;">Share Design</a>
-        `);
+        showCartAlert('<i class="fa fa-check-circle green-icon"></i>Item added to cart');
+          
 
         // Redirect to cart after delay
         setTimeout(() => {
