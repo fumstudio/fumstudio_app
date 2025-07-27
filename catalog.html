@@ -1310,6 +1310,77 @@ loadAllItems();</script>
     // Initialize cart count (you would replace this with your actual cart logic)
     updateCartCount(0);
   </script>
+
+
+    <style>
+        .whatsapp-chat-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .whatsapp-chat-button:hover {
+            background-color: #128C7E;
+            transform: scale(1.1);
+        }
+        
+        .whatsapp-chat-button img {
+            width: 36px;
+            height: 36px;
+        }
+        
+        /* Optional tooltip */
+        .whatsapp-chat-button::before {
+            content: "Chat with us";
+            position: absolute;
+            right: 70px;
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+        
+        .whatsapp-chat-button:hover::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Your website content goes here -->
+    
+    <!-- WhatsApp chat button -->
+    <div class="whatsapp-chat-button" id="whatsappButton">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+    </div>
+
+    <script>
+        document.getElementById('whatsappButton').addEventListener('click', function() {
+            // Replace with your WhatsApp number (include country code, remove any +, 0, or spaces)
+            const phoneNumber = '27728662309';
+            
+            // Optional: Add a default message (URL encoded)
+            const defaultMessage = 'Hello%20I%20have%20a%20question';
+            
+            // Open WhatsApp chat
+            window.open(`https://wa.me/${phoneNumber}?text=${defaultMessage}`, '_blank');
+        });
+    </script>
+
 </body>
 </html>
 
