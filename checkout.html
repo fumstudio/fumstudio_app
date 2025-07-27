@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1073,39 +1072,62 @@ async function clearCart(userId) {
     }
 }
 
-function calculateTotalPrice() {
-    const cartItems = Object.values(localCartState)
+async function calculateTotalPrice() {
+    const cartItems = Object.values(localCartState);
     
+    // Calculate subtotal
     const totalPriceZAR = cartItems.reduce((total, item) => {
         try {
-            const displayPrice = item.displayPrice || item.price || item.cost || 0
-            return total + (parseFloat(displayPrice) * (item.quantity || 1))
+            const displayPrice = item.displayPrice || item.price || item.cost || 0;
+            return total + (parseFloat(displayPrice) * (item.quantity || 1));
         } catch (e) {
-            console.error('Error calculating item price:', item, e)
-            return total
+            console.error('Error calculating item price:', item, e);
+            return total;
         }
-    }, 0)
+    }, 0);
 
-    const shippingFeeZAR = 100
-    let shippingFeeToApply = totalPriceZAR > 100 ? 0 : shippingFeeZAR
+    // Default shipping rules (South Africa
+   // orders over 135 cancel 65 shipping  
+    let shippingFeeToApply = totalPriceZAR > 135 ? 0 : 65;
+
+    // Check user's country
+    const user = auth.currentUser;
+    let userCountry = 'ZA'; // Default to South Africa
     
-    // Calculate discount based on subtotal (without shipping)
-    let discounted = false
-    let discountAmountZAR = 0
-    let discountPriceZAR = totalPriceZAR // Start with just the item total
-    
-    if (totalPriceZAR > 1000) {
-        discounted = true
-        discountAmountZAR = totalPriceZAR * 0.1
-        discountPriceZAR = totalPriceZAR * 0.9
-    } else if (totalPriceZAR > 400) {
-        discounted = true
-        discountAmountZAR = totalPriceZAR * 0.05
-        discountPriceZAR = totalPriceZAR * 0.95
+    if (user) {
+        try {
+            const profileRef = ref(database, `profiles/${user.uid}/addresses/address1/country`);
+            const snapshot = await get(profileRef);
+            if (snapshot.exists()) {
+                userCountry = snapshot.val();
+                
+                // Apply international shipping if not ZA
+                if (userCountry !== 'ZA') {
+                    shippingFeeToApply = 500; // Flat ZAR 500 for international
+                }
+            }
+        } catch (error) {
+            console.error('Error checking user country:', error);
+        }
     }
 
-    // Add shipping fee only after discounts are applied
-    const totalWithShipping = discountPriceZAR + shippingFeeToApply
+    // Calculate discounts
+    let discounted = false;
+    let discountAmountZAR = 0;
+    let discountPriceZAR = totalPriceZAR;
+    
+    if (totalPriceZAR > 1000) {
+        discounted = true;
+        discountAmountZAR = totalPriceZAR * 0.1;
+        discountPriceZAR = totalPriceZAR * 0.9;
+    } else if (totalPriceZAR > 400) {
+        discounted = true;
+        discountAmountZAR = totalPriceZAR * 0.05;
+        discountPriceZAR = totalPriceZAR * 0.95;
+    }
+
+    // Calculate final total
+    const totalWithShipping = discountPriceZAR + shippingFeeToApply;
 
     return {
         totalPriceZAR,
@@ -1113,67 +1135,85 @@ function calculateTotalPrice() {
         discounted,
         discountPriceZAR,
         discountAmountZAR,
-        totalWithShipping // This is the final amount to pay
-    }
+        totalWithShipping,
+        userCountry
+    };
 }
 
 function updatePriceDisplay() {
-    const {
+    calculateTotalPrice().then(({
         totalPriceZAR,
         shippingFeeToApply,
         discounted,
         discountPriceZAR,
         discountAmountZAR,
-        totalWithShipping
-    } = calculateTotalPrice()
-
-    const formatPrice = (price) => convertPrice(price, storedCurrency)
-    
-    // Update total price display (show items total without shipping)
-    const totalPriceElement = document.querySelector('.totalPrice .price')
-    if (totalPriceElement) {
-        if (discounted) {
-            totalPriceElement.innerHTML = `
-                ${storedCurrency} <span class="original-price">${formatPrice(totalPriceZAR)}</span>
-                <span class="pay-price">${storedCurrency} ${formatPrice(discountPriceZAR)}</span>
-            `
-        } else {
-            totalPriceElement.textContent = `${storedCurrency} ${formatPrice(totalPriceZAR)}`
+        totalWithShipping,
+        userCountry
+    }) => {
+        const formatPrice = (price) => convertPrice(price, storedCurrency);
+        
+        // 1. Update shipping display
+        const shippingElement = document.querySelector('.shipping-fee');
+        if (shippingElement) {
+            if (userCountry === 'ZA') {
+                if (shippingFeeToApply === 0) {
+                    shippingElement.innerHTML = 'Free shipping';
+                } else {
+                    shippingElement.innerHTML = `Shipping fee: ${storedCurrency} ${formatPrice(65)}`;
+                }
+            } else {
+                shippingElement.innerHTML = `International shipping: ${storedCurrency} ${formatPrice(500)}`;
+            }
         }
-    }
 
-    // Update discount display
-    const discountElement = document.querySelector('.totalPrice .discount')
-    if (discountElement) {
-        discountElement.innerHTML = discounted ? `Save: ${storedCurrency} ${formatPrice(discountAmountZAR)}` : ''
-    }
+        // 2. Update total price display
+        const totalPriceElement = document.querySelector('.totalPrice .price');
+        if (totalPriceElement) {
+            if (discounted) {
+                totalPriceElement.innerHTML = `
+                    ${storedCurrency} <span class="original-price">${formatPrice(totalPriceZAR)}</span>
+                    <span class="pay-price">${formatPrice(discountPriceZAR)}</span>
+                `;
+            } else {
+                totalPriceElement.textContent = `${storedCurrency} ${formatPrice(totalPriceZAR)}`;
+            }
+        }
 
-    // Update shipping display
-    const shippingElement = document.querySelector('.shipping-fee')
-    if (shippingElement) {
-        shippingElement.innerHTML = `Shipping fee: ${storedCurrency} ${shippingFeeToApply === 0 ? '00.00' : formatPrice(shippingFeeToApply)}`
-    }
+        // 3. Update discount display
+        const discountElement = document.querySelector('.totalPrice .discount');
+        if (discountElement) {
+            discountElement.innerHTML = discounted ? `Save: ${storedCurrency} ${formatPrice(discountAmountZAR)}` : '';
+        }
 
-    // Update total amount display (items + shipping)
-    const totalAmountElement = document.querySelector('.totalAmountToPay')
-    if (totalAmountElement) {
-        totalAmountElement.innerHTML = `Total: ${storedCurrency} ${formatPrice(totalWithShipping)}`
-    }
+        // 4. Update total amount to pay
+        const totalAmountElement = document.querySelector('.totalAmountToPay');
+        if (totalAmountElement) {
+            totalAmountElement.innerHTML = `Total: ${storedCurrency} ${formatPrice(totalWithShipping)}`;
+        }
 
-    // Update PayPal button if neede
-    if (Object.keys(localCartState).length > 0 && discountPriceZAR > 0) {
-        initPayPalButton(
-            convertPrice(totalWithShipping, 'USD'), // Use totalWithShipping for PayPal
-            discounted,
-            discountPriceZAR,
-            shippingFeeToApply
-        )
-    } else {
-        const container = document.getElementById('paypal-button-container')
-        if (container) container.innerHTML = ''
-    }
+        // 5. Update PayPal button if needed
+        if (Object.keys(localCartState).length > 0 && discountPriceZAR > 0) {
+            initPayPalButton(
+                convertPrice(totalWithShipping, 'USD')
+            );
+        } else {
+            const container = document.getElementById('paypal-button-container');
+            if (container) container.innerHTML = '';
+        }
+
+        // 6. Update item count display
+        const totalItemsCount = Object.values(localCartState).reduce((total, item) => {
+            return total + (item.quantity || 1);
+        }, 0);
+        const countElement = document.getElementById('totalItemCount');
+        if (countElement) {
+            countElement.textContent = `(Items ${totalItemsCount})`;
+        }
+
+    }).catch(error => {
+        console.error('Error updating price display:', error);
+    });
 }
-// Debounced function to update Firebase
 async function updateFirebaseCart(userId) {
     if (debounceTimer) {
         clearTimeout(debounceTimer);
@@ -1181,22 +1221,39 @@ async function updateFirebaseCart(userId) {
     
     debounceTimer = setTimeout(async () => {
         try {
-            const cartRef = dbRef(database, 'carts/' + userId);
-            const { discounted, discountPriceZAR, discountAmountZAR, shippingFeeToApply } = calculateTotalPrice();
+            const cartRef = dbRef(database, `carts/${userId}`);
             
-            await update(cartRef, {
-                carts: localCartState,
-                discountAmountZAR: discountAmountZAR,
-                shippingFeeToApply: shippingFeeToApply,
-                totalAmountPaidZAR: discountPriceZAR
-            });
+            // Calculate totals
+            const {
+                discounted,
+                discountPriceZAR,
+                discountAmountZAR,
+                shippingFeeToApply,
+                totalWithShipping
+            } = await calculateTotalPrice();
+            
+            // Prepare the update data
+            const updateData = {
+                items: localCartState,  // Changed from 'carts' to 'items' for consistency
+                discountAmountZAR: discountAmountZAR || 0,
+                shippingFeeZAR: shippingFeeToApply || 0,
+                subtotalZAR: discountPriceZAR || 0,
+                totalAmountZAR: totalWithShipping || 0,
+                lastUpdated: new Date().toISOString()
+            };
+            
+            // Update the cart
+            await update(cartRef, updateData);
+            
         } catch (error) {
-            console.error('Error updating cart:', error);
+            console.error('Error updating cart:', error, {
+                userId,
+                cartState: localCartState
+            });
         }
     }, DEBOUNCE_DELAY);
 }
-
-
+ 
 async function clearCartData(userId) {
     try {
         const cartRef = dbRef(database, 'carts/' + userId);
@@ -1522,74 +1579,111 @@ const viewItemUrl = `${window.location.protocol}//${window.location.hostname}/fu
         </div>
     `;
 }
-// Enhanced quantity controls with immediate updates
+// Enhanced quantity controls with immediate updates and better error handling
 function setupEnhancedQuantityControls(userId) {
     // Regular quantity buttons functionality
     document.querySelectorAll('.quantity-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const cartKey = btn.dataset.key;
-            const action = btn.dataset.action;
-            
-            // Update local state immediately
-            if (action === 'increase') {
-                localCartState[cartKey].quantity = (localCartState[cartKey].quantity || 1) + 1;
-            } else if (action === 'decrease' && localCartState[cartKey].quantity > 1) {
-                localCartState[cartKey].quantity -= 1;
+        btn.addEventListener('click', async () => {
+            try {
+                const cartKey = btn.dataset.key;
+                const action = btn.dataset.action;
+                
+                if (!localCartState[cartKey]) {
+                    console.error('Cart item not found:', cartKey);
+                    return;
+                }
+                
+                // Update local state immediately
+                const currentQuantity = localCartState[cartKey].quantity || 1;
+                
+                if (action === 'increase') {
+                    localCartState[cartKey].quantity = currentQuantity + 1;
+                } else if (action === 'decrease' && currentQuantity > 1) {
+                    localCartState[cartKey].quantity = currentQuantity - 1;
+                } else {
+                    return; // No change needed
+                }
+                
+                // Update UI immediately
+                const quantityInput = document.querySelector(`.cart-item[data-cart-key="${cartKey}"] .quantity-input`);
+                if (quantityInput) {
+                    quantityInput.value = localCartState[cartKey].quantity;
+                }
+                
+                // Update totals immediately
+                updatePriceDisplay();
+                
+                // Schedule Firebase update with error handling
+                try {
+                    await updateFirebaseCart(userId);
+                } catch (firebaseError) {
+                    console.error('Failed to update Firebase:', firebaseError);
+                    // Revert UI if Firebase update fails
+                    if (quantityInput) {
+                        quantityInput.value = currentQuantity;
+                        localCartState[cartKey].quantity = currentQuantity;
+                        updatePriceDisplay();
+                    }
+                    showAlertModal('Failed to update quantity. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error in quantity button handler:', error);
             }
-            
-            // Update UI immediately
-            const quantityInput = document.querySelector(`.cart-item[data-cart-key="${cartKey}"] .quantity-input`);
-            if (quantityInput) {
-                quantityInput.value = localCartState[cartKey].quantity;
-            }
-            
-            // Update totals immediately
-            updatePriceDisplay();
-            
-            // Schedule Firebase update
-            updateFirebaseCart(userId);
         });
     });
 
     // Setup click handler for quantity display to show edit input
     document.querySelectorAll('.quantity-input').forEach(input => {
         input.addEventListener('click', function() {
-            const container = this.closest('.quantity-display-container');
-            const overlay = container.querySelector('.quantity-overlay');
-            const editInput = container.querySelector('.quantity-edit-input');
-            const saveBtn = container.querySelector('.quantity-save-btn');
-            
-            // Store current value in case of cancel
-            editInput.dataset.originalValue = this.value;
-            editInput.value = this.value;
-            
-            // Hide save button initially
-            saveBtn.classList.add('hidden');
-            
-            // Show the overlay
-            overlay.style.display = 'flex';
-            editInput.focus();
+            try {
+                const container = this.closest('.quantity-display-container');
+                if (!container) return;
+                
+                const overlay = container.querySelector('.quantity-overlay');
+                const editInput = container.querySelector('.quantity-edit-input');
+                const saveBtn = container.querySelector('.quantity-save-btn');
+                
+                if (!overlay || !editInput || !saveBtn) return;
+                
+                // Store current value in case of cancel
+                editInput.dataset.originalValue = this.value;
+                editInput.value = this.value;
+                
+                // Hide save button initially
+                saveBtn.classList.add('hidden');
+                
+                // Show the overlay
+                overlay.style.display = 'flex';
+                editInput.focus();
+                editInput.select();
+            } catch (error) {
+                console.error('Error showing quantity editor:', error);
+            }
         });
     });
 
     // Setup overlay increase/decrease buttons
     document.querySelectorAll('.quantity-overlay-btn').forEach(btn => {
         btn.addEventListener('click', function() {
-            const isIncrease = this.classList.contains('increase');
-            const container = this.closest('.quantity-overlay-content');
-            const input = container.querySelector('.quantity-edit-input');
-            const saveBtn = container.querySelector('.quantity-save-btn');
-            
-            let value = parseInt(input.value) || 1;
-            value = isIncrease ? value + 1 : Math.max(1, value - 1);
-            input.value = value;
-            
-            // Check if value changed from original
-            const originalValue = parseInt(input.dataset.originalValue) || 1;
-            if (value !== originalValue) {
-                saveBtn.classList.remove('hidden');
-            } else {
-                saveBtn.classList.add('hidden');
+            try {
+                const container = this.closest('.quantity-overlay-content');
+                if (!container) return;
+                
+                const input = container.querySelector('.quantity-edit-input');
+                const saveBtn = container.querySelector('.quantity-save-btn');
+                
+                if (!input || !saveBtn) return;
+                
+                let value = parseInt(input.value) || 1;
+                const isIncrease = this.classList.contains('increase');
+                value = isIncrease ? value + 1 : Math.max(1, value - 1);
+                input.value = value;
+                
+                // Check if value changed from original
+                const originalValue = parseInt(input.dataset.originalValue) || 1;
+                saveBtn.classList.toggle('hidden', value === originalValue);
+            } catch (error) {
+                console.error('Error in overlay quantity button:', error);
             }
         });
     });
@@ -1597,78 +1691,125 @@ function setupEnhancedQuantityControls(userId) {
     // Setup input change handler to show/hide save button
     document.querySelectorAll('.quantity-edit-input').forEach(input => {
         input.addEventListener('input', function() {
-            const container = this.closest('.quantity-overlay-content');
-            const saveBtn = container.querySelector('.quantity-save-btn');
-            const originalValue = parseInt(this.dataset.originalValue) || 1;
-            const currentValue = parseInt(this.value) || 1;
-            
-            if (currentValue !== originalValue) {
-                saveBtn.classList.remove('hidden');
-            } else {
-                saveBtn.classList.add('hidden');
+            try {
+                const container = this.closest('.quantity-overlay-content');
+                if (!container) return;
+                
+                const saveBtn = container.querySelector('.quantity-save-btn');
+                if (!saveBtn) return;
+                
+                const originalValue = parseInt(this.dataset.originalValue) || 1;
+                const currentValue = parseInt(this.value) || 1;
+                saveBtn.classList.toggle('hidden', currentValue === originalValue);
+            } catch (error) {
+                console.error('Error in quantity input handler:', error);
+            }
+        });
+        
+        // Add keypress handler for Enter key
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const saveBtn = this.closest('.quantity-overlay-content')?.querySelector('.quantity-save-btn');
+                if (saveBtn && !saveBtn.classList.contains('hidden')) {
+                    saveBtn.click();
+                }
             }
         });
     });
 
     // Setup save button handlers
     document.querySelectorAll('.quantity-save-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const cartKey = this.dataset.key;
-            const container = this.closest('.quantity-display-container');
-            const editInput = container.querySelector('.quantity-edit-input');
-            const displayInput = container.querySelector('.quantity-input');
-            const overlay = container.querySelector('.quantity-overlay');
-            
-            const newQuantity = parseInt(editInput.value);
-            if (isNaN(newQuantity) || newQuantity < 1) {
-                showAlertModal('Please enter a valid quantity (minimum 1)');
-                return;
-            }
+        btn.addEventListener('click', async function() {
+            try {
+                const cartKey = this.dataset.key;
+                const container = this.closest('.quantity-display-container');
+                if (!container || !cartKey || !localCartState[cartKey]) return;
+                
+                const editInput = container.querySelector('.quantity-edit-input');
+                const displayInput = container.querySelector('.quantity-input');
+                const overlay = container.querySelector('.quantity-overlay');
+                
+                if (!editInput || !displayInput || !overlay) return;
+                
+                const newQuantity = parseInt(editInput.value);
+                if (isNaN(newQuantity) || newQuantity < 1) {
+                    showAlertModal('Please enter a valid quantity (minimum 1)');
+                    return;
+                }
 
-            // Update local state immediately
-            localCartState[cartKey].quantity = newQuantity;
-            
-            // Update the display
-            displayInput.value = newQuantity;
-            overlay.style.display = 'none';
-            
-            // Update totals immediately
-            updatePriceDisplay();
-            
-            // Schedule Firebase update
-            updateFirebaseCart(userId);
+                const originalQuantity = localCartState[cartKey].quantity || 1;
+                
+                // Update local state immediately
+                localCartState[cartKey].quantity = newQuantity;
+                
+                // Update the display
+                displayInput.value = newQuantity;
+                overlay.style.display = 'none';
+                
+                // Update totals immediately
+                updatePriceDisplay();
+                
+                // Schedule Firebase update with error handling
+                try {
+                    await updateFirebaseCart(userId);
+                } catch (firebaseError) {
+                    console.error('Failed to update Firebase:', firebaseError);
+                    // Revert changes if Firebase update fails
+                    localCartState[cartKey].quantity = originalQuantity;
+                    displayInput.value = originalQuantity;
+                    updatePriceDisplay();
+                    showAlertModal('Failed to save quantity. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error in save handler:', error);
+                showAlertModal('An error occurred. Please try again.');
+            }
         });
     });
 
     // Setup cancel button handlers
     document.querySelectorAll('.quantity-cancel-btn').forEach(btn => {
         btn.addEventListener('click', function() {
-            const container = this.closest('.quantity-display-container');
-            const overlay = container.querySelector('.quantity-overlay');
-            overlay.style.display = 'none';
+            try {
+                const container = this.closest('.quantity-display-container');
+                if (!container) return;
+                
+                const overlay = container.querySelector('.quantity-overlay');
+                if (overlay) overlay.style.display = 'none';
+            } catch (error) {
+                console.error('Error in cancel handler:', error);
+            }
         });
     });
 
     // Close overlay when clicking outside
     document.addEventListener('click', function(e) {
-        if (!e.target.closest('.quantity-overlay') && !e.target.classList.contains('quantity-input')) {
-            document.querySelectorAll('.quantity-overlay').forEach(overlay => {
-                overlay.style.display = 'none';
-            });
+        try {
+            if (!e.target.closest('.quantity-overlay') && !e.target.classList.contains('quantity-input')) {
+                document.querySelectorAll('.quantity-overlay').forEach(overlay => {
+                    if (overlay) overlay.style.display = 'none';
+                });
+            }
+        } catch (error) {
+            console.error('Error in outside click handler:', error);
         }
     });
 
+    // Clear cart button handle
     const clearBtn = document.getElementById('clearCartButton');
     if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
-            if (confirm('Are you sure you want to clear your cart?')) {
-                clearCart(userId);
+        clearBtn.addEventListener('click', async () => {
+            try {
+                if (confirm('Are you sure you want to clear your cart?')) {
+                    await clearCart(userId);
+                }
+            } catch (error) {
+                console.error('Error clearing cart:', error);
+                showAlertModal('Failed to clear cart. Please try again.');
             }
         });
     }
 }
-
-
 
 function showEmptyCart() {
     const container = document.getElementById('cart-items-container');
@@ -1715,19 +1856,23 @@ auth.onAuthStateChanged((user) => {
     }
 });
 
-function setupCartListeners(userId) {
-    const cartRef = dbRef(database, `carts/${userId}/carts`);
+ 
+  function setupCartListeners(userId) {
+    const cartRef = dbRef(database, `carts/${userId}`);
     
     onValue(cartRef, (snapshot) => {
         try {
             const cartData = snapshot.val();
-            if (!cartData) {
+            if (!cartData || !cartData.items) {
                 localCartState = {};
                 showEmptyCart();
                 return;
             }
             
-            renderCartItems(userId, cartData);
+            // Update local state with the items from Firebase
+            localCartState = cartData.items || {};
+            
+            renderCartItems(userId, localCartState);
         } catch (error) {
             console.error('Error in cart listener:', error);
             showEmptyCart();
@@ -1737,9 +1882,8 @@ function setupCartListeners(userId) {
         showEmptyCart();
     });
 }
+  
 
-  
-  
   function showAlertModal(message, callback = null) {
     const isSuccess = message.toLowerCase().includes('success');
     
@@ -1890,92 +2034,112 @@ style.textContent = `
 document.head.appendChild(style);
 </script>
 
+<style>
+    .blur-background .page-content {
+        filter: blur(5px);
+    }
+    
+    .delivery-alert-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    
+    .delivery-alert {
+        background-color: white;
+        padding: 25px;
+        border-radius: 10px;
+        max-width: 500px;
+        width: 80%;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        position: relative;
+        filter: none; /* Ensures alert is never blurred */
+    }
+    
+    .delivery-alert p {
+        margin-bottom: 20px;
+        line-height: 1.5;
+        color: #333;
+    }
+    
+    .delivery-alert button {
+        background-color: #1a2639;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+    
+    .delivery-alert button:hover {
+        background-color: #0f1722;
+    }
+    
+    .alert-icon {
+        font-size: 40px;
+        color: #1a2639;
+        margin-bottom: 15px;
+    }
+    
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 15px;
+        font-size: 14px;
+    }
+    
+    .checkbox-container input {
+        margin-right: 8px;
+    }
+</style>
 
-   <style>
-     
-       
-        .blur-background .page-content {
-            filter: blur(5px);
-        }
-        
-        .delivery-alert-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        .delivery-alert {
-            background-color: white;
-            padding: 25px;
-            border-radius: 10px;
-            max-width: 500px;
-            width: 80%;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            position: relative;
-            filter: none; /* Ensures alert is never blurred */
-        }
-        
-        .delivery-alert p {
-            margin-bottom: 20px;
-            line-height: 1.5;
-            color: #333;
-        }
-        
-        .delivery-alert button {
-            background-color: #1a2639;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        
-        .delivery-alert button:hover {
-            background-color: #0f1722;
-        }
-        
-        .alert-icon {
-            font-size: 40px;
-            color: #1a2639;
-            margin-bottom: 15px;
-        }
-    </style>
-
-    <!-- Alert overlay (not blurred) -->
-    <div class="delivery-alert-overlay" id="alertOverlay">
-        <div class="delivery-alert">
-            <div class="alert-icon">⚠️</div>
-            <p>Your orders will be delivered within 4-9 business days. Due to a temporary shortage of shipping resources, your items may arrive in separate packages on different days. You will be updated with tracking information as your orders are processed. We appreciate your understanding and patience.</p>
-            <button id="agreeButton">I Agree</button>
+<!-- Alert overlay (not blurred) -->
+<div class="delivery-alert-overlay" id="alertOverlay">
+    <div class="delivery-alert">
+        <div class="alert-icon">⚠️</div>
+        <p>Your orders will be delivered within 4-9 business days. Due to a temporary shortage of shipping resources, your items may arrive in separate packages on different days. You will be updated with tracking information as your orders are processed. We appreciate your understanding and patience.</p>
+        <button id="agreeButton">I Agree</button>
+        <div class="checkbox-container">
+            <input type="checkbox" id="dontShowAgain">
+            <label for="dontShowAgain">Don't show this message again</label>
         </div>
     </div>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Show the alert and blur background content when page loads
-            document.body.classList.add('blur-background');
-            document.getElementById('alertOverlay').style.display = 'flex';
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if user has previously chosen not to see the alert
+        if (localStorage.getItem('hideDeliveryAlert') === 'true') {
+            return; // Don't show the alert
+        }
+        
+        // Show the alert and blur background content
+        document.body.classList.add('blur-background');
+        document.getElementById('alertOverlay').style.display = 'flex';
+        
+        // Close the alert when button is clicked
+        document.getElementById('agreeButton').addEventListener('click', function() {
+            document.body.classList.remove('blur-background');
+            document.getElementById('alertOverlay').style.display = 'none';
             
-            // Close the alert when button is clicked
-            document.getElementById('agreeButton').addEventListener('click', function() {
-                document.body.classList.remove('blur-background');
-                document.getElementById('alertOverlay').style.display = 'none';
-            });
+            // Save preference if "Don't show again" is checked
+            if (document.getElementById('dontShowAgain').checked) {
+                localStorage.setItem('hideDeliveryAlert', 'true');
+            }
         });
-    </script>
-  </body>
-</html>
-<!-- partial -->
+    });
+</script>
   
-</body>
+  </body>
 </html>
