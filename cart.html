@@ -1,14 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>Untitled</title>
-  
-
-</head>
-<body>
-<!-- partial:index.partial.html -->
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -863,7 +853,7 @@ function updateCurrencyDisplay() {
 
     // Setup cart listeners
     function setupCartListeners(userId) {
-        const cartRef = ref(database, `carts/${userId}/carts`);
+        const cartRef = ref(database, `carts/${userId}/cartItems`);
         
         onValue(cartRef, (snapshot) => {
             const cartData = snapshot.val();
@@ -1109,7 +1099,7 @@ const shareableLink = cartItem.shareableLink
     // Remove item from cart
     async function removeCartItem(userId, cartKey) {
         try {
-            await remove(ref(database, `carts/${userId}/carts/${cartKey}`));
+            await remove(ref(database, `carts/${userId}/cartItems/${cartKey}`));
             delete state.priceHistory[cartKey];
             delete state.originalQuantityValues[cartKey];
             
@@ -1124,7 +1114,7 @@ const shareableLink = cartItem.shareableLink
     async function updateQuantity(userId, cartKey, newQuantity) {
         try {
             // Update in database first
-            await update(ref(database, `carts/${userId}/carts/${cartKey}`), {
+            await update(ref(database, `carts/${userId}/cartItems/${cartKey}`), {
                 quantity: newQuantity
             });
             
@@ -1192,9 +1182,5 @@ const shareableLink = cartItem.shareableLink
     initQuantityOverlay();
     initDeleteConfirmation();
 </script>
-</body>
-</html>
-<!-- partial -->
-  
 </body>
 </html>
