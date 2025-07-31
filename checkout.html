@@ -767,7 +767,7 @@ const firebaseConfig = {
             </svg>
         </div>
         <div class="delivery-info">
-            <div class="delivery-title">Delivery <span class="highlight">in</span> 4-9 business days</div>
+            <div class="delivery-title">Delivery <span class="highlight">in</span> 8-12 business days</div>
             <div class="delivery-dates" id="delivery-dates"></div>
         </div>
         <a href="shipping.html" class="more-button">More</a>
@@ -800,8 +800,8 @@ const firebaseConfig = {
             const today = new Date();
             
             // Calculate 4 and 9 business days from today
-            const minDeliveryDate = addBusinessDays(today, 4);
-            const maxDeliveryDate = addBusinessDays(today, 9);
+            const minDeliveryDate = addBusinessDays(today, 8);
+            const maxDeliveryDate = addBusinessDays(today, 12);
 
             // Display the date range
             document.getElementById('delivery-dates').textContent = 
