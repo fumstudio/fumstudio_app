@@ -1300,9 +1300,9 @@ loadAllItems();</script>
       
       // Add user email to menus
       const desktopEmailItem = document.createElement('li');
-      desktopEmailItem.innerHTML = `<a style="color: #1a2639; cursor: default;">
-                                    <i class="fas fa-user"></i> ${user.email}
-                                  </a>`;
+      desktopEmailItem.innerHTML = `<a class="user-link">
+    <i class="fas fa-user"></i> ${user.email}
+</a> `;
       document.querySelector('.sidebar-menu').insertBefore(
         desktopEmailItem, 
         document.getElementById('desktopLogout').parentNode
