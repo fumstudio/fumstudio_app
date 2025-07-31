@@ -277,13 +277,13 @@
     
     <div class="center-wrapper">
         <div class="selection-container">
-            <h1>Select Your Currency</h1>
+            <h1>Select Currency</h1>
             <select id="currencySelect">
                 <option value="USD">USD - US Dollar</option>
                 <option value="EUR">EUR - Euro</option>
                 <option value="ZAR" selected>ZAR - South African Rand</option>
             </select>
-            <button id="goToCart">Proceed to Cart</button>
+           
         </div>
     </div>
     
@@ -374,9 +374,6 @@ const firebaseConfig = {
             });
         });
 
-        document.getElementById('goToCart').addEventListener('click', function() {
-            window.location.href = 'cart_page.html';
-        });
     </script>
     <script type="module" src="js/currency-converter.js"></script>
 </body>
