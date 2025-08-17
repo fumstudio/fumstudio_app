@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome Board Generator</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  /* General styling */
+  body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #1a2639;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    padding: 0 15px;
+    box-sizing: border-box;
+    z-index: 1000;
+  }
+  
+  .back-button {
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .cart-text {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .container {
+    margin-top: 10px;
+    padding: 20px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  
+  .form-container {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .preview-container {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  h3 {
+    background-color: #E3E3E3;
+    color: black;
+    padding: 15px 20px;
+    margin: 20px 0 10px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #444;
+  }
+  
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  /* Photo upload styles */
+  .photo-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+  }
+
+  .photo-preview {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-color: #f1f1f1;
+    overflow: hidden;
+    margin: 10px 0;
+    position: relative;
+    border: 3px solid #ddd;
+  }
+
+  .photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .photo-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .photo-controls button {
+    padding: 8px 15px;
+    font-size: 14px;
+    min-width: auto;
+  }
+
+  /* Cropper modal */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cropper-container {
+    width: 100%;
+    height: 60vh;
+    min-height: 300px;
+    margin-bottom: 15px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cropper-container img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+  }
+
+  /* Card preview styling */
+  .portrait-box {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .card-preview {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2/3;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  
+  canvas {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+  }
+  
+  /* Background options */
+  .background-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 15px 0;
+  }
+  
+  .bg-option {
+    width: 80px;
+    height: 120px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .bg-option:hover {
+    border-color: #007bff;
+  }
+  
+  .bg-option.selected {
+    border-color: #28a745;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+  
+  .bg-option img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Buttons */
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 0px 0;
+    flex-wrap: wrap;
+  }
+  
+  button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+  
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+  }
+  
+  #generateBtn {
+    background-color: #1a2639;
+    color: white;
+  }
+  
+  .download-btn {
+    background-color: #1a2639;
+    color: white;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  /* Text styling controls */
+  .text-controls {
+    display: none;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin: 15px 0;
+  }
+
+  .size-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .size-btn {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+    color: #333;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .size-btn.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+
+  .size-btn:hover {
+    background-color: #e9ecef;
+  }
+
+  .size-btn.active:hover {
+    background-color: #0069d9;
+  }
+
+  .color-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+  }
+
+  .color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .color-option:hover {
+    transform: scale(1.1);
+  }
+
+  .selected-text {
+    
+    font-weight: 600;
+    color: #444;
+  }
+
+  /* Font Family Classes */
+  .playfair-display {
+    font-family: 'Playfair Display', serif;
+  }
+  
+  .montserrat {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .dancing-script {
+    font-family: 'Dancing Script', cursive;
+  }
+  
+  .great-vibes {
+    font-family: 'Great Vibes', cursive;
+  }
+  
+  .cinzel {
+    font-family: 'Cinzel', serif;
+  }
+  
+  .raleway {
+    font-family: 'Raleway', sans-serif;
+  }
+  
+  .libre-baskerville {
+    font-family: 'Libre Baskerville', serif;
+  }
+  
+  .petit-formal-script {
+    font-family: 'Petit Formal Script', cursive;
+  }
+  
+  .marcellus {
+    font-family: 'Marcellus', serif;
+  }
+  
+  .eb-garamond {
+    font-family: 'EB Garamond', serif;
+  }
+
+  /* Font Selection List */
+  .font-selection {
+    margin-bottom: 20px;
+  }
+
+  .font-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .font-item {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .font-item:hover {
+    background-color: #f8f9fa;
+    border-color: #007bff;
+  }
+
+  .font-item.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+    
+    .preview-container {
+      order: -1;
+    }
+    
+    .portrait-box {
+      max-width: 100%;
+    }
+
+    .photo-preview {
+      width: 150px;
+      height: 150px;
+    }
+
+    .modal-content {
+      width: 95%;
+      padding: 15px;
+    }
+
+    .cropper-container {
+      height: 50vh;
+    }
+
+    .modal-actions {
+      flex-direction: row;
+      gap: 10px;
+    }
+
+    .modal-actions button {
+      width: auto;
+    }
+
+    .font-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .size-buttons {
+      flex-wrap: wrap;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    button {
+    
+    }
+    
+    .background-options {
+      gap: 8px;
+    }
+    
+    .bg-option {
+      width: 60px;
+      height: 90px;
+    }
+
+    .photo-preview {
+      width: 120px;
+      height: 120px;
+    }
+
+    .modal-actions {
+      flex-direction: column;
+    }
+
+    .modal-actions button {
+      width: 100%;
+    }
+
+    .font-list {
+      grid-template-columns: 1fr;
+    }
+  }
+  .Backgroundbtn{
+    background-color:#1a2639;
+    color:white;
+  }
+
+</style>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 310px;  /* Equal width */
+            padding: 12px 20px;
+            margin: 1px;
+            border: none;
+         
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Add to Cart Button */
+        #addToCartBtn, #downloadBtn {
+            background-color: #1a2639;
+            color: white;
+        }
+        
+        #addToCartBtn:hover {
+            background-color: #1a2639;
+            transform: translateY(-2px);
+        }
+        
+        /* Share Button */
+        #shareButton {
+            background-color:  #128C7E; /* WhatsApp green */
+            color: white;
+        }
+        
+        #shareButton:hover {
+            background-color: #128C7E;
+            transform: translateY(-2px);
+        }
+        
+        /* Icons */
+        .btn-icon {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+    </style>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Petit+Formal+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <div class="navbar">
+    <div class="back-button" id="backButton">
+      <i class="fas fa-arrow-left"></i>
+    </div>
+  
+       <div class="editor-container">
+      
+        <div class="toolbar">
+            <button class="tool-button" data-panel="adjustments">
+                <i class="fas fa-sliders-h"></i> Size
+            </button>
+            
+            <button class="tool-button" data-panel="filters">
+                <i class="fas fa-magic"></i> Color
+            </button>
+            
+        
+            <button class="tool-button" data-panel="text">
+                <i class="fas fa-font"></i> Text
+            </button>
+          
+     
+          
+        </div>
+      
+    </div>
+    
+         
+  </div>
+ <br>
+      <!-- Text styling controls (hidden by default) -->
+      <div class="text-controls" id="textControls">
+        <div class="selected-text" id="selectedTextLabel">Editing: Welcome Text</div>
+        
+      </div>   
+         <h3>VIEW WORK</h3>    
+  <div class="container">
+       
+     <button class="tool-button Backgroundbtn" data-panel="effects">
+                <i class="fas fa-sparkles"></i>Change Background
+            </button>
+    <div class="form-container">
+      <h3>Edit Details</h3>
+      
+      <div class="form-group">
+        <input type="text" id="welcomeInput" placeholder="Welcome text" value="welcome" />
+      </div>
+
+      <div class="form-group">
+        <input type="text" id="eventInput" placeholder="Event type" value="TO OUR ENGAGEMENT" />
+      </div>
+   <div class="photo-upload">
+        <label>Couple Photo</label>
+        <div class="photo-preview" id="photoPreview">
+          <!-- Preview will be shown here -->
+        </div>
+        <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+        <button type="button" class="btn-primary" id="uploadBtn">Select Photo</button>
+        <div class="photo-controls" id="photoControls" style="display: none;">
+          <button type="button" class="btn-primary" id="cropBtn">Recrop</button>
+          <button type="button" class="btn-danger" id="deleteBtn">Delete</button>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <input type="text" id="namesInput" placeholder="Names" value="RACHEL & DAVIS" />
+      </div>
+
+      <div class="form-group">
+        <input type="text" id="dateInput" placeholder="Date" value="MAY 15 2024" />
+      </div>
+
+   
+ 
+      <div class="action-buttons">
+        <button id="generateBtn" style="display:none;">Update Board</button>
+     
+      </div>
+    </div>
+    
+    <div class="preview-container">
+      <div class="portrait-box">
+        <div class="card-preview">
+          <canvas id="cardCanvas"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cropper Modal -->
+  <div class="modal" id="cropperModal">
+    <div class="modal-content">
+      <div class="cropper-container">
+        <img id="cropperImage">
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-danger" id="cancelCropBtn">Cancel</button>
+        <button type="button" class="btn-primary" id="applyCropBtn">Crop Photo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Processing Overlay -->
+  <div id="processingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; color: white;">
+    <div style="margin-bottom: 20px; font-size: 18px;">Processing...</div>
+    <div style="width: 80%; max-width: 300px; background-color: #555; border-radius: 5px; overflow: hidden;">
+      <div id="progressBar" style="height: 20px; width: 0%; background-color: #4CAF50; transition: width 0.3s;"></div>
+    </div>
+    <div id="progressText" style="margin-top: 10px;">0%</div>
+  </div>
+
+  <!-- Cart Alert -->
+  <div id="cartAlert" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #333; color: white; padding: 15px 25px; border-radius: 5px; z-index: 1001; box-shadow: 0 4px 8px rgba(0,0,0,0.2);"></div>
+  <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000;"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" title="Go to top">
+        <i class="fas fa-arrow-up"></i>VIEW WORK
+    </button>
+
+    <script>
+        // Scroll to Top Functionality
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        
+        // Show button when user scrolls down 200px
+        window.onscroll = function() {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                scrollToTopBtn.style.display = 'flex';
+                scrollToTopBtn.style.alignItems = 'center';
+                scrollToTopBtn.style.justifyContent = 'center';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        };
+        
+        // Scroll to top when clicked
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+   <div class="action-buttons">
+        <button class="action-btn" id="downloadBtn"><i class="fas fa-download btn-icon">Download  </i></button>
+     <button class="action-btn" id="shareButton">
+        <i class="fab fa-whatsapp btn-icon"></i>
+       SUBMIT
+    </button>
+       <button class="action-btn" id="addToCartBtn">
+        <i class="fas fa-shopping-cart btn-icon"></i>
+        Add to Cart
+    </button>
+    
+   
+      </div>
+  
+  
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+            .editor-container {
+            max-width: 1200px;
+            margin: 0 auto;
+           
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .toolbar {
+            display: flex;
+            flex-direction: row; /* This makes children align horizontally */
+            align-items: center; /* Vertically centers the buttons */
+            gap: 10px; /* Space between buttons */
+          
+            flex-wrap: nowrap; /* Prevents wrapping to next line */
+            overflow-x: auto; /* Allows horizontal scrolling if needed */
+        }
+          
+        .tool-button i {
+            font-size: 16px; /* Slightly larger icon */
+        }
+        
+        .tool-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        .content-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .content-panel.active {
+            display: block;
+            animation: slideDown 0.3s;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #7f8c8d;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close-btn:hover {
+            background-color: #f1f1f1;
+            color: #e74c3c;
+        }
+        
+        .panel-title {
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .panel-content {
+            margin-top: 15px;
+        }
+        
+        @keyframes slideDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .image-preview {
+            width: 100%;
+            height: 500px;
+            background-color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+    </style>
+
+    
+    <!-- Overlay that will appear behind panels -->
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- Adjustments Panel -->
+    <div class="content-panel" id="adjustments-panel">
+        <button class="close-btn">&times;</button>
+       
+        <div class="panel-content">    <div class="form-group">
+          <label>Font Size</label>
+          <div class="size-buttons">
+            <button class="size-btn" data-size="40px">Small</button>
+            <button class="size-btn active" data-size="60px">Medium</button>
+            <button class="size-btn" data-size="80px">Large</button>
+          </div>
+        </div></div>
+    </div>
+    
+    <!-- Filters Panel -->
+    <div class="content-panel" id="filters-panel">
+        <button class="close-btn">&times;</button>
+      
+        <div class="panel-content">       <div class="form-group">
+          <label>Text Color</label>
+          <div class="color-picker">
+            <div class="color-option" style="background-color: #9c7c4f;" data-color="#9c7c4f"></div>
+            <div class="color-option" style="background-color: #000000;" data-color="#000000"></div>
+            <div class="color-option" style="background-color: #ffffff; border: 1px solid #ccc;" data-color="#ffffff"></div>
+            <div class="color-option" style="background-color: #8b4513;" data-color="#8b4513"></div>
+            <div class="color-option" style="background-color: #556b2f;" data-color="#556b2f"></div>
+            <div class="color-option" style="background-color: #800000;" data-color="#800000"></div>
+            <div class="color-option" style="background-color: #483d8b;" data-color="#483d8b"></div>
+            <div class="color-option" style="background-color: #2f4f4f;" data-color="#2f4f4f"></div>
+          </div>
+        </div></div>
+    </div>
+    
+ 
+    <!-- Text Panel -->
+    <div class="content-panel" id="text-panel">
+        <button class="close-btn">&times;</button>
+     
+        <div class="panel-content">
+            <div>
+                   <div class="form-group font-selection">
+          <label>Font Style</label>
+          <ul class="font-list">
+            <li class="font-item playfair-display active" data-font="'Playfair Display', serif">Playfair Display</li>
+            <li class="font-item montserrat" data-font="'Montserrat', sans-serif">Montserrat</li>
+            <li class="font-item dancing-script" data-font="'Dancing Script', cursive">Dancing Script</li>
+            <li class="font-item great-vibes" data-font="'Great Vibes', cursive">Great Vibes</li>
+            <li class="font-item cinzel" data-font="'Cinzel', serif">Cinzel</li>
+            <li class="font-item raleway" data-font="'Raleway', sans-serif">Raleway</li>
+            <li class="font-item libre-baskerville" data-font="'Libre Baskerville', serif">Libre Baskerville</li>
+            <li class="font-item petit-formal-script" data-font="'Petit Formal Script', cursive">Petit Formal Script</li>
+            <li class="font-item marcellus" data-font="'Marcellus', serif">Marcellus</li>
+            <li class="font-item eb-garamond" data-font="'EB Garamond', serif">EB Garamond</li>
+          </ul>
+        </div>
+        
+            </div>
+            <div style="margin-top: 15px;">
+                <label>Font</label>
+                <select>
+                    <option>Arial</option>
+                    <option>Times New Roman</option>
+                    <option>Courier New</option>
+                    <option>Verdana</option>
+                </select>
+            </div>
+            <div style="margin-top: 15px;">
+                <label>Color</label>
+                <input type="color" value="#000000">
+            </div>
+            <div style="margin-top: 15px;">
+                <button>Add Text</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Effects Panel -->
+    <div class="content-panel" id="effects-panel">
+        <button class="close-btn">&times;</button>
+        <h3 class="panel-title">Select Background Design</h3>
+        <div class="panel-content">   <div class="background-options" id="backgroundOptions">
+        <!-- Background options will be added by JavaScript -->
+      </div></div>
+    </div>
+    
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.tool-button');
+        const panels = document.querySelectorAll('.content-panel');
+        const overlay = document.getElementById('overlay');
+        
+        // Function to close all panels
+        function closeAllPanels() {
+            panels.forEach(p => p.classList.remove('active'));
+            overlay.classList.remove('active');
+        }
+        
+        // Handle tool button clicks
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                const panelId = this.getAttribute('data-panel') + '-panel';
+                const panel = document.getElementById(panelId);
+                
+                // Toggle panel (close if already open)
+                if (panel.classList.contains('active')) {
+                    closeAllPanels();
+                } else {
+                    closeAllPanels();
+                    panel.classList.add('active');
+                    overlay.classList.add('active');
+                }
+            });
+        });
+        
+        // Close panel when clicking ANYWHERE (including inside panel)
+        document.addEventListener('click', function() {
+            closeAllPanels();
+        });
+        
+        // Allow panel content to be interactive without closing immediately
+        panels.forEach(panel => {
+            panel.addEventListener('click', function(e) {
+                // Close after a tiny delay to allow button clicks to register
+                setTimeout(closeAllPanels, 50);
+            });
+        });
+        
+        // Prevent buttons from triggering immediate close
+        buttons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    });
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
+import { getDatabase, set, get, ref as dbRef, update } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCg8WRJx4wu-kkynIIIiLbbU5GaTxU-E9s",
+  authDomain: "fumstudio-b6694.firebaseapp.com",
+  databaseURL: "https://fumstudio-b6694-default-rtdb.firebaseio.com",
+  projectId: "fumstudio-b6694",
+  storageBucket: "fumstudio-b6694.firebasestorage.app",
+  messagingSenderId: "505195774753",
+  appId: "1:505195774753:web:7b94be0cf52e52a22f7460",
+  measurementId: "G-E4LBX75DR0"
+};
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+const database = getDatabase(app);  
+const auth = getAuth();
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Variables for photo handling
+  let cropper;
+  let currentPhoto = null;
+  let originalPhotoFile = null;
+  const photoUpload = document.getElementById('photoUpload');
+  const uploadBtn = document.getElementById('uploadBtn');
+  const cropBtn = document.getElementById('cropBtn');
+  const deleteBtn = document.getElementById('deleteBtn');
+  const photoPreview = document.getElementById('photoPreview');
+  const photoControls = document.getElementById('photoControls');
+  const cropperModal = document.getElementById('cropperModal');
+  const cropperImage = document.getElementById('cropperImage');
+  const cancelCropBtn = document.getElementById('cancelCropBtn');
+  const applyCropBtn = document.getElementById('applyCropBtn');
+
+  // Text styling variables
+  const textControls = document.getElementById('textControls');
+  const sizeButtons = document.querySelectorAll('.size-btn');
+  const colorOptions = document.querySelectorAll('.color-option');
+  const selectedTextLabel = document.getElementById('selectedTextLabel');
+  const fontItems = document.querySelectorAll('.font-item');
+  let currentlyEditing = null; // Track which text element is being edited
+  let textStyles = {
+    welcomeText: {
+      fontFamily: "'Playfair Display', serif",
+      fontSize: "60px",
+      color: "#9c7c4f"
+    },
+    eventText: {
+      fontFamily: "'Montserrat', sans-serif",
+      fontSize: "20px",
+      color: "#777777"
+    },
+    namesText: {
+      fontFamily: "'Playfair Display', serif",
+      fontSize: "42px",
+      color: "#333333"
+    },
+    dateText: {
+      fontFamily: "'Montserrat', sans-serif",
+      fontSize: "20px",
+      color: "#555555"
+    }
+  };
+
+  // Background options
+  const backgroundOptions = [
+    { url: "https://i.pinimg.com/736x/36/98/7f/36987fff40f8eb0a1e5cc0948735c6df.jpg" },
+    { url: "https://i.pinimg.com/736x/23/22/9b/23229b7a5346f20a0fd9580e9d104f88.jpg" },
+    { url: "https://i.pinimg.com/736x/af/ed/24/afed24ad0b627f681980b7e11da9f5e1.jpg" }, 
+    { url: "https://i.pinimg.com/736x/d6/7f/2f/d67f2f01521af86eb6ca869dd603791a.jpg" }
+  ];
+
+  // Initialize background options
+  const bgOptionsContainer = document.getElementById('backgroundOptions');
+  let bgOptionElements = [];
+  
+  backgroundOptions.forEach((bg, index) => {
+    const option = document.createElement('div');
+    option.className = 'bg-option';
+    if (index === 1) option.classList.add('selected');
+    option.dataset.url = bg.url;
+    option.dataset.isDark = bg.isDark;
+    
+    const img = document.createElement('img');
+    img.src = bg.url;
+    img.alt = `Background ${index + 1}`;
+    
+    option.appendChild(img);
+    bgOptionsContainer.appendChild(option);
+    bgOptionElements.push(option);
+  });
+
+  // Auto-select and click background 1 (index 0) when page loads
+  function autoSelectFirstBackground() {
+    if (bgOptionElements.length > 0) {
+      // Remove any existing selections
+      document.querySelectorAll('.bg-option').forEach(opt => opt.classList.remove('selected'));
+      
+      // Select and click the first background (index 0)
+      const firstBgOption = bgOptionElements[0];
+      firstBgOption.classList.add('selected');
+      
+      // Trigger a click event on the first background option
+      const clickEvent = new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      });
+      firstBgOption.dispatchEvent(clickEvent);
+    }
+  }
+
+  // Event listeners for background options
+  document.querySelectorAll('.bg-option').forEach(option => {
+    option.addEventListener('click', function() {
+      document.querySelectorAll('.bg-option').forEach(opt => opt.classList.remove('selected'));
+      this.classList.add('selected');
+      generateCard();
+    });
+  });
+
+  // Photo upload functionality
+  uploadBtn.addEventListener('click', () => photoUpload.click());
+  
+  photoUpload.addEventListener('change', function(e) {
+    if (e.target.files && e.target.files.length > 0) {
+      originalPhotoFile = e.target.files[0];
+      const reader = new FileReader();
+      
+      reader.onload = function(event) {
+        currentPhoto = event.target.result;
+        openCropper(currentPhoto);
+      };
+      
+      reader.readAsDataURL(originalPhotoFile);
+    }
+  });
+
+  // Open cropper with image
+  function openCropper(imageSrc) {
+    cropperImage.src = imageSrc;
+    cropperModal.style.display = 'flex';
+    
+    cropperImage.onload = function() {
+      if (cropper) {
+        cropper.destroy();
+      }
+      
+      cropper = new Cropper(cropperImage, {
+        aspectRatio: 1,
+        viewMode: 1,
+        autoCropArea: 0.8,
+        responsive: true,
+        movable: true,
+        zoomable: true,
+        rotatable: false,
+        scalable: false,
+        guides: false,
+        center: true,
+        highlight: false,
+        background: false,
+        autoCrop: true,
+        restore: false,
+        checkCrossOrigin: true,
+        checkOrientation: true,
+        cropBoxMovable: true,
+        cropBoxResizable: true,
+        toggleDragModeOnDblclick: false
+      });
+    };
+  }
+
+  // Apply crop
+  applyCropBtn.addEventListener('click', function() {
+    if (cropper) {
+      const canvas = cropper.getCroppedCanvas({
+        width: 400,
+        height: 400,
+        minWidth: 256,
+        minHeight: 256,
+        maxWidth: 4096,
+        maxHeight: 4096,
+        fillColor: '#fff',
+        imageSmoothingEnabled: true,
+        imageSmoothingQuality: 'high',
+      });
+      
+      currentPhoto = canvas.toDataURL('image/jpeg');
+      updatePhotoPreview(currentPhoto);
+      cropperModal.style.display = 'none';
+      generateCard();
+    }
+  });
+
+  // Cancel crop
+  cancelCropBtn.addEventListener('click', function() {
+    cropperModal.style.display = 'none';
+  });
+
+  // Recrop photo - show original uncropped photo
+  cropBtn.addEventListener('click', function() {
+    if (originalPhotoFile) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        currentPhoto = event.target.result;
+        openCropper(currentPhoto);
+      };
+      reader.readAsDataURL(originalPhotoFile);
+    }
+  });
+
+  // Delete photo
+  deleteBtn.addEventListener('click', function() {
+    currentPhoto = null;
+    originalPhotoFile = null;
+    photoPreview.innerHTML = '';
+    photoControls.style.display = 'none';
+    uploadBtn.style.display = 'block';
+    photoUpload.value = ''; // Clear the input
+    generateCard();
+  });
+
+  // Update photo preview
+  function updatePhotoPreview(imageSrc) {
+    photoPreview.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = imageSrc;
+    photoPreview.appendChild(img);
+    photoControls.style.display = 'flex';
+    uploadBtn.style.display = 'none';
+  }
+
+  // Set font family
+  function setFont(event) {
+    if (currentlyEditing) {
+      // Remove active class from all font items
+      fontItems.forEach(item => item.classList.remove('active'));
+      
+      // Add active class to clicked font item
+      event.target.classList.add('active');
+      
+      // Update the font family in textStyles
+      textStyles[currentlyEditing].fontFamily = event.target.dataset.font;
+      generateCard();
+    }
+  }
+
+  // Add click event listeners to font items
+  fontItems.forEach(item => {
+    item.addEventListener('click', setFont);
+  });
+
+  // Size button click handler
+  sizeButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      sizeButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+      
+      if (currentlyEditing) {
+        textStyles[currentlyEditing].fontSize = this.dataset.size;
+        generateCard();
+      }
+    });
+  });
+
+  colorOptions.forEach(option => {
+    option.addEventListener('click', function() {
+      if (currentlyEditing) {
+        textStyles[currentlyEditing].color = this.dataset.color;
+        generateCard();
+      }
+    });
+  });
+
+  // Responsive Canvas click handler for all screen sizes
+  document.getElementById('cardCanvas').addEventListener('click', function(e) {
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // Get canvas dimensions (responsive)
+    const canvasWidth = this.width;
+    const canvasHeight = this.height;
+    const scaleFactor = canvasWidth / 800; // Original design width was 800
+    
+    // Scale click coordinates to match canvas resolution
+    const scaledX = x * (canvasWidth / rect.width);
+    const scaledY = y * (canvasHeight / rect.height);
+    
+    // Get current text values
+    const formValues = {
+      welcomeText: document.getElementById('welcomeInput').value || "welcome",
+      eventText: document.getElementById('eventInput').value || "TO OUR ENGAGEMENT",
+      namesText: document.getElementById('namesInput').value || "RACHEL & DAVIS",
+      dateText: document.getElementById('dateInput').value || "MAY 15 2024"
+    };
+    
+    // Create a temporary canvas to measure text metrics
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCanvas.width = 800;
+    tempCanvas.height = 1200;
+    
+    // Set up text styles for measurement (using original sizes)
+    tempCtx.font = `bold ${textStyles.welcomeText.fontSize} ${textStyles.welcomeText.fontFamily}`;
+    const welcomeHeight = parseInt(textStyles.welcomeText.fontSize);
+    const welcomeWidth = tempCtx.measureText(formValues.welcomeText.toUpperCase()).width;
+    
+    tempCtx.font = `${textStyles.eventText.fontSize} ${textStyles.eventText.fontFamily}`;
+    const eventHeight = parseInt(textStyles.eventText.fontSize);
+    const eventWidth = tempCtx.measureText(formValues.eventText).width;
+    
+    tempCtx.font = `bold ${textStyles.namesText.fontSize} ${textStyles.namesText.fontFamily}`;
+    const namesHeight = parseInt(textStyles.namesText.fontSize);
+    const namesWidth = tempCtx.measureText(formValues.namesText).width;
+    
+    tempCtx.font = `${textStyles.dateText.fontSize} ${textStyles.dateText.fontFamily}`;
+    const dateHeight = parseInt(textStyles.dateText.fontSize);
+    const dateWidth = tempCtx.measureText(formValues.dateText).width;
+    
+    const photoHeight = currentPhoto ? 200 : 0;
+    
+    // Calculate total content height (original scale)
+    const totalContentHeight = welcomeHeight + 40 + // welcome + margin
+                             eventHeight + 40 +   // event + margin
+                             (photoHeight > 0 ? photoHeight + 40 : 0) + // photo + margin
+                             namesHeight + 40 +   // names + margin
+                             dateHeight;         // date
+    
+    // Start vertical position (centered, original scale)
+    const startY = (1200 - totalContentHeight) / 2;
+    const centerX = 400; // Center of 800px wide canvas
+    
+    // Calculate vertical positions for each text element (original scale)
+    const welcomeY = startY;
+    const eventY = welcomeY + welcomeHeight + 40;
+    const namesY = eventY + eventHeight + 40 + (photoHeight > 0 ? photoHeight + 40 : 0);
+    const dateY = namesY + namesHeight + 40;
+    
+    // Define text elements with their positions and clickable areas (original scale)
+    const textElements = [
+      {
+        id: 'welcomeText',
+        name: 'Welcome Text',
+        x: centerX - welcomeWidth/2,
+        y: welcomeY,
+        width: welcomeWidth,
+        height: welcomeHeight
+      },
+      {
+        id: 'eventText',
+        name: 'Event Text',
+        x: centerX - eventWidth/2,
+        y: eventY,
+        width: eventWidth,
+        height: eventHeight
+      },
+      {
+        id: 'namesText',
+        name: 'Names Text',
+        x: centerX - namesWidth/2,
+        y: namesY,
+        width: namesWidth,
+        height: namesHeight
+      },
+      {
+        id: 'dateText',
+        name: 'Date Text',
+        x: centerX - dateWidth/2,
+        y: dateY,
+        width: dateWidth,
+        height: dateHeight
+      }
+    ];
+    
+    // Check which text was clicked (scaled to current canvas size)
+    const clickPadding = 30 * scaleFactor; // Scale padding with screen size
+    let clickedElement = null;
+    
+    for (const element of textElements) {
+      // Scale element positions to current canvas size
+      const scaledLeft = element.x * scaleFactor;
+      const scaledRight = (element.x + element.width) * scaleFactor;
+      const scaledTop = element.y * scaleFactor;
+      const scaledBottom = (element.y + element.height) * scaleFactor;
+      
+      if (scaledX >= scaledLeft - clickPadding && 
+          scaledX <= scaledRight + clickPadding &&
+          scaledY >= scaledTop - clickPadding && 
+          scaledY <= scaledBottom + clickPadding) {
+        clickedElement = element;
+        break;
+      }
+    }
+    
+    if (clickedElement) {
+      currentlyEditing = clickedElement.id;
+      selectedTextLabel.textContent = `Editing: ${clickedElement.name}`;
+      
+      // Show controls and set current values
+      textControls.style.display = 'block';
+      
+      // Set active size button
+      sizeButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.size === textStyles[currentlyEditing].fontSize) {
+          btn.classList.add('active');
+        }
+      });
+      
+      // Set active font item
+      fontItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.font === textStyles[currentlyEditing].fontFamily) {
+          item.classList.add('active');
+        }
+      });
+      
+      // Debug output
+      console.log(`Clicked on ${clickedElement.name}`, {
+        clickX: scaledX,
+        clickY: scaledY,
+        screenWidth: window.innerWidth,
+        scaleFactor: scaleFactor
+      });
+    } else {
+      currentlyEditing = null;
+      textControls.style.display = 'none';
+    }
+  });
+
+  // Improved auto-select welcome text function
+  function autoSelectWelcomeText() {
+    // First ensure the canvas is fully rendered
+    generateCard();
+    
+    // Wait for everything to be ready
+    setTimeout(() => {
+      const canvas = document.getElementById('cardCanvas');
+      if (!canvas) return;
+
+      // Calculate the exact position of welcome text
+      const rect = canvas.getBoundingClientRect();
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const scaleFactor = canvasWidth / 800;
+      
+      // Get welcome text metrics
+      const tempCanvas = document.createElement('canvas');
+      const tempCtx = tempCanvas.getContext('2d');
+      tempCanvas.width = 800;
+      tempCanvas.height = 1200;
+      
+      const welcomeText = document.getElementById('welcomeInput').value || "welcome";
+      tempCtx.font = `bold ${textStyles.welcomeText.fontSize} ${textStyles.welcomeText.fontFamily}`;
+      const welcomeHeight = parseInt(textStyles.welcomeText.fontSize);
+      const welcomeWidth = tempCtx.measureText(welcomeText.toUpperCase()).width;
+      
+      // Calculate welcome text position
+      const totalContentHeight = welcomeHeight + 40 + 20 + 40 + 42 + 40 + 20;
+      const startY = (1200 - totalContentHeight) / 2;
+      const welcomeY = startY;
+      const centerX = 400;
+      
+      // Convert to screen coordinates
+      const scaledX = (centerX - welcomeWidth/2) * scaleFactor;
+      const scaledY = welcomeY * scaleFactor;
+      
+      // Convert to client coordinates
+      const clientX = rect.left + (scaledX * (rect.width / canvasWidth));
+      const clientY = rect.top + (scaledY * (rect.height / canvasHeight)) + welcomeHeight/2;
+      
+      // Create and dispatch click event
+      const clickEvent = new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+        clientX: clientX + 5, // Add small offset to ensure click registers
+        clientY: clientY + 5
+      });
+      
+      canvas.dispatchEvent(clickEvent);
+    }, 300); // Increased delay to ensure everything is ready
+  }
+
+  // Initialize everything
+  function initializeApp() {
+    autoSelectFirstBackground();
+    generateCard();
+    autoSelectWelcomeText();
+  }
+
+  // Start with DOMContentLoaded and fallback to load event
+  if (document.readyState === 'complete') {
+    initializeApp();
+  } else {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+    window.addEventListener('load', initializeApp);
+  }
+
+  // Other event listeners
+  document.getElementById('generateBtn').addEventListener('click', generateCard);
+  document.getElementById('downloadBtn').addEventListener('click', downloadCard);
+  document.getElementById('backButton').addEventListener('click', () => window.history.back());
+
+  document.querySelectorAll('input, textarea').forEach(input => {
+    input.addEventListener('input', generateCard);
+  });
+
+  // Generate the welcome board
+  function generateCard() {
+    const canvas = document.getElementById('cardCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Canvas setup
+    const scaleFactor = 2;
+    const baseWidth = 800;
+    const baseHeight = 1200;
+    canvas.width = baseWidth * scaleFactor;
+    canvas.height = baseHeight * scaleFactor;
+    ctx.scale(scaleFactor, scaleFactor);
+    
+    // Get selected background
+    const selectedBg = document.querySelector('.bg-option.selected');
+    const bgUrl = selectedBg.dataset.url;
+    const isDarkBg = selectedBg.dataset.isDark === 'true';
+    
+    // Get form values
+    const formValues = {
+      welcomeText: document.getElementById('welcomeInput').value || "welcome",
+      eventText: document.getElementById('eventInput').value || "TO OUR ENGAGEMENT",
+      namesText: document.getElementById('namesInput').value || "RACHEL & DAVIS",
+      dateText: document.getElementById('dateInput').value || "MAY 15 2024"
+    };
+
+    // Load background image
+    loadImage(bgUrl, function(bgImg) {
+      // Clear and draw background
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw background image
+      const bgAspect = bgImg.width / bgImg.height;
+      const canvasAspect = baseWidth / baseHeight;
+      if (bgAspect > canvasAspect) {
+        const scale = baseHeight / bgImg.height;
+        const scaledWidth = bgImg.width * scale;
+        ctx.drawImage(bgImg, (baseWidth - scaledWidth)/2, 0, scaledWidth, baseHeight);
+      } else {
+        const scale = baseWidth / bgImg.width;
+        const scaledHeight = bgImg.height * scale;
+        ctx.drawImage(bgImg, 0, (baseHeight - scaledHeight)/2, baseWidth, scaledHeight);
+      }
+      
+      // Set text alignment
+      ctx.textAlign = 'center';
+      
+      // Calculate total content height
+      const welcomeHeight = parseInt(textStyles.welcomeText.fontSize);
+      const eventHeight = parseInt(textStyles.eventText.fontSize);
+      const namesHeight = parseInt(textStyles.namesText.fontSize);
+      const dateHeight = parseInt(textStyles.dateText.fontSize);
+      const photoHeight = currentPhoto ? 200 : 0;
+      
+      const totalContentHeight = welcomeHeight + 40 + // welcome + margin
+                               eventHeight + 40 +   // event + margin
+                               (photoHeight > 0 ? photoHeight + 40 : 0) + // photo + margin
+                               namesHeight + 40 +   // names + margin
+                               dateHeight;         // date
+      
+      // Start vertical position (centered)
+      let currentVerticalPos = (baseHeight - totalContentHeight) / 2;
+      
+      // Welcome text
+      ctx.font = `bold ${textStyles.welcomeText.fontSize} ${textStyles.welcomeText.fontFamily}`;
+      ctx.fillStyle = textStyles.welcomeText.color;
+      ctx.fillText(formValues.welcomeText.toUpperCase(), baseWidth/2, currentVerticalPos + welcomeHeight);
+      currentVerticalPos += welcomeHeight + 40;
+      
+      // Event text
+      ctx.font = `${textStyles.eventText.fontSize} ${textStyles.eventText.fontFamily}`;
+      ctx.fillStyle = textStyles.eventText.color;
+      ctx.fillText(formValues.eventText, baseWidth/2, currentVerticalPos + eventHeight);
+      currentVerticalPos += eventHeight + 40;
+
+      if (currentPhoto) {
+        // Draw circular photo
+        const photoImg = new Image();
+        photoImg.onload = function() {
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(baseWidth/2, currentVerticalPos + 100, 100, 0, Math.PI * 2, true);
+          ctx.closePath();
+          ctx.clip();
+          ctx.drawImage(photoImg, baseWidth/2 - 100, currentVerticalPos, 200, 200);
+          ctx.restore();
+          
+          currentVerticalPos += photoHeight + 40;
+          drawRemainingContent();
+        };
+        photoImg.src = currentPhoto;
+      } else {
+        drawRemainingContent();
+      }
+
+      function drawRemainingContent() {
+        // Names text
+        ctx.font = `bold ${textStyles.namesText.fontSize} ${textStyles.namesText.fontFamily}`;
+        ctx.fillStyle = textStyles.namesText.color;
+        ctx.fillText(formValues.namesText, baseWidth/2, currentVerticalPos + namesHeight);
+        currentVerticalPos += namesHeight + 40;
+        
+        // Date text
+        ctx.font = `${textStyles.dateText.fontSize} ${textStyles.dateText.fontFamily}`;
+        ctx.fillStyle = textStyles.dateText.color;
+        ctx.fillText(formValues.dateText, baseWidth/2, currentVerticalPos + dateHeight);
+      }
+    });
+  }
+
+  // Helper function to wrap text
+  function wrapText(context, text, maxWidth, fontSize) {
+    const words = text.split(' ');
+    const lines = [];
+    let currentLine = words[0];
+
+    for (let i = 1; i < words.length; i++) {
+      const word = words[i];
+      const width = context.measureText(currentLine + ' ' + word).width;
+      if (width < maxWidth) {
+        currentLine += ' ' + word;
+      } else {
+        lines.push(currentLine);
+        currentLine = word;
+      }
+    }
+    lines.push(currentLine);
+    return lines;
+  }
+
+  // Image loader with CORS fallback
+  function loadImage(url, callback) {
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    
+    img.onload = function() {
+      callback(img);
+    };
+    
+    img.onerror = function() {
+      const proxyImg = new Image();
+      proxyImg.crossOrigin = "Anonymous";
+      proxyImg.src = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+      
+      proxyImg.onload = function() {
+        callback(proxyImg);
+      };
+      
+      proxyImg.onerror = function() {
+        console.error("Failed to load image:", url);
+        const fallbackImg = new Image();
+        fallbackImg.src = backgroundOptions[1].url;
+        fallbackImg.onload = function() {
+          callback(fallbackImg);
+        };
+      };
+    };
+    
+    img.src = url;
+  }
+  
+  // Download card as PNG
+  function downloadCard() {
+    const canvas = document.getElementById('cardCanvas');
+    const link = document.createElement('a');
+    link.download = 'welcome-board.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  // Initialize the card when page loads
+  autoSelectFirstBackground();
+  generateCard();
+
+  // Add to cart functionality
+  document.getElementById('addToCartBtn').addEventListener('click', async function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const itemId = urlParams.get('itemId');
+    const imageIndex = urlParams.get('image') || '0';
+    
+    if (!itemId || !imageIndex) {
+      showCartAlert("This item is not available for purchase. Please select a valid product.", "fas fa-exclamation-circle");
+      return;
+    }
+
+    try {
+      showProcessingOverlay();
+      
+      // 1. Verify price
+      const priceAvailable = await fetchProductPrice(itemId, imageIndex);
+      if (!priceAvailable || productPrice === null || isNaN(productPrice)) {
+        console.error("Price check failed", {priceAvailable, productPrice});
+        alert("This product variation is currently unavailable. Please try another option.");
+        return;
+      }
+
+      // 2. Verify user
+      const user = auth.currentUser;
+      if (!user) {
+        console.log("No user, redirecting to login");
+        window.location.href = "login.html";
+        return;
+      }
+
+   
+      // 4. Upload image
+      const canvas = document.getElementById("cardCanvas");
+      if (!canvas) {
+        throw new Error("Canvas element not found");
+      }
+      
+      const selectedSize = urlParams.get('size') || 'default';
+      const imageId = urlParams.get('imageId') || Date.now().toString();
+      const shareableLink = `/view_photo.html?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${imageId}`;
+      
+      const imageUrl = await uploadCanvasToFirebase(canvas, imageId, shareableLink);
+
+      if (!imageUrl) {
+        throw new Error("Image upload failed");
+      }
+
+      // 5. Prepare cart item
+      const now = new Date();
+      const newItem = {
+        itemID: itemId,
+        addedAt: now.getTime(),
+        images: {
+          mainimage: { [imageIndex]: true },
+          customImage: imageUrl,
+          imageId: imageId
+        },
+        price: productPrice,
+        quantity: 1,
+        shareableLink: shareableLink,
+        addedAtISO: now.toISOString(),
+        addedAtReadable: now.toLocaleString()
+      };
+
+      // 6. Add to cart (handling numbered structure)
+      const userId = user.uid;
+      const cartRef = dbRef(database, `carts/${userId}/cartItems`);
+      const snapshot = await get(cartRef);
+      
+      let newItemKey;
+      if (snapshot.exists()) {
+        // Find the next available numeric key
+        const cartItems = snapshot.val();
+        const keys = Object.keys(cartItems).map(Number);
+        newItemKey = keys.length > 0 ? Math.max(...keys) + 1 : 1;
+      } else {
+        newItemKey = 1;
+      }
+
+      // 7. Update database with the new item
+      const updates = {};
+      updates[`carts/${userId}/cartItems/${newItemKey}`] = newItem;
+      
+      // Update the database
+      await update(dbRef(database), updates);
+      
+      hideProcessingOverlay();
+      showCartAlert('<i class="fa fa-check-circle green-icon"></i>Item added to cart');
+      setTimeout(() => {
+        window.location.href = "cart_page.html";
+      }, 1500);
+      
+    } catch (error) {
+      console.error('Detailed cart addition error:', {
+        error: error,
+        errorMessage: error.message,
+        stack: error.stack,
+        timestamp: new Date().toISOString()
+      });
+      hideProcessingOverlay();
+      showCartAlert("Failed to add item to cart. Please try again.", "fas fa-exclamation-circle");
+    }
+  });
+
+// Share on WhatsApp functionality
+document.getElementById("shareButton").addEventListener("click", async function() {
+    try {
+      showProcessingOverlay();
+      console.log("Starting share process...");
+      
+      // 1. Get URL parameters first
+      const urlParams = new URLSearchParams(window.location.search);
+      const itemId = urlParams.get('itemId');
+      const imageIndex = urlParams.get('image') || '0';
+      const selectedSize = urlParams.get('size') || 'default';
+      const imageId = urlParams.get('imageId') || Date.now().toString();
+      const shareableLink = `${window.location.origin}/view_photo.html?itemId=${itemId}&image=${imageIndex}&size=${selectedSize}&imageId=${imageId}`;
+      
+      // 2. Get canvas and validate
+      const canvas = document.getElementById("cardCanvas");
+      if (!canvas) {
+        throw new Error("Canvas element not found");
+      }
+      console.log("Canvas found, dimensions:", canvas.width, "x", canvas.height);
+
+      // 3. Upload image with proper error handling
+      let imageUrl;
+      try {
+        console.log("Starting image upload...");
+        imageUrl = await uploadCanvasToFirebase(canvas, imageId, shareableLink);
+        console.log("Image uploaded successfully:", imageUrl);
+      } catch (uploadError) {
+        console.error("Image upload failed:", uploadError);
+        throw new Error("Failed to upload image");
+      }
+
+      if (!imageUrl) {
+        throw new Error("Image URL is empty");
+      }
+
+            // 3. Prepare WhatsApp message
+            const whatsappNumber = "0659860276";
+            const message = `Check out my business card!\n\nImage: ${imageUrl}\n\nShareable Link: ${shareableLink}`;
+            const encodedMessage = encodeURIComponent(message);
+            const shareUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+      // 5. Open WhatsApp
+      hideProcessingOverlay();
+      window.open(shareUrl, "_self");
+    } catch (error) {
+      console.error('Detailed sharing error:', {
+        error: error,
+        message: error.message,
+        stack: error.stack,
+        timestamp: new Date().toISOString()
+      });
+      hideProcessingOverlay();
+      showCartAlert("Failed to share. Please try again.", "fas fa-exclamation-circle");
+    }
+});
+  // Fetch product price function
+  let productPrice = null;
+
+  async function fetchProductPrice(itemId, imageIndex) {
+    try {
+      const path = `items/${itemId}/images/${imageIndex}/mainImage/displayPrice`;
+      console.log("Fetching price from path:", path);
+      
+      const priceRef = dbRef(database, path);
+      const snapshot = await get(priceRef);
+      
+      console.log("Price snapshot:", snapshot.val());
+      
+      if (snapshot.exists()) {
+        const priceValue = snapshot.val();
+        productPrice = typeof priceValue === 'string' ? parseFloat(priceValue) : Number(priceValue);
+        
+        if (!isNaN(productPrice)) {
+          console.log("Successfully fetched product price:", productPrice);
+          return true;
+        }
+      }
+      console.warn("No valid price found for this product variation");
+      return false;
+    } catch (error) {
+      console.error("Error fetching price:", error);
+      return false;
+    }
+  }
+
+  function showProcessingOverlay() {
+    const processingOverlay = document.getElementById('processingOverlay');
+    processingOverlay.style.display = 'flex';
+    updateProgress(0);
+  }
+
+  function hideProcessingOverlay() {
+    const processingOverlay = document.getElementById('processingOverlay');
+    processingOverlay.style.display = 'none';
+  }
+
+  function updateProgress(progress) {
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    progressBar.style.width = progress + '%';
+    progressText.textContent = progress + '%';
+  }
+
+  // Simulate upload progress
+  function simulateUploadProgress(uploadTask) {
+    return new Promise((resolve) => {
+      let progress = 0;
+      const interval = setInterval(() => {
+        if (progress < 100) {
+          progress++;
+          updateProgress(progress);
+        } else {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 50);
+    });
+  }
+
+  // Modified uploadCanvasToFirebase function
+  async function uploadCanvasToFirebase(canvas, imageId, shareableLink) {
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          console.error("Canvas blob creation failed.");
+          reject("Canvas blob creation failed.");
+          return;
+        }
+
+        const storagePath = `images/${imageId}/business_card.png`;
+        const storageReference = storageRef(storage, storagePath);
+        const uploadTask = uploadBytesResumable(storageReference, blob);
+
+        await simulateUploadProgress(uploadTask);
+
+        uploadTask.on('state_changed',
+          null,
+          (error) => {
+            console.error("Upload failed:", error);
+            reject(error);
+          },
+          async () => {
+            try {
+              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+              
+              // Now shareableLink is available
+              await saveToSharedImages(imageId, downloadURL, shareableLink);
+              
+              resolve(downloadURL);
+            } catch (error) {
+              console.error("Failed to get download URL or save to database:", error);
+              reject(error);
+            }
+          }
+        );
+      }, 'image/png', 1.0);
+    });
+  }
+  
+  // New function to save to sharedImages in Realtime Database
+  async function saveToSharedImages(imageId, imageUrl, shareableLink) {
+    try {
+      const sharedImageRef = dbRef(database, `sharedImages/${imageId}`);
+      await set(sharedImageRef, {
+        imageId: imageId,
+        shareableLink: shareableLink,
+        url: imageUrl,
+        createdAt: new Date().toISOString()
+      });
+      console.log("Successfully saved to sharedImages");
+    } catch (error) {
+      console.error("Error saving to sharedImages:", error);
+      throw error;
+    }
+  }
+  
+  // Cart alert functionality
+  let alertTimeout;
+  let alertStartTime = 0;
+  let alertTimeLeft = 3000;
+
+  function startAlertTimeout() {
+    alertStartTime = Date.now();
+    clearTimeout(alertTimeout);
+    alertTimeout = setTimeout(() => {
+      const cartAlert = document.getElementById('cartAlert');
+      const overlay = document.getElementById('overlay');
+      if (cartAlert && overlay) {
+        cartAlert.style.display = 'none';
+        overlay.style.display = 'none';
+      }
+      alertTimeLeft = 3000;
+    }, alertTimeLeft);
+  }
+
+  function pauseAlertCountdown() {
+    clearTimeout(alertTimeout);
+  }
+
+  function resumeAlertCountdown() {
+    startAlertTimeout();
+  }
+
+  function showCartAlert(message, iconClass = "") {
+    const cartAlert = document.getElementById('cartAlert');
+    const overlay = document.getElementById('overlay');
+
+    if (cartAlert && overlay) {
+      const iconHtml = iconClass ? `<i class="${iconClass}"></i> ` : '';
+      cartAlert.innerHTML = iconHtml + message;
+      cartAlert.style.display = 'block';
+      overlay.style.display = 'block';
+
+      startAlertTimeout();
+
+      // Pause on hover/touch
+      cartAlert.addEventListener('mouseenter', pauseAlertCountdown);
+      cartAlert.addEventListener('touchstart', pauseAlertCountdown);
+
+      // Resume when leaving
+      cartAlert.addEventListener('mouseleave', resumeAlertCountdown);
+      cartAlert.addEventListener('touchend', resumeAlertCountdown);
+    }
+  }
+});
+</script>
+</body>
+</html>
