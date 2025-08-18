@@ -701,13 +701,6 @@ z-index: 5;
   z-index: 1000;
 }
 
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-}
-
 .hidden {
   display: none;
 }
