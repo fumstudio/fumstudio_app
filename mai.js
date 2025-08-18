@@ -328,7 +328,7 @@ function updateCartCount(userId) {
 
 async function handleLike(itemId, imageIndex) {
     if (!currentUser) {
-        showAlert('Please sign in to like items', 'error');
+      window.location.href = 'login.html';
         return;
     }
 
