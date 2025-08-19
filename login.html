@@ -6,27 +6,27 @@
   <title>Login Page</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: url('https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2Finbound3974812221042016430.jpg?alt=media&token=dbf623bd-555d-4097-932e-265df4c69748') no-repeat center center fixed;
-  background-size: 100%;
-  animation: zoom 50s infinite alternate;
-  backdrop-filter: blur(5px);
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('https://firebasestorage.googleapis.com/v0/b/myhost-a7ee9.appspot.com/o/images%2Finbound3974812221042016430.jpg?alt=media&token=dbf623bd-555d-4097-932e-265df4c69748') no-repeat center center fixed;
+      background-size: 100%;
+      animation: zoom 50s infinite alternate;
+      backdrop-filter: blur(5px);
+    }
 
-@keyframes zoom {
-  0% {
-    background-size: 200%;
-  }
-  100% {
-    background-size: 300%;
-  }
-}
+    @keyframes zoom {
+      0% {
+        background-size: 200%;
+      }
+      100% {
+        background-size: 300%;
+      }
+    }
 
     .container {
       background-color: rgba(255, 255, 255, 0.9);
@@ -88,7 +88,7 @@ body {
       overflow: auto;
       background-color: rgba(0, 0, 0, 0.4);
       padding-top: 60px;
-            border-radius: 5px;
+      border-radius: 5px;
     }
 
     .modal-content {
@@ -97,17 +97,16 @@ body {
       padding: 20px;
       border: 1px solid #888;
       width: 80%;
-            border-radius: 5px;
+      border-radius: 5px;
     }
 
-.button {
-    display: inline-block;
-
-    color: white; /* White text */
-    text-decoration: none; /* Remove underline */
-    border-radius: 5px; /* Rounded corners */
-    transition: background-color 0.3s; /* Smooth background color transition */
-          width: 93%;
+    .button {
+      display: inline-block;
+      color: white; /* White text */
+      text-decoration: none; /* Remove underline */
+      border-radius: 5px; /* Rounded corners */
+      transition: background-color 0.3s; /* Smooth background color transition */
+      width: 93%;
       padding: 10px;
       background-color: #000000;
       color: white;
@@ -117,17 +116,17 @@ body {
       margin-top: 10px;
       font-size: 14px;
       text-align: center;
-  }
+    }
 
-  .button:hover {
-    background-color: #484849; /* Darker shade on hover */
-  }
+    .button:hover {
+      background-color: #484849; /* Darker shade on hover */
+    }
   </style>
 </head>
 <body>
   <div class="blur-background"></div>
   <div class="container">
-    <h1>Fumstudio</h1>
+    <h1>Login</h1>
     <input type="email" id="email" placeholder="Email" required>
     <div class="password-container">
       <input type="password" id="password" placeholder="Password" required>
@@ -136,7 +135,7 @@ body {
     <button id="login-btn">Login</button>
     <a href="Rest_password.html" class="button">Forgot password</a>
     <a href="signup.html" class="button">Create new account</a>
- </div>
+  </div>
 
   <!-- Custom alert modal -->
   <div id="alert-modal">
@@ -150,16 +149,17 @@ body {
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
     import { getAuth, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCg8WRJx4wu-kkynIIIiLbbU5GaTxU-E9s",
-  authDomain: "fumstudio-b6694.firebaseapp.com",
-  databaseURL: "https://fumstudio-b6694-default-rtdb.firebaseio.com",
-  projectId: "fumstudio-b6694",
-  storageBucket: "fumstudio-b6694.firebasestorage.app",
-  messagingSenderId: "505195774753",
-  appId: "1:505195774753:web:7b94be0cf52e52a22f7460",
-  measurementId: "G-E4LBX75DR0"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyCg8WRJx4wu-kkynIIIiLbbU5GaTxU-E9s",
+      authDomain: "fumstudio-b6694.firebaseapp.com",
+      databaseURL: "https://fumstudio-b6694-default-rtdb.firebaseio.com",
+      projectId: "fumstudio-b6694",
+      storageBucket: "fumstudio-b6694.firebasestorage.app",
+      messagingSenderId: "505195774753",
+      appId: "1:505195774753:web:7b94be0cf52e52a22f7460",
+      measurementId: "G-E4LBX75DR0"
+    };
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
@@ -179,7 +179,12 @@ const firebaseConfig = {
       try {
         await signInWithEmailAndPassword(auth, email, password);
         showAlert("Logged in successfully!");
-        window.location.href = 'catalog.html';
+        
+        // Check for stored redirect URL or use catalog.html as fallback
+        const redirectUrl = sessionStorage.getItem('redirectAfterLogin') || 'catalog.html';
+        sessionStorage.removeItem('redirectAfterLogin'); // Clean up
+        window.location.href = redirectUrl;
+        
       } catch (error) {
         if (error.code === 'auth/wrong-password') {
           showAlert("Wrong password. Please try again.");
@@ -197,6 +202,11 @@ const firebaseConfig = {
       passwordInput.setAttribute("type", type);
       this.classList.toggle("fa-eye-slash");
     });
+
+    // Store the current URL before coming to login page
+    if (window.history.length > 1) {
+      sessionStorage.setItem('redirectAfterLogin', document.referrer || 'catalog.html');
+    }
   </script>
 </body>
 </html>
