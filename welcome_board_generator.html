@@ -5,476 +5,511 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Welcome Board Generator</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-  /* General styling */
-  body {
-    font-family: 'Montserrat', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
-    color: #333;
-    line-height: 1.6;
-  }
-  
-  .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50px;
-    background-color: #1a2639;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-    padding: 0 15px;
-    box-sizing: border-box;
-    z-index: 1000;
-  }
-  
-  .back-button {
-    cursor: pointer;
-    font-size: 18px;
-  }
-  
-  .cart-text {
-    font-size: 16px;
-    font-weight: 500;
-  }
-  
-  .container {
-    margin-top: 0px;
-    padding: 20px;
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-  }
-  
-  .form-container {
-    flex: 1;
-    min-width: 300px;
-  }
-  
-  .preview-container {
-    flex: 1;
-    min-width: 300px;
-    display: flex;
-    justify-content: center;
-  }
-  
-  h3 {
-    background-color: #E3E3E3;
-    color: black;
-    padding: 15px 20px;
-    margin: 20px 0 10px 0;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #444;
-  }
-  
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
-  }
-  
-  /* Photo upload styles */
-  .photo-upload {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px 0;
-  }
 
-  .photo-preview {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    background-color: #f1f1f1;
-    overflow: hidden;
-    margin: 10px 0;
-    position: relative;
-    border: 3px solid #ddd;
-  }
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Petit+Formal+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    
+    <style>
+        /* General styling */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background-color: #1a2639;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            padding: 0 15px;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+        
+        .back-button {
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .cart-text {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding-top: 70px;
+            padding-bottom: 120px;
+            box-sizing: border-box;
+            margin-bottom:100px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        
+        }
+        
+        .form-container {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+        }
+        
+        .preview-container {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        h3 {
+            background-color: #E3E3E3;
+            color: black;
+            padding: 15px 20px;
+            margin: 20px 0 10px 0;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 5px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        /* Photo upload styles */
+        .photo-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
 
-  .photo-preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+        .photo-preview {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background-color: #f1f1f1;
+            overflow: hidden;
+            margin: 10px 0;
+            position: relative;
+            border: 3px solid #ddd;
+        }
 
-  .photo-controls {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-  }
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-  .photo-controls button {
-    padding: 8px 15px;
-    font-size: 14px;
-    min-width: auto;
-  }
+        .photo-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
 
-  /* Cropper modal */
-  .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.8);
-    z-index: 2000;
-    justify-content: center;
-    align-items: center;
-  }
+        .photo-controls button {
+            padding: 8px 15px;
+            font-size: 14px;
+            min-width: auto;
+        }
 
-  .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 800px;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-  }
+        /* Cropper modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
 
-  .cropper-container {
-    width: 100%;
-    height: 60vh;
-    min-height: 300px;
-    margin-bottom: 15px;
-    position: relative;
-    overflow: hidden;
-  }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-  .cropper-container img {
-    max-width: 100%;
-    max-height: 100%;
-    display: block;
-    margin: 0 auto;
-  }
+        .cropper-container {
+            width: 100%;
+            height: 60vh;
+            min-height: 300px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+        }
 
-  .modal-actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #eee;
-  }
+        .cropper-container img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            margin: 0 auto;
+        }
 
-  /* Card preview styling */
-  .portrait-box {
-    position: relative;
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  .card-preview {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 2/3;
-    border: 1px solid #ccc;
-    overflow: hidden;
-    background-color: #f1f1f1;
-    position: relative;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  }
-  
-  canvas {
-    width: 100% !important;
-    height: auto !important;
-    display: block;
-  }
-  
-  /* Background options */
-  .background-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin: 15px 0;
-  }
-  
-  .bg-option {
-    width: 80px;
-    height: 120px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.3s;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  
-  .bg-option:hover {
-    border-color: #007bff;
-  }
-  
-  .bg-option.selected {
-    border-color: #28a745;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  }
-  
-  .bg-option img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  /* Buttons */
-  .action-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 0px 0;
-    flex-wrap: wrap;
-  }
-  
-  button {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s;
-  
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-  }
-  
-  #generateBtn {
-    background-color: #1a2639;
-    color: white;
-  }
-  
-  .download-btn {
-    background-color: #1a2639;
-    color: white;
-  }
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
 
-  .btn-primary {
-    background-color: #007bff;
-    color: white;
-  }
+        /* Card preview styling */
+        .portrait-box {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .card-preview {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 2/3;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            background-color: #f1f1f1;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            margin: 0 auto;
+        }
+        
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+            display: block;
+        }
+        
+        /* Background options */
+        .background-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        
+        .bg-option {
+            width: 80px;
+            height: 120px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .bg-option:hover {
+            border-color: #007bff;
+        }
+        
+        .bg-option.selected {
+            border-color: #28a745;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .bg-option img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+        
+        #generateBtn {
+            background-color: #1a2639;
+            color: white;
+        }
+        
+        .download-btn {
+            background-color: #1a2639;
+            color: white;
+        }
 
-  .btn-danger {
-    background-color: #dc3545;
-    color: white;
-  }
-  
-  button:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
 
-  /* Text styling controls - Updated to bottom */
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Text styling controls */
         .text-controls {
             display: none;
             position: fixed;
-            bottom: 0; /* Changed from top: 0 */
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 110px; /* Fixed height */
+            height: 110px;
             background-color: #2c3e50;
             padding: 15px;
             border-radius: 12px 12px 0 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1); /* Shadow on top */
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
             z-index: 999;
             flex-direction: column;
             color: white;
-            overflow-y: auto; /* Enable scrolling if content exceeds height */
+            overflow-y: auto;
         }
         
-.text-controls-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-  margin-bottom:25px;
-    flex-shrink: 0; /* Prevent header from shrinking */
-}
+        .text-controls-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 5px;
+            flex-shrink: 0;
+        }
 
-.close-text-controls {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: white;
-}
+        .close-text-controls {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+        }
 
-.text-controls-content {
-    flex-grow: 1; /* Allow content area to grow */
-    overflow-y: auto; /* Enable scrolling for content */
-}
+        .text-controls-content {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
 
-.size-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
+        .size-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            justify-content: center;
+        }
 
-.size-btn {
-    padding: 8px 15px;
-    border: 1px solid #ddd;
-    background-color: #34495e;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
+        .size-btn {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            background-color: #34495e;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
 
-.size-btn.active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-}
+        .size-btn.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
 
-.size-btn:hover {
-    background-color: #2c3e50;
-}
+        .size-btn:hover {
+            background-color: #2c3e50;
+        }
 
-.size-btn.active:hover {
-    background-color: #0069d9;
-}
+        .size-btn.active:hover {
+            background-color: #0069d9;
+        }
 
-.color-picker {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 15px;
-}
+        .color-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+            justify-content: center;
+        }
 
-.color-option {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.2s;
-    border: 2px solid #34495e;
-}
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 2px solid #34495e;
+        }
 
-.color-option:hover {
-    transform: scale(1.1);
-    border-color: white;
-}
+        .color-option:hover {
+            transform: scale(1.1);
+            border-color: white;
+        }
 
-.selected-text {
-    font-weight: 600;
-    color: white;
-}
+        .selected-text {
+            font-weight: 600;
+            color: white;
+        }
 
-  /* Font Family Classes */
-  .playfair-display {
-    font-family: 'Playfair Display', serif;
-  }
-  
-  .montserrat {
-    font-family: 'Montserrat', sans-serif;
-  }
-  
-  .dancing-script {
-    font-family: 'Dancing Script', cursive;
-  }
-  
-  .great-vibes {
-    font-family: 'Great Vibes', cursive;
-  }
-  
-  .cinzel {
-    font-family: 'Cinzel', serif;
-  }
-  
-  .raleway {
-    font-family: 'Raleway', sans-serif;
-  }
-  
-  .libre-baskerville {
-    font-family: 'Libre Baskerville', serif;
-  }
-  
-  .petit-formal-script {
-    font-family: 'Petit Formal Script', cursive;
-  }
-  
-  .marcellus {
-    font-family: 'Marcellus', serif;
-  }
-  
-  .eb-garamond {
-    font-family: 'EB Garamond', serif;
-  }
+        /* Font Family Classes */
+        .playfair-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .montserrat {
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .dancing-script {
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .great-vibes {
+            font-family: 'Great Vibes', cursive;
+        }
+        
+        .cinzel {
+            font-family: 'Cinzel', serif;
+        }
+        
+        .raleway {
+            font-family: 'Raleway', sans-serif;
+        }
+        
+        .libre-baskerville {
+            font-family: 'Libre Baskerville', serif;
+        }
+        
+        .petit-formal-script {
+            font-family: 'Petit Formal Script', cursive;
+        }
+        
+        .marcellus {
+            font-family: 'Marcellus', serif;
+        }
+        
+        .eb-garamond {
+            font-family: 'EB Garamond', serif;
+        }
 
-  /* Font Selection List */
-  .font-selection {
-    margin-bottom: 20px;
-  }
+        /* Font Selection List */
+        .font-selection {
+            margin-bottom: 20px;
+        }
 
-  .font-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+        .font-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
-  .font-item {
-    padding: 10px;
-    border: 1px solid #34495e;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-    background-color: #34495e;
-    color: white;
-  }
+        .font-item {
+            padding: 10px;
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            background-color: #34495e;
+            color: white;
+        }
 
-  .font-item:hover {
-    background-color: #2c3e50;
-    border-color: #007bff;
-  }
+        .font-item:hover {
+            background-color: #2c3e50;
+            border-color: #007bff;
+        }
 
-  .font-item.active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-  }
-  
- 
-</style>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+        .font-item.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        /* Action buttons styling */
         .action-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 310px;  /* Equal width */
+            width: 310px;
             padding: 12px 20px;
             margin: 1px;
             border: none;
-         
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
@@ -495,7 +530,7 @@
         
         /* Share Button */
         #shareButton {
-            background-color:  #128C7E; /* WhatsApp green */
+            background-color: #128C7E;
             color: white;
         }
         
@@ -509,235 +544,80 @@
             margin-right: 10px;
             font-size: 18px;
         }
-    </style>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Petit+Formal+Script&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-
-    
-       
-  <div class="container">
-         <!-- Text styling controls (hidden by default) -->
-      <div class="text-controls" id="textControls">
-        <div class="text-controls-header">
-          <div class="selected-text" id="selectedTextLabel">Editing: Welcome Text</div>
-          <button class="close-text-controls" id="closeTextControls">&times;</button>
-        </div>
-        <div class="editor-container">
-      
-        <div class="toolbar">
-            <button class="tool-button" data-panel="adjustments">
-                <i class="fas fa-sliders-h"></i> Size
-            </button>
-            
-            <button class="tool-button" data-panel="filters">
-                <i class="fas fa-magic"></i> Color
-            </button>
-            
         
-            <button class="tool-button" data-panel="text">
-                <i class="fas fa-font"></i> Text
-            </button>
-          
-     
-          
-        </div>
-      
-    </div>
-      
-      </div>   
-    
-    <div class="form-container">
-      <h3>Edit Board</h3>
-      
-      <div class="form-group">
-        <input type="text" id="welcomeInput" placeholder="Welcome text" value="welcome" />
-      </div>
-
-      <div class="form-group">
-        <input type="text" id="eventInput" placeholder="Event type" value="TO OUR ENGAGEMENT" />
-      </div>
-   <div class="photo-upload">
-        <label>Photo</label>
-        <div class="photo-preview" id="photoPreview">
-          <!-- Preview will be shown here -->
-        </div>
-        <input type="file" id="photoUpload" accept="image/*" style="display: none;">
-        <button type="button" class="btn-primary" id="uploadBtn">Select Photo</button>
-        <div class="photo-controls" id="photoControls" style="display: none;">
-          <button type="button" class="btn-primary" id="cropBtn">Recrop</button>
-          <button type="button" class="btn-danger" id="deleteBtn">Delete</button>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <input type="text" id="namesInput" placeholder="Names" value="RACHEL & DAVIS" />
-      </div>
-
-      <div class="form-group">
-        <input type="text" id="dateInput" placeholder="Date" value="MAY 15 2024" />
-      </div>
-
-   
- 
-      <div class="action-buttons">
-        <button id="generateBtn" style="display:none;">Update Board</button>
-     
-      </div>
-    </div>
-    
-    <div class="preview-container">
-      <div class="portrait-box">
-        <div class="card-preview">
-          <canvas id="cardCanvas"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
- <button class="tool-button Backgroundbtn" data-panel="effects">
-                <i class="fas fa-sparkles"></i>Change Background
-            </button>
-  <!-- Cropper Modal -->
-  <div class="modal" id="cropperModal">
-    <div class="modal-content">
-      <div class="cropper-container">
-        <img id="cropperImage">
-      </div>
-      <div class="modal-actions">
-        <button type="button" class="btn-danger" id="cancelCropBtn">Cancel</button>
-        <button type="button" class="btn-primary" id="applyCropBtn">Crop Photo</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Processing Overlay -->
-  <div id="processingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; color: white;">
-    <div style="margin-bottom: 20px; font-size: 18px;">Processing...</div>
-    <div style="width: 80%; max-width: 300px; background-color: #555; border-radius: 5px; overflow: hidden;">
-      <div id="progressBar" style="height: 20px; width: 0%; background-color: #4CAF50; transition: width 0.3s;"></div>
-    </div>
-    <div id="progressText" style="margin-top: 10px;">0%</div>
-  </div>
-
-  <!-- Cart Alert -->
-  <div id="cartAlert" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #333; color: white; padding: 15px 25px; border-radius: 5px; z-index: 1001; box-shadow: 0 4px 8px rgba(0,0,0,0.2);"></div>
-  <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000;"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
-    <!-- Scroll to Top Button -->
-    <button id="scrollToTopBtn" title="Go to top">
-        <i class="fas fa-arrow-up"></i>Edit Board
-    </button>
-
-    <script>
-        // Scroll to Top Functionality
-        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-        
-        // Show button when user scrolls down 200px
-        window.onscroll = function() {
-            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                scrollToTopBtn.style.display = 'flex';
-                scrollToTopBtn.style.alignItems = 'center';
-                scrollToTopBtn.style.justifyContent = 'center';
-            } else {
-                scrollToTopBtn.style.display = 'none';
-            }
-        };
-        
-        // Scroll to top when clicked
-        scrollToTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    </script>
-   <div class="action-buttons">
-        <button class="action-btn" id="downloadBtn"><i class="fas fa-download btn-icon">Download  </i></button>
-     <button class="action-btn" id="shareButton">
-        <i class="fab fa-whatsapp btn-icon"></i>
-       SUBMIT
-    </button>
-       <button class="action-btn" id="addToCartBtn">
-        <i class="fas fa-shopping-cart btn-icon"></i>
-        Add to Cart
-    </button>
-    
-   
-      </div>
-  
-  
-
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        
-            .editor-container {
-            max-width: 1200px;
+        /* Editor container */
+        .editor-container {
+            max-width: 100%;
             margin: 0 auto;
-           
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
         
         .toolbar {
             display: flex;
-            flex-direction: row; /* This makes children align horizontally */
-            align-items: center; /* Vertically centers the buttons */
-            gap: 10px; /* Space between buttons */
-          
-            flex-wrap: nowrap; /* Prevents wrapping to next line */
-            overflow-x: auto; /* Allows horizontal scrolling if needed */
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            justify-content: center;
+            padding: 10px;
         }
-          
+        
+        .tool-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 15px;
+            background-color: #34495e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
         .tool-button i {
-            font-size: 16px; /* Slightly larger icon */
+            font-size: 16px;
+            margin-right: 5px;
         }
         
         .tool-button:hover {
             background-color: #2980b9;
             transform: translateY(-2px);
         }
+        
+        .Backgroundbtn {
+            margin: 20px auto;
+            display: block;
+        }
+        
         .content-panel {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
             background-color: white;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             z-index: 1000;
             padding: 20px;
             max-height: 80vh;
             overflow-y: auto;
+            border-radius: 10px;
         }
         
         .content-panel.active {
             display: block;
-            animation: slideDown 0.3s;
+            animation: fadeIn 0.3s;
         }
         
         .close-btn {
             position: absolute;
             top: 15px;
-            right: 30px;
+            right: 15px;
             background: none;
             border: none;
             font-size: 24px;
@@ -761,20 +641,19 @@
             color: #2c3e50;
             border-bottom: 1px solid #eee;
             padding-bottom: 10px;
+            text-align: center;
         }
         
         .panel-content {
             margin-top: 15px;
         }
         
-        @keyframes slideDown {
+        @keyframes fadeIn {
             from { 
                 opacity: 0;
-                transform: translateY(-50px);
             }
             to { 
                 opacity: 1;
-                transform: translateY(0);
             }
         }
         
@@ -804,70 +683,258 @@
         .overlay.active {
             display: block;
         }
-    </style>
+        
+        /* Footer buttons */
+        .footer-buttons {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            z-index: 900;
+        }
+        
+        /* Scroll to top button */
+        #scrollToTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #1a2639;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 18px;
+            width: 60px;
+            height: 60px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
 
+        #scrollToTopBtn:hover {
+            background-color: #2c3e50;
+        }
+        
+        /* Processing overlay */
+        #processingOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+        }
+        
+        /* Cart alert */
+        #cartAlert {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            z-index: 1001;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="back-button"><i class="fas fa-arrow-left"></i></div>
+        <div class="cart-text">Edit Board</div>
+        <div></div> <!-- Empty div for spacing -->
+    </div>
     
+    <div class="main-content">
+        <div class="container">
+            <!-- Text styling controls (hidden by default) -->
+            <div class="text-controls" id="textControls">
+                <div class="text-controls-header">
+                    <div class="selected-text" id="selectedTextLabel">Editing: Welcome Text</div>
+                    <button class="close-text-controls" id="closeTextControls">&times;</button>
+                </div>
+                <div class="editor-container">
+                    <div class="toolbar">
+                        <button class="tool-button" data-panel="adjustments">
+                            <i class="fas fa-sliders-h"></i> Size
+                        </button>
+                        
+                        <button class="tool-button" data-panel="filters">
+                            <i class="fas fa-magic"></i> Color
+                        </button>
+                        
+                        <button class="tool-button" data-panel="text">
+                            <i class="fas fa-font"></i> Text
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-container">
+                <h3>Edit Board</h3>
+                
+                <div class="form-group">
+                    <input type="text" id="welcomeInput" placeholder="Welcome text" value="welcome" />
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="eventInput" placeholder="Event type" value="TO OUR ENGAGEMENT" />
+                </div>
+                
+                <div class="photo-upload">
+                    <label>Photo</label>
+                    <div class="photo-preview" id="photoPreview">
+                        <!-- Preview will be shown here -->
+                    </div>
+                    <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+                    <button type="button" class="btn-primary" id="uploadBtn">Select Photo</button>
+                    <div class="photo-controls" id="photoControls" style="display: none;">
+                        <button type="button" class="btn-primary" id="cropBtn">Recrop</button>
+                        <button type="button" class="btn-danger" id="deleteBtn">Delete</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <input type="text" id="namesInput" placeholder="Names" value="RACHEL & DAVIS" />
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="dateInput" placeholder="Date" value="MAY 15 2024" />
+                </div>
+
+                <div class="action-buttons">
+                    <button id="generateBtn" style="display:none;">Update Board</button>
+                </div>
+                
+                <button class="tool-button Backgroundbtn" data-panel="effects">
+                    <i class="fas fa-sparkles"></i>Change Background
+                </button>
+            </div>
+            
+            <div class="preview-container">
+                <div class="portrait-box">
+                    <div class="card-preview">
+                        <canvas id="cardCanvas"></canvas>
+                    </div>
+                </div>
+            </div>
+       
+        </div>
+         <br>
+       <button class="action-btn" id="downloadBtn"><i class="fas fa-download btn-icon"></i>Download</button>   <br>
+        <button class="action-btn" id="shareButton">
+            <i class="fab fa-whatsapp btn-icon"></i>SUBMIT
+        </button>   <br>
+            <button class="action-btn" id="addToCartBtn">
+           
+            <i class="fas fa-shopping-cart btn-icon"></i>Add to Cart
+        </button>
+    </div>
+
+    <!-- Cropper Modal -->
+    <div class="modal" id="cropperModal">
+        <div class="modal-content">
+            <div class="cropper-container">
+                <img id="cropperImage">
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-danger" id="cancelCropBtn">Cancel</button>
+                <button type="button" class="btn-primary" id="applyCropBtn">Crop Photo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Processing Overlay -->
+    <div id="processingOverlay">
+        <div style="margin-bottom: 20px; font-size: 18px;">Processing...</div>
+        <div style="width: 80%; max-width: 300px; background-color: #555; border-radius: 5px; overflow: hidden;">
+            <div id="progressBar" style="height: 20px; width: 0%; background-color: #4CAF50; transition: width 0.3s;"></div>
+        </div>
+        <div id="progressText" style="margin-top: 10px;">0%</div>
+    </div>
+
+    <!-- Cart Alert -->
+    <div id="cartAlert"></div>
+    
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" title="Go to top">
+        <i class="fas fa-arrow-up"></i>Edit
+    </button>
+   
+  
     <!-- Overlay that will appear behind panels -->
     <div class="overlay" id="overlay"></div>
     
     <!-- Adjustments Panel -->
     <div class="content-panel" id="adjustments-panel">
         <button class="close-btn">&times;</button>
-       
-        <div class="panel-content">    <div class="form-group">
-          <label>Font Size</label>
-          <div class="size-buttons">
-            <button class="size-btn" data-size="40px">Small</button>
-            <button class="size-btn active" data-size="60px">Medium</button>
-            <button class="size-btn" data-size="80px">Large</button>
-          </div>
-        </div></div>
+        <h3 class="panel-title">Text Size</h3>
+        <div class="panel-content">
+            <div class="form-group">
+                <div class="size-buttons">
+                    <button class="size-btn" data-size="40px">Small</button>
+                    <button class="size-btn active" data-size="60px">Medium</button>
+                    <button class="size-btn" data-size="80px">Large</button>
+                </div>
+            </div>
+        </div>
     </div>
     
     <!-- Filters Panel -->
     <div class="content-panel" id="filters-panel">
         <button class="close-btn">&times;</button>
-      
-        <div class="panel-content">       <div class="form-group">
-          <label>Text Color</label>
-          <div class="color-picker">
-            <div class="color-option" style="background-color: #9c7c4f;" data-color="#9c7c4f"></div>
-            <div class="color-option" style="background-color: #000000;" data-color="#000000"></div>
-            <div class="color-option" style="background-color: #ffffff; border: 1px solid #ccc;" data-color="#ffffff"></div>
-            <div class="color-option" style="background-color: #8b4513;" data-color="#8b4513"></div>
-            <div class="color-option" style="background-color: #556b2f;" data-color="#556b2f"></div>
-            <div class="color-option" style="background-color: #800000;" data-color="#800000"></div>
-            <div class="color-option" style="background-color: #483d8b;" data-color="#483d8b"></div>
-            <div class="color-option" style="background-color: #2f4f4f;" data-color="#2f4f4f"></div>
-          </div>
-        </div></div>
+        <h3 class="panel-title">Text Color</h3>
+        <div class="panel-content">
+            <div class="form-group">
+                <div class="color-picker">
+                    <div class="color-option" style="background-color: #9c7c4f;" data-color="#9c7c4f"></div>
+                    <div class="color-option" style="background-color: #000000;" data-color="#000000"></div>
+                    <div class="color-option" style="background-color: #ffffff; border: 1px solid #ccc;" data-color="#ffffff"></div>
+                    <div class="color-option" style="background-color: #8b4513;" data-color="#8b4513"></div>
+                    <div class="color-option" style="background-color: #556b2f;" data-color="#556b2f"></div>
+                    <div class="color-option" style="background-color: #800000;" data-color="#800000"></div>
+                    <div class="color-option" style="background-color: #483d8b;" data-color="#483d8b"></div>
+                    <div class="color-option" style="background-color: #2f4f4f;" data-color="#2f4f4f"></div>
+                </div>
+            </div>
+        </div>
     </div>
     
- 
     <!-- Text Panel -->
     <div class="content-panel" id="text-panel">
         <button class="close-btn">&times;</button>
-     
+        <h3 class="panel-title">Font Style</h3>
         <div class="panel-content">
-            <div>
-                   <div class="form-group font-selection">
-          <label>Font Style</label>
-          <ul class="font-list">
-            <li class="font-item playfair-display active" data-font="'Playfair Display', serif">Playfair Display</li>
-            <li class="font-item montserrat" data-font="'Montserrat', sans-serif">Montserrat</li>
-            <li class="font-item dancing-script" data-font="'Dancing Script', cursive">Dancing Script</li>
-            <li class="font-item great-vibes" data-font="'Great Vibes', cursive">Great Vibes</li>
-            <li class="font-item cinzel" data-font="'Cinzel', serif">Cinzel</li>
-            <li class="font-item raleway" data-font="'Raleway', sans-serif">Raleway</li>
-            <li class="font-item libre-baskerville" data-font="'Libre Baskerville', serif">Libre Baskerville</li>
-            <li class="font-item petit-formal-script" data-font="'Petit Formal Script', cursive">Petit Formal Script</li>
-            <li class="font-item marcellus" data-font="'Marcellus', serif">Marcellus</li>
-            <li class="font-item eb-garamond" data-font="'EB Garamond', serif">EB Garamond</li>
-          </ul>
-        </div>
-        
-            </div>
-     
+            <div class="form-group font-selection">
+                <ul class="font-list">
+                    <li class="font-item playfair-display active" data-font="'Playfair Display', serif">Playfair Display</li>
+                    <li class="font-item montserrat" data-font="'Montserrat', sans-serif">Montserrat</li>
+                    <li class="font-item dancing-script" data-font="'Dancing Script', cursive">Dancing Script</li>
+                    <li class="font-item great-vibes" data-font="'Great Vibes', cursive">Great Vibes</li>
+                    <li class="font-item cinzel" data-font="'Cinzel', serif">Cinzel</li>
+                    <li class="font-item raleway" data-font="'Raleway', sans-serif">Raleway</li>
+                    <li class="font-item libre-baskerville" data-font="'Libre Baskerville', serif">Libre Baskerville</li>
+                    <li class="font-item petit-formal-script" data-font="'Petit Formal Script', cursive">Petit Formal Script</li>
+                    <li class="font-item marcellus" data-font="'Marcellus', serif">Marcellus</li>
+                    <li class="font-item eb-garamond" data-font="'EB Garamond', serif">EB Garamond</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -876,12 +943,14 @@
     <div class="content-panel" id="effects-panel">
         <button class="close-btn">&times;</button>
         <h3 class="panel-title">Select Background Design</h3>
-        <div class="panel-content">   <div class="background-options" id="backgroundOptions">
-        <!-- Background options will be added by JavaScript -->
-      </div></div>
+        <div class="panel-content">
+            <div class="background-options" id="backgroundOptions">
+                <!-- Background options will be added by JavaScript -->
+            </div>
+        </div>
     </div>
-    
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const buttons = document.querySelectorAll('.tool-button');
@@ -933,7 +1002,29 @@
     });
 </script>
 
-
+ <script>
+        // Scroll to Top Functionality
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        
+        // Show button when user scrolls down 200px
+        window.onscroll = function() {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                scrollToTopBtn.style.display = 'flex';
+                scrollToTopBtn.style.alignItems = 'center';
+                scrollToTopBtn.style.justifyContent = 'center';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        };
+        
+        // Scroll to top when clicked
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
 import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
@@ -1060,95 +1151,119 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Photo upload functionality
-  uploadBtn.addEventListener('click', () => photoUpload.click());
-  
-  photoUpload.addEventListener('change', function(e) {
-    if (e.target.files && e.target.files.length > 0) {
-      originalPhotoFile = e.target.files[0];
-      const reader = new FileReader();
-      
-      reader.onload = function(event) {
-        currentPhoto = event.target.result;
-        openCropper(currentPhoto);
-      };
-      
-      reader.readAsDataURL(originalPhotoFile);
-    }
-  });
+ uploadBtn.addEventListener('click', () => photoUpload.click());
 
-  // Open cropper with image
-  function openCropper(imageSrc) {
-    cropperImage.src = imageSrc;
-    cropperModal.style.display = 'flex';
+
+
+photoUpload.addEventListener('change', function(e) {
+  if (e.target.files && e.target.files.length > 0) {
+    originalPhotoFile = e.target.files[0];
+    const reader = new FileReader();
     
-    cropperImage.onload = function() {
-      if (cropper) {
-        cropper.destroy();
-      }
-      
-      cropper = new Cropper(cropperImage, {
-        aspectRatio: 1,
-        viewMode: 1,
-        autoCropArea: 0.8,
-        responsive: true,
-        movable: true,
-        zoomable: true,
-        rotatable: false,
-        scalable: false,
-        guides: false,
-        center: true,
-        highlight: false,
-        background: false,
-        autoCrop: true,
-        restore: false,
-        checkCrossOrigin: true,
-        checkOrientation: true,
-        cropBoxMovable: true,
-        cropBoxResizable: true,
-        toggleDragModeOnDblclick: false
-      });
+    reader.onload = function(event) {
+      // Don't update currentPhoto or preview yet - only after cropping
+      openCropper(event.target.result);
     };
+    
+    reader.readAsDataURL(originalPhotoFile);
   }
+});
 
-  // Apply crop
-  applyCropBtn.addEventListener('click', function() {
+// Open cropper with image
+function openCropper(imageSrc) {
+  cropperImage.src = imageSrc;
+  cropperModal.style.display = 'flex';
+  
+  cropperImage.onload = function() {
     if (cropper) {
-      const canvas = cropper.getCroppedCanvas({
-        width: 400,
-        height: 400,
-        minWidth: 256,
-        minHeight: 256,
-        maxWidth: 4096,
-        maxHeight: 4096,
-        fillColor: '#fff',
-        imageSmoothingEnabled: true,
-        imageSmoothingQuality: 'high',
-      });
-      
-      currentPhoto = canvas.toDataURL('image/jpeg');
-      updatePhotoPreview(currentPhoto);
-      cropperModal.style.display = 'none';
-      generateCard();
+      cropper.destroy();
     }
-  });
+    
+    cropper = new Cropper(cropperImage, {
+      aspectRatio: 1,
+      viewMode: 1,
+      autoCropArea: 0.8,
+      responsive: true,
+      movable: true,
+      zoomable: true,
+      rotatable: false,
+      scalable: false,
+      guides: false,
+      center: true,
+      highlight: false,
+      background: false,
+      autoCrop: true,
+      restore: false,
+      checkCrossOrigin: true,
+      checkOrientation: true,
+      cropBoxMovable: true,
+      cropBoxResizable: true,
+      toggleDragModeOnDblclick: false
+    });
+  };
+}
 
-  // Cancel crop
-  cancelCropBtn.addEventListener('click', function() {
+// Apply crop
+applyCropBtn.addEventListener('click', function() {
+  if (cropper) {
+    const canvas = cropper.getCroppedCanvas({
+      width: 400,
+      height: 400,
+      minWidth: 256,
+      minHeight: 256,
+      maxWidth: 4096,
+      maxHeight: 4096,
+      fillColor: '#fff',
+      imageSmoothingEnabled: true,
+      imageSmoothingQuality: 'high',
+    });
+    
+    currentPhoto = canvas.toDataURL('image/jpeg');
+    updatePhotoPreview(currentPhoto);
     cropperModal.style.display = 'none';
-  });
+    generateCard();
+  }
+});
 
-  // Recrop photo - show original uncropped photo
-  cropBtn.addEventListener('click', function() {
-    if (originalPhotoFile) {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        currentPhoto = event.target.result;
-        openCropper(currentPhoto);
-      };
-      reader.readAsDataURL(originalPhotoFile);
+// Cancel crop - reset everything
+cancelCropBtn.addEventListener('click', function() {
+  cropperModal.style.display = 'none';
+  
+  // Reset the file input to allow selecting the same file again
+  photoUpload.value = '';
+  
+  // Don't update the preview if user cancelled
+  // Only clear the cropper and original file if no photo was previously applied
+  if (!currentPhoto) {
+    originalPhotoFile = null;
+    if (cropper) {
+      cropper.destroy();
+      cropper = null;
     }
-  });
+  }
+});
+
+// Update photo preview
+function updatePhotoPreview(imageSrc) {
+  photoPreview.innerHTML = '';
+  const img = document.createElement('img');
+  img.src = imageSrc;
+  photoPreview.appendChild(img);
+  photoControls.style.display = 'flex';
+  uploadBtn.style.display = 'none';
+}
+// Recrop photo - show original uncropped photo
+cropBtn.addEventListener('click', function() {
+  if (originalPhotoFile) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      openCropper(event.target.result);
+    };
+    reader.readAsDataURL(originalPhotoFile);
+  }
+});
+
+
 
   // Delete photo
   deleteBtn.addEventListener('click', function() {
@@ -1159,6 +1274,8 @@ document.addEventListener('DOMContentLoaded', function() {
     uploadBtn.style.display = 'block';
     photoUpload.value = ''; // Clear the input
     generateCard();
+  
+  
   });
 
   // Update photo preview
@@ -1376,65 +1493,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Improved auto-select welcome text function
-  function autoSelectWelcomeText() {
-    // First ensure the canvas is fully rendered
-    generateCard();
-    
-    // Wait for everything to be ready
-    setTimeout(() => {
-      const canvas = document.getElementById('cardCanvas');
-      if (!canvas) return;
-
-      // Calculate the exact position of welcome text
-      const rect = canvas.getBoundingClientRect();
-      const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
-      const scaleFactor = canvasWidth / 800;
-      
-      // Get welcome text metrics
-      const tempCanvas = document.createElement('canvas');
-      const tempCtx = tempCanvas.getContext('2d');
-      tempCanvas.width = 800;
-      tempCanvas.height = 1200;
-      
-      const welcomeText = document.getElementById('welcomeInput').value || "welcome";
-      tempCtx.font = `bold ${textStyles.welcomeText.fontSize} ${textStyles.welcomeText.fontFamily}`;
-      const welcomeHeight = parseInt(textStyles.welcomeText.fontSize);
-      const welcomeWidth = tempCtx.measureText(welcomeText.toUpperCase()).width;
-      
-      // Calculate welcome text position
-      const totalContentHeight = welcomeHeight + 40 + 20 + 40 + 42 + 40 + 20;
-      const startY = (1200 - totalContentHeight) / 2;
-      const welcomeY = startY;
-      const centerX = 400;
-      
-      // Convert to screen coordinates
-      const scaledX = (centerX - welcomeWidth/2) * scaleFactor;
-      const scaledY = welcomeY * scaleFactor;
-      
-      // Convert to client coordinates
-      const clientX = rect.left + (scaledX * (rect.width / canvasWidth));
-      const clientY = rect.top + (scaledY * (rect.height / canvasHeight)) + welcomeHeight/2;
-      
-      // Create and dispatch click event
-      const clickEvent = new MouseEvent('click', {
-        view: window,
-        bubbles: true,
-        cancelable: true,
-        clientX: clientX + 5, // Add small offset to ensure click registers
-        clientY: clientY + 5
-      });
-      
-      canvas.dispatchEvent(clickEvent);
-    }, 300); // Increased delay to ensure everything is ready
-  }
 
   // Initialize everything
   function initializeApp() {
     autoSelectFirstBackground();
     generateCard();
-    autoSelectWelcomeText();
+ 
   }
 
   // Start with DOMContentLoaded and fallback to load event
