@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Fumstudio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid #eaeaea;
+        }
+        
+        header {
+            background: linear-gradient(to right, #25D366, #128C7E);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #25D366;
+        }
+        
+        .info-box h2 {
+            color: #128C7E;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-box p {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+        
+        .contact-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .contact-card {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .whatsapp-card {
+            border-top: 4px solid #25D366;
+        }
+        
+        .email-card {
+            border-top: 4px solid #D44638;
+        }
+        
+        .phone-card {
+            border-top: 4px solid #0077B5;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+        }
+        
+        .btn:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(37, 211, 102, 0.4);
+        }
+        
+        .btn-whatsapp {
+            background: #25D366;
+        }
+        
+        .btn-email {
+            background: #D44638;
+        }
+        
+        .btn-phone {
+            background: #0077B5;
+        }
+        
+        .business-hours {
+            background: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+            padding: 15px 20px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .business-hours i {
+            color: #4CAF50;
+            font-size: 1.2rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            background: #f9f9f9;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .contact-methods {
+                flex-direction: column;
+            }
+            
+            .content {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Contact Fumstudio</h1>
+            <p>Stay updated with our latest stock, specials, and competitions</p>
+        </header>
+        
+        <div class="content">
+            <div class="info-box">
+                <h2><i class="fab fa-whatsapp"></i> Join Our WhatsApp Group</h2>
+                <p>Please join our Fumstudio WhatsApp group to receive updates of new stock, specials or competitions we have or any other important information.</p>
+                <p><strong>We will not send more than 1 message per week.</strong></p>
+                <a href="https://wa.me/27126532512?text=Hi%2C%20I%20would%20like%20to%20join%20the%20Fumstudio%20WhatsApp%20group" class="btn btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Join Our WhatsApp Group
+                </a>
+            </div>
+            
+            <div class="contact-methods">
+                <div class="contact-card whatsapp-card">
+                    <i class="fab fa-whatsapp" style="color: #25D366;"></i>
+                    <h3>WhatsApp Us</h3>
+                    <p>Chat with us directly on WhatsApp for quick responses</p>
+                    <a href="https://wa.me/+27 72 866 2309?text=Hi%2C%20I%20have%20a%20question%20about%20Fumstudio" class="btn btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> Message Us
+                    </a>
+                </div>
+                
+                <div class="contact-card email-card">
+                    <i class="fas fa-envelope" style="color: #D44638;"></i>
+                    <h3>Email Us</h3>
+                    <p>Send us an email anytime and we'll respond within 24 hours</p>
+                    <a href="mailto:fumstudio9@gmail.com" class="btn btn-email">
+                        <i class="fas fa-envelope"></i> fumstudio9@gmail.com
+                    </a>
+                </div>
+                
+                <div class="contact-card phone-card">
+                    <i class="fas fa-phone-alt" style="color: #0077B5;"></i>
+                    <h3>Call Us</h3>
+                    <p>Give us a call during business hours</p>
+                    <a href="tel:+27 72 866 2309" class="btn btn-phone">
+                        <i class="fas fa-phone-alt"></i> +27 72 866 2309
+                    </a>
+                </div>
+            </div>
+            
+            <div class="business-hours">
+                <i class="fas fa-clock"></i>
+                <p><strong>Business Hours:</strong> We are available for calls from 8:00 AM to 6:00 PM, Monday to Friday.</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2023 Fumstudio. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
