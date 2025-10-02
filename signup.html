@@ -210,10 +210,6 @@
     const auth = getAuth(app);
     const database = getDatabase(app);
 
-    // Store the previous page URL before redirecting to signup
-    const previousPage = document.referrer || sessionStorage.getItem('previousPage') || 'catalog.html';
-    sessionStorage.setItem('previousPage', previousPage);
-
     // Rate limiting implementation
     class RateLimiter {
       constructor(maxAttempts = 3, timeWindow = 60000) {
@@ -542,17 +538,12 @@
         // Reset rate limiter on successful signup
         rateLimiter.reset();
 
-        // Show success message and redirect to previous page
-        showAlert("Account created successfully! Redirecting...");
+        // Show success message and redirect to catalog page
+        showAlert("Account created successfully! Redirecting to catalog...");
         
-        // Redirect to previous page after 2 seconds
+        // Redirect to catalog page after 2 seconds
         setTimeout(function() {
-          // Get the previous page URL from session storage
-          const previousPage = sessionStorage.getItem('previousPage') || 'catalog.html';
-          // Clear the stored previous page
-          sessionStorage.removeItem('previousPage');
-          // Redirect to the previous page
-          window.location.href = previousPage;
+          window.location.href = 'catalog.html';
         }, 2000);
 
       } catch (error) {
