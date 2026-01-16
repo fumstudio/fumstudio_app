@@ -803,11 +803,38 @@ const firebaseConfig = {
             </div>
         ` : '';
 
-        const shareableLink = (item.shareableLink && item.shareableLink !== 'N/A') ? 
-            `${item.shareableLink}?itemId=${item.itemId}` + 
-            (imageKey ? `&image=${encodeURIComponent(imageKey)}` : '') + 
-            (item.selectedSize && item.selectedSize !== 'N/A' ? `&size=${encodeURIComponent(item.selectedSize)}` : '') : 
-            '';
+       const shareableLink = (item.shareableLink && item.shareableLink !== 'N/A') ? 
+    updateShareableLink(item.shareableLink, item.itemId, imageKey, item.selectedSize) : 
+    '';
+
+function updateShareableLink(baseLink, itemId, imageKey, selectedSize) {
+    // Remove existing itemId parameter if it exists
+    let cleanLink = baseLink.replace(/([?&])itemId=[^&]*/, '$1');
+    // If we removed the itemId but left a dangling ? or &, clean it up
+    cleanLink = cleanLink.replace(/\?&/, '?');
+    cleanLink = cleanLink.replace(/\?$/, '');
+    
+    // Build new query parameters
+    let queryParams = [];
+    
+    // Always add itemId
+    queryParams.push(`itemId=${itemId}`);
+    
+    // Add image if exists
+    if (imageKey) {
+        queryParams.push(`image=${encodeURIComponent(imageKey)}`);
+    }
+    
+    // Add size if exists and valid
+    if (selectedSize && selectedSize !== 'N/A') {
+        queryParams.push(`size=${encodeURIComponent(selectedSize)}`);
+    }
+    
+    // Determine separator (? if no existing params, & if there are existing params)
+    const separator = baseLink.includes('?') ? '&' : '?';
+    
+    return cleanLink + separator + queryParams.join('&');
+}
 
         const sizeDisplay = item.selectedSize && item.selectedSize !== 'N/A' ? 
             `<span class="item-size">Size: ${item.selectedSize}</span>` : '';
