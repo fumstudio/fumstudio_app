@@ -3,37 +3,410 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shipping Information</title>
+    <title>Shipping & Returns Information</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            padding: 20px;
-            background-color: #f4f4f4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
         .container {
-            max-width: 600px;
+            max-width: 900px;
+            margin: 40px auto;
             background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .accordion-item {
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            background: white;
+        }
+        
+        .accordion-header {
+            background-color: #f8fafc;
+            padding: 20px 25px;
+            cursor: pointer;
+            border-left: 4px solid #3498db;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .accordion-header:hover {
+            background-color: #edf2f7;
+        }
+        
+        .accordion-header h2 {
+            color: #2980b9;
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .accordion-icon {
+            color: #3498db;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        
+        .accordion-header.active .accordion-icon {
+            transform: rotate(45deg);
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+            background-color: white;
+        }
+        
+        .accordion-content.show {
+            max-height: 2000px;
+        }
+        
+        .content-wrapper {
+            padding: 0 25px;
+        }
+        
+        .content-inner {
+            padding: 25px 0;
+            border-top: 1px solid #eee;
+        }
+        
+        .highlight {
+            background-color: #fffde7;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #ffeb3b;
+            margin: 20px 0;
+        }
+        
+        .important-note {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #4caf50;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+        
+        .warning {
+            background-color: #ffebee;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #f44336;
+            margin: 20px 0;
+        }
+        
+        .policy-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 15px 0;
+        }
+        
+        .policy-list li {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .policy-list li:before {
+            content: "•";
+            color: #3498db;
+            font-size: 20px;
+            position: absolute;
+            left: 0;
+            top: 5px;
+        }
+        
+        .contact-info {
+            background-color: #e3f2fd;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
         }
-        h1 {
-            color: #333;
+        
+        .sub-accordion {
+            margin: 15px 0;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
         }
-        p {
-            color: #555;
-            line-height: 1.6;
+        
+        .sub-accordion-header {
+            background-color: #f5f7fa;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .sub-accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background-color: white;
+        }
+        
+        .sub-accordion-content.show {
+            max-height: 1000px;
+        }
+        
+        .sub-content-inner {
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 25px;
+            }
+            
+            body {
+                margin: 10px;
+            }
+            
+            .accordion-header {
+                padding: 15px 20px;
+            }
+            
+            .accordion-header h2 {
+                font-size: 1.2rem;
+            }
+            
+            .content-wrapper {
+                padding: 0 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Shipping Information</h1>
-        <p>Your orders will be delivered within <strong>9-16 business days</strong>.</p>
-        <p>Due to a temporary shortage of shipping resources, your items may arrive in separate packages on different days.</p>
-        <p>You will be updated with tracking information as your orders are processed.</p>
-        <p>We appreciate your understanding and patience.</p>
+        <h1>Shipping & Returns Policy</h1>
+        
+        <div class="accordion">
+            <!-- Shipping Information Accordion Item -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <h2>Shipping Information</h2>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="content-wrapper">
+                        <div class="content-inner">
+                            <p>Your orders will be delivered within <strong>2-8 business days</strong>.</p>
+                            <p>Due to temporary shortages in shipping resources, your items may arrive in separate packages on different days. We appreciate your understanding and patience.</p>
+                            <p>You will receive tracking information via email as soon as your order is processed and shipped.</p>
+                            
+                            <div class="sub-accordion">
+                                <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                                    <span>International Shipping Details</span>
+                                    <span class="accordion-icon">+</span>
+                                </div>
+                                <div class="sub-accordion-content">
+                                    <div class="sub-content-inner">
+                                        <p>International shipping typically takes 10-20 business days, depending on the destination. Customs fees and import duties are the responsibility of the recipient.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Returns Policy Accordion Item -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <h2>Returns Policy</h2>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="content-wrapper">
+                        <div class="content-inner">
+                            <p>We accept returns within <strong>30 days</strong> of delivery for most items in their original condition.</p>
+                            
+                            <div class="highlight">
+                                <h3>Standard Returns Process</h3>
+                                <ul class="policy-list">
+                                    <li>Initiate returns through your account page or contact customer service</li>
+                                    <li>Return shipping is free for defective or incorrect items</li>
+                                    <li>Refunds are processed within 5-10 business days after we receive the return</li>
+                                    <li>Original shipping fees are non-refundable unless the return is due to our error</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Customized Items Returns Accordion Item -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <h2>Customized Items Returns</h2>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="content-wrapper">
+                        <div class="content-inner">
+                            <div class="warning">
+                                <h3>Customized Items Return Eligibility</h3>
+                                <p><strong>Important:</strong> Returns for customized items are handled differently than standard products.</p>
+                                <ul class="policy-list">
+                                    <li>Customized items are <strong>only eligible for returns if there is a manufacturing defect or error on our part</strong>.</li>
+                                    <li>If you customized an item in a way that differs from our available options, or created a design we didn't offer, this is considered a <strong>non-standard customization</strong>.</li>
+                                    <li>Items customized according to your <strong>personal specifications</strong> (beyond our standard options) cannot be returned or exchanged, as they are made specifically for you.</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="important-note">
+                                <h3>How Returns Work for Customized Items</h3>
+                                <ul class="policy-list">
+                                    <li>If the item was <strong>customized exactly as selected from our available options</strong> and has a defect, we will replace it at no cost</li>
+                                    <li>If <strong>you provided custom specifications</strong> beyond our standard options, returns are generally not accepted unless the item is defective</li>
+                                    <li>For personalized items (with names, dates, etc.), returns are only accepted if we made an error in the personalization</li>
+                                    <li>Refunds for eligible customized item returns may exclude customization fees</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="sub-accordion">
+                                <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                                    <span>Examples of Non-Returnable Customizations</span>
+                                    <span class="accordion-icon">+</span>
+                                </div>
+                                <div class="sub-accordion-content">
+                                    <div class="sub-content-inner">
+                                        <ul class="policy-list">
+                                            <li>Items with custom text not from our standard list</li>
+                                            <li>Products with unique color combinations we don't normally offer</li>
+                                            <li>Items sized outside our standard sizing chart</li>
+                                            <li>Products with custom artwork you provided</li>
+                                            <li>Any modification that requires special manufacturing</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Exchange Policy Accordion Item -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <h2>Exchange Policy</h2>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="content-wrapper">
+                        <div class="content-inner">
+                            <p>We offer exchanges for standard items within 30 days of delivery. Exchanged items must be unused and in original packaging.</p>
+                            <p><strong>Note:</strong> Customized items cannot be exchanged unless there is a manufacturing defect or error on our part.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contact-info">
+            <h3>Need Help?</h3>
+            <p>If you have questions about returns for customized items or need assistance with a return, please contact our customer service team:</p>
+            <p>📧 Email: returns@example.com | 📞 Phone: +27 626172613</p>
+            <p>Hours: Monday-Friday, 8 AM - 6 PM</p>
+        </div>
     </div>
+
+    <script>
+        // Main accordion functionality
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.accordion-icon');
+            
+            // Toggle active class on header
+            header.classList.toggle('active');
+            
+            // Toggle content visibility
+            content.classList.toggle('show');
+            
+            // Change icon
+            if (content.classList.contains('show')) {
+                icon.textContent = '-';
+                // Close other accordions (optional - remove if you want multiple open)
+                closeOtherAccordions(header);
+            } else {
+                icon.textContent = '+';
+            }
+        }
+        
+        // Sub-accordion functionality
+        function toggleSubAccordion(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.accordion-icon');
+            
+            // Toggle content visibility
+            content.classList.toggle('show');
+            
+            // Change icon
+            if (content.classList.contains('show')) {
+                icon.textContent = '-';
+            } else {
+                icon.textContent = '+';
+            }
+        }
+        
+        // Function to close other accordions when one opens
+        function closeOtherAccordions(currentHeader) {
+            const allHeaders = document.querySelectorAll('.accordion-header');
+            allHeaders.forEach(header => {
+                if (header !== currentHeader && header.classList.contains('active')) {
+                    header.classList.remove('active');
+                    const content = header.nextElementSibling;
+                    const icon = header.querySelector('.accordion-icon');
+                    content.classList.remove('show');
+                    icon.textContent = '+';
+                }
+            });
+        }
+        
+        // Open first accordion by default on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstHeader = document.querySelector('.accordion-header');
+            if (firstHeader) {
+                firstHeader.classList.add('active');
+                const content = firstHeader.nextElementSibling;
+                const icon = firstHeader.querySelector('.accordion-icon');
+                content.classList.add('show');
+                icon.textContent = '-';
+            }
+        });
+    </script>
 </body>
 </html>
