@@ -1104,7 +1104,7 @@ shareBtn.addEventListener('click', async () => {
         updateProgress(80);   
   
 
-        const whatsappNumber = "27728662309";
+        const whatsappNumber = "27626172613";
         const message = `Check out this item: ${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_self");
