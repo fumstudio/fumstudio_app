@@ -803,7 +803,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
 
         hideProcessingOverlay();
         showCartAlert('<i class="fa fa-check-circle green-icon"></i>Item added to cart');
-        window.location.href = "cart_page.html";
+        window.location.href = "cart.html";
     } catch (error) {
         console.error('Error adding to cart:', error);
         hideProcessingOverlay();
