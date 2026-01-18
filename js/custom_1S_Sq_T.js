@@ -921,7 +921,7 @@ async function uploadImageToFirebase(file, uniqueFileName) {
 
 
     // WhatsApp Configuration
-    const whatsappNumber = "0728662309"; // +27 0728662309 (South Africa)
+    const whatsappNumber = "0626172613"; // +27 0728662309 (South Africa)
 
     // Fetch product price from Firebase
 
@@ -1070,7 +1070,7 @@ shareBtn.addEventListener('click', async () => {
         updateProgress(80);   
   
 
-        const whatsappNumber = "27728662309";
+        const whatsappNumber = "27626172613";
         const message = `Check out this item: ${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_self");
