@@ -853,7 +853,7 @@ const shareableLink = `${window.location.origin}${window.location.pathname}?item
             rotation1: rotationState.container1.angle, // Store rotation for container 1
         });
 
-        const whatsappNumber = "0659860276";
+        const whatsappNumber = "0626172613";
         const message = `Check out this item: ${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_self");
