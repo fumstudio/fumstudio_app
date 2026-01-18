@@ -893,7 +893,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
     });
 
     // Proper WhatsApp sharing with URL encoding
-    const whatsappNumber = "0659860276";
+    const whatsappNumber = "0626172613";
     const productName = "Custom Necklace";
     const message = `Check out my custom ${productName}: ${shareableLink}`;
     const encodedMessage = encodeURIComponent(message);
