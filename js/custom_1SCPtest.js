@@ -1178,7 +1178,7 @@ function createShareableLink(designId) {
     const reAddToCartBtn = document.getElementById('reAddToCartBtn');
     
     // WhatsApp Configuration
-    const whatsappNumber = "0659860276"; // +27 65 986 0276 (South Africa)
+    const whatsappNumber = "0626172613"; // +27 65 986 0276 (South Africa)
     
 // Share Button Click Handler
 shareBtn.addEventListener('click', async () => {
