@@ -677,7 +677,7 @@ const shareableLink = `${window.location.pathname}?itemId=${itemId}&image=${imag
 
             hideProcessingOverlay();
             showCartAlert('<i class="fa fa-check-circle green-icon"></i>Item added to cart');
-            window.location.href = "cart_page.html";
+            window.location.href = "cart.html";
         } catch (error) {
             console.error('Error adding to cart:', error);
             hideProcessingOverlay();
@@ -720,7 +720,7 @@ shareBtn.addEventListener('click', async () => {
 
         });
 
-        const whatsappNumber = "0659860276";
+        const whatsappNumber = "0626172613";
         const message = `Check out this item: ${shareableLink}`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_self");
