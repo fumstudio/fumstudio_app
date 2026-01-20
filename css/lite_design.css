@@ -493,3 +493,93 @@ nav{
   cursor: pointer;
   z-index: 999;
 }
+#shareBtn.share-button_2S {
+  /* Make button long with full width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: calc(104% - 40px); /* Compensate for left/right margins */
+  margin: 50px 20px 0 20px; /* Top: 20px, Right: 20px, Bottom: 0, Left: 20px */
+  padding: 14px 20px;
+  background-color: #25D366;
+  color: white;
+  border: none;
+  font-size: 17px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+}
+/* WhatsApp icon */
+#shareBtn.share-button_2S i.fab.fa-whatsapp {
+  font-size: 22px;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effects */
+#shareBtn.share-button_2S:hover {
+  background-color: #128C7E;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+}
+
+#shareBtn.share-button_2S:hover i.fab.fa-whatsapp {
+  transform: scale(1.1);
+}
+
+/* Active state */
+#shareBtn.share-button_2S:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.2);
+}
+
+/* Focus state */
+#shareBtn.share-button_2S:focus {
+  outline: 3px solid rgba(37, 211, 102, 0.4);
+  outline-offset: 3px;
+}
+
+/* Disabled state */
+#shareBtn.share-button_2S:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+#shareBtn.share-button_2S:disabled:hover {
+  background-color: #cccccc;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  #shareBtn.share-button_2S {
+    margin-top: 15px;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+  
+  #shareBtn.share-button_2S i.fab.fa-whatsapp {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  #shareBtn.share-button_2S {
+    margin-top: 12px;
+    padding: 10px 20px;
+    font-size: 15px;
+  }
+  
+  #shareBtn.share-button_2S i.fab.fa-whatsapp {
+    font-size: 18px;
+  }
+}
