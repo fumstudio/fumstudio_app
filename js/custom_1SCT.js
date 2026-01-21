@@ -46,7 +46,7 @@ let autoBreakEnabled = true;
         console.log('User ID:', user.uid);  // Logs the user's UID
       } else {
         console.log('No user is logged in');
-        window.location.href = 'login.html';  // Redirect to login if not authenticated
+        // window.location.href = 'login.html';  // Redirect to login if not authenticated
       }
     });
 
