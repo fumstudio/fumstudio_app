@@ -1,0 +1,2174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cheCK</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style> 
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        /* Scrolling Container - Desktop with buttons */
+        .scrolling-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        
+        .items-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding: 15px 0;
+            scroll-behavior: smooth;
+        }
+        
+        .items-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .items-wrapper {
+            display: inline-flex;
+            flex-wrap: nowrap;
+            gap: 20px;
+            padding: 0 10px;
+        }
+        
+        /* Navigation Buttons - Desktop Only */
+        .scroll-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 10;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+        
+        .scroll-btn:hover {
+            opacity: 1;
+            background: #f5f5f5;
+        }
+        
+        .scroll-btn.left {
+            left: -20px;
+        }
+        
+        .scroll-btn.right {
+            right: -20px;
+        }
+        
+        .scroll-btn i {
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Hide buttons on mobile */
+        @media (max-width: 768px) {
+            .scroll-btn {
+                display: none;
+            }
+            
+            .items-container {
+                padding: 15px 5px;
+            }
+        }
+
+        /* Cart item styles (unchanged) */
+        .cart-item {
+            flex: 0 0 auto;
+            width: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* All your other existing styles remain exactly the same */
+        .item-price-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .item-price {
+            color: #e53935;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .item-original-price {
+            color: #999;
+            font-size: 0.8em;
+            text-decoration: line-through;
+        }
+        .item-image-container {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 8px;
+        }
+        .item-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .item-image-fallback {
+            width: 100%;
+            height: 100%;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            color: #999;
+            font-size: 10px;
+            text-align: center;
+            padding: 5px;
+        }
+        .item-quantity {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+        }
+        .quantity-btn {
+            background: #f0f0f0;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+        .quantity-input {
+            width: 40px;
+            text-align: center;
+            margin: 0 5px;
+            padding: 3px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .cart-summary {
+            margin-top: 20px;
+            text-align: right;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        .totalPrice {
+            margin-top: 20px;
+            text-align: right;
+        }
+        .shipping-fee {
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .discount {
+            color: #4CAF50;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .totalAmountToPay {
+            font-weight: bold;
+            font-size: 1.1em;
+            text-align: right;
+            margin-top: 10px;
+        }
+        #paypal-button-container {
+            margin-top: 20px;
+        }
+ 
+        #clearCartButton {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+ 
+        .bottomNavbar {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 4px;
+        }
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            margin-right: 3px;
+            font-size: 0.9em;
+        }
+        .pay-price {
+            color: #e53935;
+        }
+
+        @media (max-width: 600px) {
+            .cart-item {
+                width: 120px;
+            }
+            .item-image-container {
+                width: 100px;
+                height: 100px;
+            }
+        }
+      
+      
+      
+      
+ /* Base Alert Modal Styles (Mobile-First) */
+.alert-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: 15px; /* Ensures modal doesn't touch screen edges */
+}
+
+.alert-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.alert-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px; /* Default max-width (good for mobile) */
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    font-family: 'Arial', sans-serif;
+}
+
+.alert-modal-overlay.active .alert-modal {
+    transform: translateY(0);
+}
+
+/* Icons */
+.alert-icon {
+    font-size: 50px; /* Smaller on mobile */
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+.alert-icon.success {
+    color: #28a745;
+}
+
+.alert-icon.error {
+    color: #dc3545;
+}
+
+/* Text Styles */
+.alert-modal h3 {
+    margin-bottom: 12px;
+    color: #333;
+    font-size: 18px; /* Smaller heading on mobile */
+    font-weight: 600;
+}
+
+.alert-modal p {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 14px; /* Smaller text on mobile */
+    line-height: 1.4;
+}
+
+/* Button */
+.alert-modal button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Smaller button on mobile */
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    width: 100%; /* Full-width button on mobile */
+    max-width: 200px; /* But not too wide */
+}
+
+.alert-modal button:hover {
+    background: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.alert-modal.error-modal button {
+    background: #dc3545;
+}
+
+.alert-modal.error-modal button:hover {
+    background: #c82333;
+}
+
+/* ========== Large Screens (Tablet/Desktop) ========== */
+@media (min-width: 768px) {
+    .alert-modal {
+        padding: 30px; /* More padding */
+        max-width: 450px; /* Slightly wider */
+    }
+
+    .alert-icon {
+        font-size: 60px; /* Larger icon */
+        margin-bottom: 20px;
+    }
+
+    .alert-modal h3 {
+        font-size: 22px; /* Larger heading */
+        margin-bottom: 15px;
+    }
+
+    .alert-modal p {
+        font-size: 16px; /* Larger text */
+        margin-bottom: 25px;
+        line-height: 1.5;
+    }
+
+    .alert-modal button {
+        padding: 12px 25px; /* Larger button */
+        font-size: 16px;
+        width: auto; /* Auto width (not full-width) */
+    }
+}
+
+/* ========== Extra Large Screens ========== */
+@media (min-width: 1200px) {
+    .alert-modal {
+        max-width: 500px; /* Even wider for big screens */
+    }
+} 
+      
+      
+  /* Loading Spinner Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.loading-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.spaceship-spinner {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    text-align: center;
+}
+
+.spaceship-spinner .spaceship {
+    position: absolute;
+    font-size: 30px;
+    color: #4e9af1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: spaceshipFloat 2s infinite ease-in-out;
+}
+
+.spaceship-spinner .spinner-track {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    border-top-color: #4e9af1;
+    animation: spin 1.5s linear infinite;
+}
+
+.spaceship-spinner .processing-text {
+    margin-top: 20px;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes spaceshipFloat {
+    0%, 100% { transform: translate(-50%, -60%); }
+    50% { transform: translate(-50%, -40%); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .spaceship-spinner {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .spaceship-spinner .spaceship {
+        font-size: 24px;
+    }
+    
+    .spaceship-spinner .processing-text {
+        font-size: 14px;
+    }
+}    
+      
+    </style>  
+ <style>
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px; /* Thin header */
+            background-color: #1a2639;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            cursor: pointer;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        .cart-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cart-icon {
+            font-size: 18px;
+        }
+        
+        .cart-text {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        body {
+            padding-top: 40px; /* To account for fixed navbar */
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Sample content to demonstrate scrolling */
+        .content {
+            height: 2000px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-left">
+            <div class="back-button" id="backButton">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+        </div>
+        
+        <div class="cart-container">
+            <i class="fas fa-shopping-cart cart-icon"></i>
+            <span class="cart-text">Conferm cart</span>
+        </div>
+    </div>
+
+  <div style="background-color: #FFD700; color: #000000; padding: 10px 15px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 4px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+    </svg>
+    FREE SHIPPING ON ORDERS OVER R135 IN SA
+</div>
+
+    <script>
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.history.back();
+        });
+    </script>
+  <style>
+    .delivery {
+        margin-top: 10px;
+        padding: 0px;
+        background-color: #f4f4f4;
+        border: 0px solid #ccc;
+        width: 100%;
+        position: relative; /* Changed to relative for better flow control */
+        box-sizing: border-box; /* Ensures padding doesn't affect width */
+    }
+    
+    .gray-link {
+        color: blue;
+        text-decoration: none;
+        font-weight: bold;
+        text-align: right;
+        display: block;
+        margin: 10px 20px 20px 0; /* Consolidated margins */
+        position: absolute; /* Absolute positioning within relative parent */
+        right: 0;
+        top: 0;
+    }
+    
+    .shipping-address {
+        color: gray;
+        margin: 10px 20px 20px 0;
+        text-align: right;
+    }
+    
+    #addresses h4 {
+        margin: 10px 0 10px 20px; /* Consistent margins */
+    }
+    
+    /* Optional: Add media queries if you need specific adjustments for different screens */
+    @media (max-width: 768px) {
+       .shipping-address {
+            position: static; /* Revert to normal flow on very small screens if needed */
+            text-align: left;
+            margin-left: 20px;
+        }
+    }
+</style>
+
+<div class="delivery">
+    <div id="addresses">
+        <h4>My address:</h4>
+        <!-- Addresses will be populated here -->
+    </div>  
+    
+</div>
+<script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
+    import { getAuth } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+    import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCg8WRJx4wu-kkynIIIiLbbU5GaTxU-E9s",
+  authDomain: "fumstudio-b6694.firebaseapp.com",
+  databaseURL: "https://fumstudio-b6694-default-rtdb.firebaseio.com",
+  projectId: "fumstudio-b6694",
+  storageBucket: "fumstudio-b6694.firebasestorage.app",
+  messagingSenderId: "505195774753",
+  appId: "1:505195774753:web:7b94be0cf52e52a22f7460",
+  measurementId: "G-E4LBX75DR0"
+};
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        alert("You must be logged in to access your profile.");
+        window.location.href = 'login.html'; // Redirect to login page
+      } else {
+        fetchProfile(user.uid);
+        document.getElementById("email"); // Display user email
+      }
+    });
+
+    function fetchProfile(userId) {
+      const profileRef = ref(database, 'profiles/' + userId);
+      onValue(profileRef, (snapshot) => {
+        const profile = snapshot.val();
+        if (profile) {
+          const addressesContainer = document.getElementById("addresses");
+          addressesContainer.innerHTML = ''; // Clear previous addresses
+
+          if (!profile.addresses || Object.keys(profile.addresses).length === 0) {
+            addressesContainer.innerHTML = '<p>No addresses found.</p>';
+            return; // Exit the function if there are no addresses
+          }
+
+          for (const key in profile.addresses) {
+            const address = profile.addresses[key];
+            addressesContainer.innerHTML += 
+              `<h4>Shipping Address:</h4>
+              <p class="shipping-address">${address.street}, ${address.complex}, ${address.city}, ${address.suburb}, ${address.postalCode}, ${address.province}, ${address.country},Phone: ${address.phone}</p>
+
+              
+<a href="Address_book.html" class="gray-link">Edit </a>              
+              
+              `;
+          }
+        } else {
+          // Redirect to Address_Book.html if no profile is found
+          window.location.href = 'Address_book.html';
+        }
+      });
+    }
+
+  </script>
+    <div class="container">
+   
+        
+        <!-- Scrolling Container with Navigation Buttons -->
+        <div class="scrolling-wrapper">
+            <button class="scroll-btn left" id="scrollLeftBtn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <div class="items-container" id="cartItemsContainer">
+                <div class="items-wrapper" id="cart-items-container">
+                    <div class="loading">Loading your order...</div>
+                </div>
+            </div>
+            
+            <button class="scroll-btn right" id="scrollRightBtn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+ <style>
+    .delivery-container {
+        width: 100%;
+        max-width: 500px;
+        padding: 0px;
+    }
+
+    .delivery-schedule {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e0e0e0;
+        position: relative;
+    }
+
+    .delivery-icon {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f0f4f8;
+        border-radius: 8px;
+    }
+
+    .delivery-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .delivery-info {
+        flex-grow: 1;
+    }
+
+    .delivery-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a2639;
+        margin-bottom: 4px;
+    }
+
+    .delivery-timeframe {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 6px;
+    }
+
+    .delivery-dates {
+        font-size: 15px;
+        font-weight: 700;
+        color: #2e7d32;
+    }
+
+    .highlight {
+        color: #1a2639;
+        font-weight: 600;
+    }
+    
+    .more-button {
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        color: #777;
+        text-decoration: none;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    
+    .more-button:hover {
+        color: #555;
+    }
+</style>
+
+<div class="delivery-container">
+    <div class="delivery-schedule">
+        <div class="delivery-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 8H17V4H3C1.9 4 1 4.9 1 6V17H3C3 18.66 4.34 20 6 20C7.66 20 9 18.66 9 17H15C15 18.66 16.34 20 18 20C19.66 20 21 18.66 21 17H23V12L20 8ZM6 18.5C5.17 18.5 4.5 17.83 4.5 17C4.5 16.17 5.17 15.5 6 15.5C6.83 15.5 7.5 16.17 7.5 17C7.5 17.83 6.83 18.5 6 18.5ZM19.5 9.5L21.46 12H17V9.5H19.5ZM18 18.5C17.17 18.5 16.5 17.83 16.5 17C16.5 16.17 17.17 15.5 18 15.5C18.83 15.5 19.5 16.17 19.5 17C19.5 17.83 18.83 18.5 18 18.5Z" fill="#1a2639"/>
+            </svg>
+        </div>
+        <div class="delivery-info">
+            <div class="delivery-title">Delivery <span class="highlight">in</span> 8-12 business days</div>
+            <div class="delivery-dates" id="delivery-dates"></div>
+        </div>
+        <a href="Shipping_info.html" class="more-button">More</a>
+    </div>
+</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to calculate business days (excluding weekends)
+            function addBusinessDays(startDate, days) {
+                const result = new Date(startDate);
+                let count = 0;
+                while (count < days) {
+                    result.setDate(result.getDate() + 1);
+                    // Check if the day is a weekday (0 = Sunday, 6 = Saturday)
+                    if (result.getDay() !== 0 && result.getDay() !== 6) {
+                        count++;
+                    }
+                }
+                return result;
+            }
+
+            // Format date as "Mon Day" (e.g., "Jun 15")
+            function formatDate(date) {
+                const options = { month: 'short', day: 'numeric' };
+                return date.toLocaleDateString('en-US', options);
+            }
+
+            // Get current date
+            const today = new Date();
+            
+            // Calculate 4 and 9 business days from today
+            const minDeliveryDate = addBusinessDays(today, 8);
+            const maxDeliveryDate = addBusinessDays(today, 12);
+
+            // Display the date range
+            document.getElementById('delivery-dates').textContent = 
+                `${formatDate(minDeliveryDate)} - ${formatDate(maxDeliveryDate)}`;
+                
+            // Determine whether to use "in", "at" or "on" based on delivery timeframe
+            const deliveryPreposition = document.querySelector('.highlight');
+            const daysDifference = Math.floor((minDeliveryDate - today) / (1000 * 60 * 60 * 24));
+            
+            if (daysDifference <= 1) {
+                deliveryPreposition.textContent = 'at';
+            } else if (daysDifference <= 3) {
+                deliveryPreposition.textContent = 'on';
+            } else {
+                deliveryPreposition.textContent = 'in';
+            }
+        });
+    </script>
+      
+      
+      
+        <div id="cart-summary" class="cart-summary" style="display: none;">
+            <div class="totalPrice">
+                <div id="totalItemCount">(Items 0)</div>
+                <span class="price" data-price="0">ZAR 0</span>
+                <p class="discount"></p>
+                <div class="shipping-fee"></div>
+               <div class="bottomNavbar">
+                    <div class="totalAmountToPay"></div>
+                    <div class="hidden-content"></div>
+                </div>
+                <div id="paypal-button-container"></div>
+            </div>
+        </div>
+    </div>
+
+   
+  
+    <button id="clearCartButton" class="clear-cart-button" style="display:none;"><i class="fas fa-trash"></i> Clear Cart</button>
+    
+    <!-- PayPal SDK -->
+    
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const scrollLeftBtn = document.getElementById('scrollLeftBtn');
+    const scrollRightBtn = document.getElementById('scrollRightBtn');
+    const cartItemsContainer = document.getElementById('cartItemsContainer');
+
+    function updateScrollButtonsVisibility() {
+        const isDesktop = window.innerWidth > 768;
+        const scrollWidth = cartItemsContainer.scrollWidth;
+        const clientWidth = cartItemsContainer.clientWidth;
+        const isOverflowing = scrollWidth > clientWidth;
+
+        if (isDesktop && isOverflowing) {
+            scrollLeftBtn.style.display = 'flex';
+            scrollRightBtn.style.display = 'flex';
+            checkScrollPosition(); // check which should be hidden
+        } else {
+            scrollLeftBtn.style.display = 'none';
+            scrollRightBtn.style.display = 'none';
+        }
+    }
+
+    function checkScrollPosition() {
+        const scrollLeft = cartItemsContainer.scrollLeft;
+        const maxScroll = cartItemsContainer.scrollWidth - cartItemsContainer.clientWidth;
+
+        if (scrollLeft <= 0) {
+            scrollLeftBtn.style.display = 'none';
+        } else {
+            scrollLeftBtn.style.display = 'flex';
+        }
+
+        if (scrollLeft >= maxScroll - 1) {
+            scrollRightBtn.style.display = 'none';
+        } else {
+            scrollRightBtn.style.display = 'flex';
+        }
+    }
+
+    scrollLeftBtn.addEventListener('click', function () {
+        cartItemsContainer.scrollBy({ left: -200, behavior: 'smooth' });
+    });
+
+    scrollRightBtn.addEventListener('click', function () {
+        cartItemsContainer.scrollBy({ left: 200, behavior: 'smooth' });
+    });
+
+    cartItemsContainer.addEventListener('scroll', checkScrollPosition);
+    window.addEventListener('resize', updateScrollButtonsVisibility);
+
+    // Wait a bit to make sure DOM/layout is ready
+    setTimeout(updateScrollButtonsVisibility, 100);
+});
+</script>
+<script src="https://www.paypal.com/sdk/js?client-id=AVdMF1TEsNUQfjkw9ws2tP40ad63FoxcLbN9hT11WnvBPXRU4fCWruU7AGFDcSuqY-MUnWtVLjhkY90W&currency=USD"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+import { getDatabase, ref, onValue, get, update, set, remove } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCg8WRJx4wu-kkynIIIiLbbU5GaTxU-E9s",
+  authDomain: "fumstudio-b6694.firebaseapp.com",
+  databaseURL: "https://fumstudio-b6694-default-rtdb.firebaseio.com",
+  projectId: "fumstudio-b6694",
+  storageBucket: "fumstudio-b6694.firebasestorage.app",
+  messagingSenderId: "505195774753",
+  appId: "1:505195774753:web:7b94be0cf52e52a22f7460",
+  measurementId: "G-E4LBX75DR0"
+};
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const auth = getAuth(app);
+const dbRef = ref;
+
+// Local cart state for immediate updates
+let localCartState = {};
+let storedCurrency = 'ZAR';
+let cartTotal = 0;
+let debounceTimer = null;
+const DEBOUNCE_DELAY = 500; // ms
+
+// Conversion rates
+const conversionRates = {
+    'ZAR': 1,
+    'USD': 0.053,
+    'EUR': 0.048
+};
+
+
+function generateCartId() {
+    // Generate a timestamp-based ID
+    const timestamp = Date.now();
+    const random = Math.floor(Math.random() * 10000);
+    return `cart_${timestamp}_${random}`;
+}
+
+function convertPrice(price, currency) {
+    if (!price && price !== 0) return '0.00';
+    const numPrice = typeof price === 'number' ? price : parseFloat(price);
+    if (isNaN(numPrice)) return '0.00';
+    
+    const rate = conversionRates[currency] || 1;
+    const converted = numPrice * rate;
+    
+    // Ensure minimum value of 0.01 for PayPal
+    if (converted < 0.01 && converted > 0) return '0.01';
+    
+    return converted.toFixed(2);
+}
+  
+
+let paypalSDKLoaded = false;
+// Improved error handling for PayPal SDK loading
+async function loadPayPalSDK() {
+    return new Promise((resolve, reject) => {
+        if (typeof paypal !== 'undefined') {
+            return resolve();
+        }
+        
+        const script = document.createElement('script');
+        script.src = `https://www.paypal.com/sdk/js?client-id=AVdMF1TEsNUQfjkw9ws2tP40ad63FoxcLbN9hT11WnvBPXRU4fCWruU7AGFDcSuqY-MUnWtVLjhkY90W&currency=USD`;
+        script.onload = resolve;
+        script.onerror = () => reject(new Error('Failed to load PayPal SDK'));
+        document.body.appendChild(script);
+    });
+}
+
+let paypalButtonsInstance = null;
+
+async function initPayPalButton(totalPriceInUSD, discounted, discountPriceZAR, shippingFeeZAR) {
+    const container = document.getElementById('paypal-button-container');
+    if (!container) return;
+
+    try {
+        await loadPayPalSDK();
+        
+        if (!document.body.contains(container)) {
+            console.error('PayPal container not found in DOM');
+            return;
+        }
+
+        const totalPriceWithShippingUSD = convertPrice(discountPriceZAR + shippingFeeZAR, 'USD');
+        
+        if (paypalButtonsInstance) {
+            try {
+                paypalButtonsInstance.close();
+            } catch (e) {
+                console.log('Error closing previous PayPal instance:', e);
+            }
+        }
+        
+        paypalButtonsInstance = paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    application_context: {
+                        shipping_preference: "NO_SHIPPING"
+                    },
+                    purchase_units: [{
+                        amount: {
+                            value: totalPriceWithShippingUSD
+                        }
+                    }]
+                });
+            },
+
+            onApprove: async function(data, actions) {
+                try {
+                    showLoading();
+                    const details = await actions.order.capture();
+                    
+                    // Process the successful payment
+                    const user = auth.currentUser;
+                    if (user) {
+                        const userId = user.uid;
+                        const cartId = generateCartId(userId);
+                        const cartItems = Object.values(localCartState);
+
+                        // Update payment status and clear cart
+                        await updatePaymentStatus(userId, cartId, details, user.email, cartItems);
+                        await clearCart(userId); // Clear the cart after successful payment
+                    }
+
+                    hideLoading();
+                    showAlertModal("Payment successful! Thank you for your purchase.", () => {
+                        window.location.href = 'orders.html';
+                    });
+
+                } catch (error) {
+                    hideLoading();
+                    console.error("Payment processing error:", error);
+                    showAlertModal('Payment failed! Please try again later.');
+                }
+            },
+
+            onError: function(err) {
+                console.error('PayPal error:', err);
+                showAlertModal('Payment service unavailable. Please try again later.');
+            }
+        });
+
+        if (document.body.contains(container)) {
+            container.innerHTML = '';
+            paypalButtonsInstance.render('#paypal-button-container');
+        }
+    } catch (error) {
+        console.error('PayPal initialization error:', error);
+        container.innerHTML = '<div class="payment-error">Payment option currently unavailable</div>';
+    }
+}
+
+async function clearCart(userId) {
+    try {
+        // Clear Firebase first
+        const cartRef = dbRef(database, `carts/${userId}/cartItems`);
+        await set(cartRef, {});
+        
+        // Only THEN clear local state
+        localCartState = {};
+        
+        // Update UI
+        showEmptyCart();
+        
+        // Show success message
+        const alertEl = document.getElementById('cartAlert');
+        if (alertEl) {
+            alertEl.style.display = 'block';
+            setTimeout(() => {
+                alertEl.style.display = 'none';
+            }, 3000);
+        }
+    } catch (error) {
+        console.error('Error clearing cart:', error);
+        showAlertModal('Error clearing cart. Please try again.');
+    }
+}
+async function setupCountryListener(userId) {
+    const countryRef = dbRef(database, `profiles/${userId}/addresses/address1/country`);
+    
+    onValue(countryRef, (snapshot) => {
+        const newCountry = snapshot.val();
+        console.log('Country changed to:', newCountry);
+        
+        // Update shipping and prices when country changes
+        updatePriceDisplay();
+    }, (error) => {
+        console.error('Error listening to country changes:', error);
+    });
+}
+
+  
+ async function calculateTotalPrice() {
+    const cartItems = Object.values(localCartState);
+    
+    // Calculate subtotal
+    const totalPriceZAR = cartItems.reduce((total, item) => {
+        try {
+            const displayPrice = item.displayPrice || item.price || item.cost || 0;
+            return total + (parseFloat(displayPrice) * (item.quantity || 1));
+        } catch (e) {
+            console.error('Error calculating item price:', item, e);
+            return total;
+        }
+    }, 0);
+
+    // Get user's current country (default to ZA if not available)
+    let userCountry = 'South Africa';
+    const user = auth.currentUser;
+    
+    if (user) {
+        try {
+            const profileRef = ref(database, `profiles/${user.uid}/addresses/address1/country`);
+            const snapshot = await get(profileRef);
+            if (snapshot.exists()) {
+                userCountry = snapshot.val();
+            }
+        } catch (error) {
+            console.error('Error checking user country:', error);
+        }
+    }
+
+    // Apply shipping rules based on country
+    let shippingFeeToApply = totalPriceZAR > 135 ? 0 : 65; // Default for ZA
+    
+    if (userCountry !== 'South Africa') {
+        shippingFeeToApply = 500; // Flat ZAR 500 for international
+    }
+
+    // Calculate discounts
+    let discounted = false;
+    let discountAmountZAR = 0;
+    let discountPriceZAR = totalPriceZAR;
+    
+    if (totalPriceZAR > 1000) {
+        discounted = true;
+        discountAmountZAR = totalPriceZAR * 0.1;
+        discountPriceZAR = totalPriceZAR * 0.9;
+    } else if (totalPriceZAR > 400) {
+        discounted = true;
+        discountAmountZAR = totalPriceZAR * 0.05;
+        discountPriceZAR = totalPriceZAR * 0.95;
+    }
+
+    // Calculate final total
+    const totalWithShipping = discountPriceZAR + shippingFeeToApply;
+
+    return {
+        totalPriceZAR,
+        shippingFeeToApply,
+        discounted,
+        discountPriceZAR,
+        discountAmountZAR,
+        totalWithShipping,
+        userCountry
+    };
+} 
+  
+function updatePriceDisplay() {
+    console.log('[updatePriceDisplay] Starting update');
+    calculateTotalPrice().then((result) => {
+        console.log('[updatePriceDisplay] Got totals:', result);
+        const {
+            totalPriceZAR,
+            shippingFeeToApply,
+            discounted,
+            discountPriceZAR,
+            discountAmountZAR,
+            totalWithShipping,
+            userCountry
+        } = result;
+
+        const formatPrice = (price) => {
+            const formatted = convertPrice(price, storedCurrency);
+            console.log(`[formatPrice] Converted ${price} to ${storedCurrency}: ${formatted}`);
+            return formatted;
+        };
+
+        // Update shipping display
+        const shippingElement = document.querySelector('.shipping-fee');
+        if (shippingElement) {
+            const shippingText = userCountry === 'South Africa' 
+                ? (shippingFeeToApply === 0 
+                    ? 'Free shipping' 
+                    : `Shipping fee: ${storedCurrency} ${formatPrice(shippingFeeToApply)}`)
+                : `International shipping: ${storedCurrency} ${formatPrice(shippingFeeToApply)}`;
+            shippingElement.innerHTML = shippingText;
+        }
+
+        // Update total price display
+        const totalPriceElement = document.querySelector('.totalPrice .price');
+        if (totalPriceElement) {
+            totalPriceElement.innerHTML = discounted
+                ? `${storedCurrency} <span class="original-price">${formatPrice(totalPriceZAR)}</span>
+                   <span class="pay-price">${formatPrice(discountPriceZAR)}</span>`
+                : `${storedCurrency} ${formatPrice(totalPriceZAR)}`;
+        }
+
+        // Update discount display
+        const discountElement = document.querySelector('.totalPrice .discount');
+        if (discountElement) {
+            discountElement.innerHTML = discounted ? `Save: ${storedCurrency} ${formatPrice(discountAmountZAR)}` : '';
+        }
+
+        // Update total amount to pay
+        const totalAmountElement = document.querySelector('.totalAmountToPay');
+        if (totalAmountElement) {
+            totalAmountElement.textContent = `Total: ${storedCurrency} ${formatPrice(totalWithShipping)}`;
+        }
+
+        // Update PayPal button if needed
+        const paypalContainer = document.getElementById('paypal-button-container');
+        if (paypalContainer) {
+            if (Object.keys(localCartState).length > 0 && totalWithShipping > 0) {
+                initPayPalButton(
+                    convertPrice(totalWithShipping, 'USD'),
+                    discounted,
+                    discountPriceZAR,
+                    shippingFeeToApply
+                );
+            } else {
+                paypalContainer.innerHTML = '';
+            }
+        }
+
+    }).catch(error => {
+        console.error('[updatePriceDisplay] Error:', error);
+    });
+}
+  
+async function updateFirebaseCart(userId) {
+    if (debounceTimer) {
+        clearTimeout(debounceTimer);
+    }
+    
+    debounceTimer = setTimeout(async () => {
+        try {
+            const cartRef = dbRef(database, `carts/${userId}`);
+            
+            // Calculate totals
+            const {
+                discounted,
+                discountPriceZAR,
+                discountAmountZAR,
+                shippingFeeToApply,
+                totalWithShipping
+            } = await calculateTotalPrice();
+            
+            // Prepare the update data
+            const updateData = {
+                items: localCartState,  // Changed from 'carts' to 'items' for consistency
+                discountAmountZAR: discountAmountZAR || 0,
+                shippingFeeZAR: shippingFeeToApply || 0,
+                subtotalZAR: discountPriceZAR || 0,
+                totalAmountZAR: totalWithShipping || 0,
+                lastUpdated: new Date().toISOString()
+            };
+            
+            // Update the cart
+            await update(cartRef, updateData);
+            
+        } catch (error) {
+            console.error('Error updating cart:', error, {
+                userId,
+                cartState: localCartState
+            });
+        }
+    }, DEBOUNCE_DELAY);
+}
+ 
+async function clearCartData(userId) {
+    try {
+        const cartRef = dbRef(database, 'carts/' + userId);
+        await update(cartRef, {
+            cart: {},
+            discountAmountZAR: null,
+            shippingFeeToApply: null,
+            totalAmountPaidZAR: null
+        });
+        localCartState = {};
+    } catch (error) {
+        console.error('Error clearing cart data:', error);
+    }
+}
+
+async function updatePaymentStatus(userId, cartId, paymentDetails, userEmail, cartItems) {
+    try {
+        console.log('Starting payment status update...');
+        const timestamp = generateTimestamp();
+        
+        // USE THE PASSED cartItems, not localCartState!
+        console.log('Cart items received for payment:', cartItems);
+        
+        // Calculate totals from the passed cartItems
+        let totalPriceZAR = 0;
+        let discountAmountZAR = 0;
+        let discountPriceZAR = 0;
+        let shippingFeeToApply = 0;
+        
+        // Calculate manually from cartItems
+        if (cartItems && cartItems.length > 0) {
+            // Calculate subtotal
+            totalPriceZAR = cartItems.reduce((total, item) => {
+                const price = item.displayPrice || item.price || item.cost || 0;
+                const quantity = item.quantity || 1;
+                return total + (parseFloat(price) * quantity);
+            }, 0);
+            
+            // Calculate discount
+            if (totalPriceZAR > 1000) {
+                discountAmountZAR = totalPriceZAR * 0.1;
+                discountPriceZAR = totalPriceZAR * 0.9;
+            } else if (totalPriceZAR > 400) {
+                discountAmountZAR = totalPriceZAR * 0.05;
+                discountPriceZAR = totalPriceZAR * 0.95;
+            } else {
+                discountPriceZAR = totalPriceZAR;
+            }
+            
+            // Get user country for shipping
+            let userCountry = 'South Africa';
+            const user = auth.currentUser;
+            if (user) {
+                try {
+                    const profileRef = ref(database, `profiles/${user.uid}/addresses/address1/country`);
+                    const snapshot = await get(profileRef);
+                    if (snapshot.exists()) {
+                        userCountry = snapshot.val();
+                    }
+                } catch (error) {
+                    console.error('Error checking user country:', error);
+                }
+            }
+            
+            // Calculate shipping
+            if (userCountry === 'South Africa') {
+                shippingFeeToApply = totalPriceZAR > 135 ? 0 : 65;
+            } else {
+                shippingFeeToApply = 500; // International
+            }
+        }
+        
+        console.log('Calculated amounts:', {
+            totalPriceZAR,
+            discountAmountZAR,
+            discountPriceZAR,
+            shippingFeeToApply
+        });
+        
+        // Validate critical data
+        if (!userId || !cartId || !paymentDetails || !userEmail) {
+            throw new Error('Missing required payment data');
+        }
+
+        // Get user profile
+        const profileRef = dbRef(database, 'profiles/' + userId);
+        const profileSnapshot = await get(profileRef);
+        const profileData = profileSnapshot.exists() ? profileSnapshot.val() : {};
+
+        // Prepare clean cart items
+        const cleanCartItems = cartItems.map(item => {
+            return {
+                itemID: item.itemID,
+                name: item.name || 'Unknown Product',
+                price: item.price || 0,
+                displayPrice: item.displayPrice || 'R0.00',
+                quantity: item.quantity || 1,
+                images: item.images || [],
+                selectedSize: item.selectedSize || 'N/A',
+                shareableLink: item.shareableLink || 'N/A'
+            };
+        }).filter(item => item !== null);
+
+        // Prepare payment data with ACTUAL amounts
+        const paymentData = {
+            response: paymentDetails,
+            email: userEmail,
+            timestamp: timestamp,
+            userId: userId,
+            cartId: cartId,
+            profile: profileData,
+            cartItems: cleanCartItems,
+            discountAmountZAR: discountAmountZAR,
+            shippingFeeZAR: shippingFeeToApply,
+            subtotalZAR: discountPriceZAR,
+            totalAmountPaidZAR: discountPriceZAR + shippingFeeToApply,
+            status: 'Completed',
+            paymentStatus: paymentDetails.status || 'completed',
+            paymentAmount: paymentDetails.purchase_units?.[0]?.amount?.value || '0',
+            paymentCurrency: paymentDetails.purchase_units?.[0]?.amount?.currency_code || 'USD'
+        };
+
+        console.log('Payment data to save:', paymentData);
+
+        // Save payment data
+        const paymentRef = dbRef(database, 'payments/' + cartId);
+        await set(paymentRef, paymentData);
+        
+        // Update status
+        const statusRef = dbRef(database, 'status_cart/' + cartId);
+        await set(statusRef, {
+            status: 'Completed',
+            timestamp: timestamp,
+            totalAmount: discountPriceZAR + shippingFeeToApply,
+            shippingFee: shippingFeeToApply,
+            discount: discountAmountZAR
+        });
+
+        // Archive cart with actual amounts
+        await moveCartToArchived(userId, cartId, timestamp, paymentDetails, cleanCartItems, {
+            discountAmountZAR,
+            shippingFeeToApply,
+            discountPriceZAR,
+            totalPriceZAR
+        });
+
+        console.log('Payment status updated successfully with actual amounts');
+        return true;
+
+    } catch (error) {
+        console.error('Error updating payment status:', error);
+        showAlertModal('Error processing your order. Please contact support with order ID: ' + cartId);
+        return false;
+    }
+}
+
+function generateTimestamp() {
+    return new Date().toISOString();
+}
+
+async function getCurrencyFromFirebase() {
+    const userId = auth.currentUser ? auth.currentUser.uid : null;
+    if (!userId) return;
+
+    try {
+        const userRef = dbRef(database, `users/${userId}/selectedCurrency`);
+        const snapshot = await get(userRef);
+        
+        if (snapshot.exists()) {
+            storedCurrency = snapshot.val() || 'ZAR';
+            localStorage.setItem('selectedCurrency', storedCurrency);
+            updatePriceDisplay(); // Refresh prices with new currency
+        }
+    } catch (error) {
+        console.error('Error fetching currency:', error);
+    }
+}
+
+async function moveCartToArchived(userId, cartId, timestamp, paymentDetails, cartItems) {
+    try {
+        console.log('[moveCartToArchived] Starting archive process', {userId, cartId});
+        
+        const profileRef = dbRef(database, 'profiles/' + userId);
+        const profileSnapshot = await get(profileRef);
+        
+        if (!profileSnapshot.exists()) {
+            throw new Error('User profile not found');
+        }
+
+        const profileData = profileSnapshot.val();
+        const archivedCartRef = dbRef(database, 'archivedCarts/' + userId + '/' + cartId);
+        
+        // Calculate totals
+        const priceResult = await calculateTotalPrice();
+        const { discountAmountZAR, shippingFeeToApply, discountPriceZAR } = priceResult;
+
+        // Create price history snapshot
+        const priceHistory = {};
+        cartItems.forEach(item => {
+            if (!item || !item.itemID) {
+                console.warn('Invalid cart item skipped:', item);
+                return;
+            }
+            
+            priceHistory[item.itemID] = {
+                originalPrice: item.price || item.cost || 0,
+                displayPrice: item.displayPrice || item.price || item.cost || 0,
+                timestamp: timestamp
+            };
+        });
+
+        // Prepare archive data
+        const archiveData = {
+            status: 'completed',
+            cart: cartItems.filter(item => item !== null), // Filter out any null items
+            profile: profileData,
+            timestamp: timestamp,
+            paymentDetails: {
+                id: paymentDetails.id || 'N/A',
+                status: paymentDetails.status || 'N/A',
+                email: paymentDetails.payer?.email_address || 'N/A',
+                amount: paymentDetails.purchase_units?.[0]?.amount?.value || 'N/A',
+                currency: paymentDetails.purchase_units?.[0]?.amount?.currency_code || 'N/A'
+            },
+            discountAmountZAR: discountAmountZAR || 0,
+            shippingFeeZAR: shippingFeeToApply || 0,
+            totalAmountPaidZAR: discountPriceZAR || 0,
+            priceHistory: priceHistory
+        };
+
+        console.log('[moveCartToArchived] Archive data prepared:', archiveData);
+        
+        // Save to archived carts
+        await set(archivedCartRef, archiveData);
+        console.log('[moveCartToArchived] Cart archived successfully');
+
+    } catch (error) {
+        console.error('[moveCartToArchived] Detailed error:', {
+            message: error.message,
+            stack: error.stack,
+            userId,
+            cartId,
+            paymentDetails: paymentDetails ? {
+                id: paymentDetails.id,
+                status: paymentDetails.status,
+                payer: paymentDetails.payer ? true : false
+            } : 'No payment details',
+            cartItemsCount: cartItems ? cartItems.length : 0
+        });
+        throw error; // Re-throw to be caught by the caller
+    }
+}
+async function getItemData(itemId) {
+    try {
+        const snapshot = await get(ref(database, `items/${itemId}`));
+        return snapshot.exists() ? snapshot.val() : {};
+    } catch (error) {
+        console.error('Error fetching item data:', itemId, error);
+        return {};
+    }
+}
+
+function getImageIndex(cartItem) {
+    try {
+        if (!cartItem.images?.mainimage) return null;
+        
+        // Get the first key from mainimage object which represents the selected image inde
+        return Object.keys(cartItem.images.mainimage)[0] || null;
+    } catch (error) {
+        console.error('Error getting image index:', cartItem, error);
+        return null;
+    }
+}
+
+function getMainImage(itemData, index) {
+    try {
+        if (!itemData.images || !index) return {};
+        
+        // Find the image with the matching index and return its mainImage data
+        const imageEntry = Object.entries(itemData.images).find(([key]) => key === index);
+        return imageEntry?.[1]?.mainImage || {};
+    } catch (error) {
+        console.error('Error getting main image:', itemData, error);
+        return {};
+    }
+}
+
+function createCartItemHTML({cartKey, mainImage, cartItem, displayPrice, originalPrice, itemQuantity}) {
+    const displayPriceFormatted = `${storedCurrency} ${convertPrice(displayPrice, storedCurrency)}`;
+    const originalPriceFormatted = `${storedCurrency} ${convertPrice(originalPrice, storedCurrency)}`;
+    
+    // Get the image index from the cart item
+    const imageIndex = getImageIndex(cartItem);
+    
+const viewItemUrl = `${window.location.protocol}//${window.location.hostname}/view-item.html?itemId=${cartItem.itemID}` +
+    (imageIndex ? `&image=${encodeURIComponent(imageIndex)}` : '') +
+    (cartItem.selectedSize ? `&size=${encodeURIComponent(cartItem.selectedSize)}` : '');
+    
+    return `
+        <div class="cart-item" data-cart-key="${cartKey}">
+            <div class="item-price-container">
+                <div class="item-price">${displayPriceFormatted}</div>
+                ${displayPrice !== originalPrice ? 
+                    `<div class="item-original-price">${originalPriceFormatted}</div>` : ''}
+            </div>
+            <div class="item-image-container">
+                ${mainImage?.url ? `
+                    <a href="${viewItemUrl}" class="image-link" target="_blank">
+                        <img src="${mainImage.url}" class="item-image" 
+                             onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex'"
+                             alt="${cartItem.title || 'Product Image'}">
+                    </a>
+                ` : ''}
+                <div class="item-image-fallback" style="${mainImage?.url ? 'display:none' : 'display:flex'}">
+                    Product Image
+                </div>
+            </div>
+            <div class="item-quantity">
+                <button class="quantity-btn" data-action="decrease" data-key="${cartKey}">-</button>
+                <div class="quantity-display-container">
+                    <input type="text" class="quantity-input" value="${itemQuantity}" readonly>
+                    <div class="quantity-overlay">
+                        <div class="quantity-overlay-content">
+                            <button class="quantity-overlay-btn decrease">-</button>
+                            <input type="number" class="quantity-edit-input" value="${itemQuantity}" min="1">
+                            <button class="quantity-overlay-btn increase">+</button>
+                            <button class="quantity-save-btn hidden" data-key="${cartKey}">Save</button>
+                            <button class="quantity-cancel-btn">X</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="quantity-btn" data-action="increase" data-key="${cartKey}">+</button>
+            </div>
+        </div>
+    `;
+}
+
+  
+  
+
+  // Update these key functions:
+
+async function renderCartItems(userId, cartData) {
+    console.log('[renderCartItems] Starting render with data:', cartData);
+    const container = document.getElementById('cart-items-container');
+    if (!container) {
+        console.error('Cart container not found');
+        return;
+    }
+
+    // Update local state without triggering re-render yet
+    localCartState = cartData || {};
+    console.log('[renderCartItems] Updated localCartState:', localCartState);
+
+    // Calculate total items count
+    const totalItemsCount = Object.values(localCartState).reduce((total, item) => {
+        return total + (item.quantity || 1);
+    }, 0);
+
+    // Update UI elements that don't trigger re-render
+    const summary = document.getElementById('cart-summary');
+    if (summary) summary.style.display = 'block';
+    
+    const countElement = document.getElementById('totalItemCount');
+    if (countElement) countElement.textContent = `(Items ${totalItemsCount})`;
+
+    // Only proceed if we have items
+    if (Object.keys(localCartState).length === 0) {
+        console.log('[renderCartItems] No items to render');
+        showEmptyCart();
+        return;
+    }
+
+    try {
+        let html = '';
+        const itemsToRender = [];
+        
+        // Process each cart item
+        for (const [cartKey, cartItem] of Object.entries(localCartState)) {
+            try {
+                console.log(`[renderCartItems] Processing item ${cartKey}:`, cartItem);
+                const itemData = await getItemData(cartItem.itemID);
+                const imageIndex = getImageIndex(cartItem);
+                const mainImage = getMainImage(itemData, imageIndex);
+                
+                const displayPrice = mainImage?.displayPrice || cartItem.price || cartItem.cost || 0;
+                const originalPrice = cartItem.price || cartItem.cost || 0;
+                const itemQuantity = cartItem.quantity || 1;
+                
+                // Update local state with display price
+                localCartState[cartKey].displayPrice = displayPrice;
+                
+                itemsToRender.push({
+                    cartKey,
+                    mainImage,
+                    cartItem,
+                    displayPrice,
+                    originalPrice,
+                    itemQuantity
+                });
+            } catch (error) {
+                console.error('[renderCartItems] Error processing item:', error);
+                itemsToRender.push({
+                    error: true,
+                    cartKey,
+                    message: 'Unable to load this item'
+                });
+            }
+        }
+
+        // Render all items
+        itemsToRender.forEach(item => {
+            html += item.error 
+                ? `<div class="cart-item error">${item.message}</div>`
+                : createCartItemHTML(item);
+        });
+
+        container.innerHTML = html;
+        setupEnhancedQuantityControls(userId);
+        
+        // Now update prices after items are rendered
+        updatePriceDisplay();
+        
+        // Update Firebase in the background
+        updateFirebaseCart(userId);
+
+    } catch (error) {
+        console.error('[renderCartItems] Fatal error:', error);
+        container.innerHTML = '<div class="cart-error">Error loading your cart. Please refresh the page.</div>';
+    }
+}
+
+
+  
+  
+  
+function setupCartListeners(userId) {
+    console.log('[setupCartListeners] Setting up listener for user:', userId);
+    const cartRef = dbRef(database, `carts/${userId}/cartItems`); // Changed path to /items
+    
+    onValue(cartRef, (snapshot) => {
+        try {
+            const cartData = snapshot.val();
+            console.log('[setupCartListeners] Cart data received:', cartData);
+            
+            if (!cartData) {
+                console.log('[setupCartListeners] No cart data found');
+                localCartState = {};
+                showEmptyCart();
+                return;
+            }
+            
+            // Update local state
+            localCartState = cartData;
+            
+            // Only render items, don't trigger price update yet
+            renderCartItems(userId, localCartState);
+            
+        } catch (error) {
+            console.error('[setupCartListeners] Error:', error);
+            showEmptyCart();
+        }
+    }, (error) => {
+        console.error('[setupCartListeners] Listener error:', error);
+        showEmptyCart();
+    });
+}
+// Enhanced quantity controls with immediate updates and better error handling
+function setupEnhancedQuantityControls(userId) {
+    // Regular quantity buttons functionality
+    document.querySelectorAll('.quantity-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            try {
+                const cartKey = btn.dataset.key;
+                const action = btn.dataset.action;
+                
+                if (!localCartState[cartKey]) {
+                    console.error('Cart item not found:', cartKey);
+                    return;
+                }
+                
+                // Update local state immediately
+                const currentQuantity = localCartState[cartKey].quantity || 1;
+                
+                if (action === 'increase') {
+                    localCartState[cartKey].quantity = currentQuantity + 1;
+                } else if (action === 'decrease' && currentQuantity > 1) {
+                    localCartState[cartKey].quantity = currentQuantity - 1;
+                } else {
+                    return; // No change needed
+                }
+                
+                // Update UI immediately
+                const quantityInput = document.querySelector(`.cart-item[data-cart-key="${cartKey}"] .quantity-input`);
+                if (quantityInput) {
+                    quantityInput.value = localCartState[cartKey].quantity;
+                }
+                
+                // Update totals immediately
+                updatePriceDisplay();
+                
+                // Schedule Firebase update with error handling
+                try {
+                    await updateFirebaseCart(userId);
+                } catch (firebaseError) {
+                    console.error('Failed to update Firebase:', firebaseError);
+                    // Revert UI if Firebase update fails
+                    if (quantityInput) {
+                        quantityInput.value = currentQuantity;
+                        localCartState[cartKey].quantity = currentQuantity;
+                        updatePriceDisplay();
+                    }
+                    showAlertModal('Failed to update quantity. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error in quantity button handler:', error);
+            }
+        });
+    });
+
+    // Setup click handler for quantity display to show edit input
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('click', function() {
+            try {
+                const container = this.closest('.quantity-display-container');
+                if (!container) return;
+                
+                const overlay = container.querySelector('.quantity-overlay');
+                const editInput = container.querySelector('.quantity-edit-input');
+                const saveBtn = container.querySelector('.quantity-save-btn');
+                
+                if (!overlay || !editInput || !saveBtn) return;
+                
+                // Store current value in case of cancel
+                editInput.dataset.originalValue = this.value;
+                editInput.value = this.value;
+                
+                // Hide save button initially
+                saveBtn.classList.add('hidden');
+                
+                // Show the overlay
+                overlay.style.display = 'flex';
+                editInput.focus();
+                editInput.select();
+            } catch (error) {
+                console.error('Error showing quantity editor:', error);
+            }
+        });
+    });
+
+    // Setup overlay increase/decrease buttons
+    document.querySelectorAll('.quantity-overlay-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            try {
+                const container = this.closest('.quantity-overlay-content');
+                if (!container) return;
+                
+                const input = container.querySelector('.quantity-edit-input');
+                const saveBtn = container.querySelector('.quantity-save-btn');
+                
+                if (!input || !saveBtn) return;
+                
+                let value = parseInt(input.value) || 1;
+                const isIncrease = this.classList.contains('increase');
+                value = isIncrease ? value + 1 : Math.max(1, value - 1);
+                input.value = value;
+                
+                // Check if value changed from original
+                const originalValue = parseInt(input.dataset.originalValue) || 1;
+                saveBtn.classList.toggle('hidden', value === originalValue);
+            } catch (error) {
+                console.error('Error in overlay quantity button:', error);
+            }
+        });
+    });
+
+    // Setup input change handler to show/hide save button
+    document.querySelectorAll('.quantity-edit-input').forEach(input => {
+        input.addEventListener('input', function() {
+            try {
+                const container = this.closest('.quantity-overlay-content');
+                if (!container) return;
+                
+                const saveBtn = container.querySelector('.quantity-save-btn');
+                if (!saveBtn) return;
+                
+                const originalValue = parseInt(this.dataset.originalValue) || 1;
+                const currentValue = parseInt(this.value) || 1;
+                saveBtn.classList.toggle('hidden', currentValue === originalValue);
+            } catch (error) {
+                console.error('Error in quantity input handler:', error);
+            }
+        });
+        
+        // Add keypress handler for Enter key
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const saveBtn = this.closest('.quantity-overlay-content')?.querySelector('.quantity-save-btn');
+                if (saveBtn && !saveBtn.classList.contains('hidden')) {
+                    saveBtn.click();
+                }
+            }
+        });
+    });
+
+    // Setup save button handlers
+    document.querySelectorAll('.quantity-save-btn').forEach(btn => {
+        btn.addEventListener('click', async function() {
+            try {
+                const cartKey = this.dataset.key;
+                const container = this.closest('.quantity-display-container');
+                if (!container || !cartKey || !localCartState[cartKey]) return;
+                
+                const editInput = container.querySelector('.quantity-edit-input');
+                const displayInput = container.querySelector('.quantity-input');
+                const overlay = container.querySelector('.quantity-overlay');
+                
+                if (!editInput || !displayInput || !overlay) return;
+                
+                const newQuantity = parseInt(editInput.value);
+                if (isNaN(newQuantity) || newQuantity < 1) {
+                    showAlertModal('Please enter a valid quantity (minimum 1)');
+                    return;
+                }
+
+                const originalQuantity = localCartState[cartKey].quantity || 1;
+                
+                // Update local state immediately
+                localCartState[cartKey].quantity = newQuantity;
+                
+                // Update the display
+                displayInput.value = newQuantity;
+                overlay.style.display = 'none';
+                
+                // Update totals immediately
+                updatePriceDisplay();
+                
+                // Schedule Firebase update with error handling
+                try {
+                    await updateFirebaseCart(userId);
+                } catch (firebaseError) {
+                    console.error('Failed to update Firebase:', firebaseError);
+                    // Revert changes if Firebase update fails
+                    localCartState[cartKey].quantity = originalQuantity;
+                    displayInput.value = originalQuantity;
+                    updatePriceDisplay();
+                    showAlertModal('Failed to save quantity. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error in save handler:', error);
+                showAlertModal('An error occurred. Please try again.');
+            }
+        });
+    });
+
+    // Setup cancel button handlers
+    document.querySelectorAll('.quantity-cancel-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            try {
+                const container = this.closest('.quantity-display-container');
+                if (!container) return;
+                
+                const overlay = container.querySelector('.quantity-overlay');
+                if (overlay) overlay.style.display = 'none';
+            } catch (error) {
+                console.error('Error in cancel handler:', error);
+            }
+        });
+    });
+
+    // Close overlay when clicking outside
+    document.addEventListener('click', function(e) {
+        try {
+            if (!e.target.closest('.quantity-overlay') && !e.target.classList.contains('quantity-input')) {
+                document.querySelectorAll('.quantity-overlay').forEach(overlay => {
+                    if (overlay) overlay.style.display = 'none';
+                });
+            }
+        } catch (error) {
+            console.error('Error in outside click handler:', error);
+        }
+    });
+
+    // Clear cart button handle
+    const clearBtn = document.getElementById('clearCartButton');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', async () => {
+            try {
+                if (confirm('Are you sure you want to clear your cart?')) {
+                    await clearCart(userId);
+                }
+            } catch (error) {
+                console.error('Error clearing cart:', error);
+                showAlertModal('Failed to clear cart. Please try again.');
+            }
+        });
+    }
+}
+
+function showEmptyCart() {
+    const container = document.getElementById('cart-items-container');
+    if (container) container.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
+    
+    const summary = document.getElementById('cart-summary');
+    if (summary) summary.style.display = 'none';
+    
+    const countEl = document.getElementById('totalItemCount');
+    if (countEl) countEl.textContent = '(Items 0)';
+    
+    const priceEl = document.querySelector('.price');
+    if (priceEl) priceEl.textContent = 'ZAR 0';
+    
+    const discountEl = document.querySelector('.discount');
+    if (discountEl) discountEl.innerHTML = '';
+    
+    const shippingEl = document.querySelector('.shipping-fee');
+    if (shippingEl) shippingEl.innerHTML = '';
+    
+    const totalEl = document.querySelector('.totalAmountToPay');
+    if (totalEl) totalEl.innerHTML = '';
+    
+    const paypalContainer = document.getElementById('paypal-button-container');
+    if (paypalContainer) paypalContainer.innerHTML = '';
+}
+
+function showLoginPrompt() {
+    const container = document.getElementById('cart-items-container');
+    if (container) container.innerHTML = '<div class="empty-cart">Please sign in to view your cart</div>';
+}
+
+// Initialize the app
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        getCurrencyFromFirebase().then(() => {
+            setupCartListeners(user.uid);
+            setupCountryListener(user.uid); // Add this line
+        }).catch(error => {
+            console.error('Error initializing currency:', error);
+            setupCartListeners(user.uid);
+            setupCountryListener(user.uid); // Add this line
+        });
+    } else {
+        showLoginPrompt();
+    }
+});
+  
+  function showAlertModal(message, callback = null) {
+    const isSuccess = message.toLowerCase().includes('success');
+    
+    const overlay = document.createElement('div');
+    overlay.className = 'alert-modal-overlay active';
+    
+    const modal = document.createElement('div');
+    modal.className = `alert-modal ${isSuccess ? '' : 'error-modal'}`;
+    
+    modal.innerHTML = `
+        <div class="alert-icon ${isSuccess ? 'success' : 'error'}">
+            <i class="fas ${isSuccess ? 'fa-circle-check' : 'fa-circle-xmark'}"></i>
+        </div>
+        <h3>${isSuccess ? 'Success!' : 'Error!'}</h3>
+        <p>${message}</p>
+        <button id="alert-ok-btn">OK</button>
+    `;
+    
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+    
+    const okButton = overlay.querySelector('#alert-ok-btn');
+    okButton.addEventListener('click', () => {
+        overlay.classList.remove('active');
+        setTimeout(() => {
+            document.body.removeChild(overlay);
+            if (callback && isSuccess) {
+                callback();
+            }
+        }, 300);
+    });
+}
+  
+  function showLoading() {
+    const overlay = document.createElement('div');
+    overlay.className = 'loading-overlay active';
+    
+    overlay.innerHTML = `
+        <div class="spaceship-spinner">
+            <div class="spinner-track"></div>
+            <div class="spaceship">
+                <i class="fas fa-rocket"></i>
+            </div>
+            <div class="processing-text">Processing Payment...</div>
+        </div>
+    `;
+    
+    overlay.id = 'loading-overlay';
+    document.body.appendChild(overlay);
+}
+
+function hideLoading() {
+    const overlay = document.getElementById('loading-overlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+        setTimeout(() => {
+            if (overlay.parentNode) {
+                overlay.parentNode.removeChild(overlay);
+            }
+        }, 300);
+    }
+}
+  
+// Add CSS for the enhanced quantity controls
+const style = document.createElement('style');
+style.textContent = `
+.quantity-display-container {
+    position: relative;
+    display: inline-block;
+}
+
+.quantity-input {
+    text-align: center;
+    width: 40px;
+    cursor: pointer;
+}
+
+.quantity-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3); /* Slight tint */
+    backdrop-filter: blur(5px); /* Apply blur */
+    -webkit-backdrop-filter: blur(5px); /* Safari support */
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.quantity-overlay-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.quantity-edit-input {
+    width: 60px;
+    padding: 8px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.quantity-overlay-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background-color: #f0f0f0;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-overlay-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.quantity-save-btn, .quantity-cancel-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.quantity-save-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.quantity-save-btn.hidden {
+    display: none;
+}
+
+.quantity-cancel-btn {
+    background-color: #f44336;
+    color: white;
+    margin-left: 5px;
+}
+`;
+document.head.appendChild(style);
+</script>
+
+
+  </body>
+</html>
