@@ -908,11 +908,6 @@ async function generateAndStoreLogoData() {
         url: finalImageUrl
     };
 
-    // Save logo data to Firebase
-    const user = auth.currentUser;
-    if (!user) {
-        throw new Error("User is not authenticated. Please log in.");
-    }
 
     const designId = logoId || Date.now().toString();
     const logoRef = ref(database, 'logos/' + designId);
