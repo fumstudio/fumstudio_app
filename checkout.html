@@ -800,8 +800,8 @@ const firebaseConfig = {
             const today = new Date();
             
             // Calculate 4 and 9 business days from today
-            const minDeliveryDate = addBusinessDays(today, 8);
-            const maxDeliveryDate = addBusinessDays(today, 12);
+            const minDeliveryDate = addBusinessDays(today, 1);
+            const maxDeliveryDate = addBusinessDays(today, 7);
 
             // Display the date range
             document.getElementById('delivery-dates').textContent = 
