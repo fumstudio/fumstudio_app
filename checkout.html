@@ -898,7 +898,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(updateScrollButtonsVisibility, 100);
 });
 </script>
-<script src="https://www.paypal.com/sdk/js?client-id=AVdMF1TEsNUQfjkw9ws2tP40ad63FoxcLbN9hT11WnvBPXRU4fCWruU7AGFDcSuqY-MUnWtVLjhkY90W&currency=USD"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AUQLUmtBwqlcoqrC7G6ekGeRUZbgEehHaqIE_FfVt10rr3ibE7p2cG5415rmjHTblqXTRhW9MquhhaHb&currency=USD"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { getDatabase, ref, onValue, get, update, set, remove } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
@@ -965,7 +965,7 @@ async function loadPayPalSDK() {
         }
         
         const script = document.createElement('script');
-        script.src = `https://www.paypal.com/sdk/js?client-id=AVdMF1TEsNUQfjkw9ws2tP40ad63FoxcLbN9hT11WnvBPXRU4fCWruU7AGFDcSuqY-MUnWtVLjhkY90W&currency=USD`;
+        script.src = `https://www.paypal.com/sdk/js?client-id=AUQLUmtBwqlcoqrC7G6ekGeRUZbgEehHaqIE_FfVt10rr3ibE7p2cG5415rmjHTblqXTRhW9MquhhaHb&currency=USD`;
         script.onload = resolve;
         script.onerror = () => reject(new Error('Failed to load PayPal SDK'));
         document.body.appendChild(script);
